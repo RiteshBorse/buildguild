@@ -30,6 +30,7 @@ function App() {
       </p>
       <p>  Kanaad </p>
       <p> Ritesh</p>
+      <p>Divya</p>
     </>
   )
 }
