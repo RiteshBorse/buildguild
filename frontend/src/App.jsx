@@ -1,9 +1,10 @@
 import React from 'react'
+import Navbar from './components/Navbar'
 
 const App = () => {
   return (
     <div>
-      Tailwind and Shadcn is installed
+      <Navbar/>
     </div>
   )
 }
