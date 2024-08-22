@@ -42,6 +42,7 @@ router.post("/api/user/signin", checkExisting, async (req, res) => {
     }
     const { body } = req;
     const { password } = body;
+    
     try {
         const hash = await bcrypt.hash(password, 10);
         body.password = hash;
