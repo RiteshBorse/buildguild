@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Signup from './pages/Signup'
+import ExploreInfo from './pages/ExploreInfo'
 const App = () => {
   return (
     <div>
-      <Navbar auth={true}/>
-       <Signup/>
+      <Navbar auth={false}/>
+       <ExploreInfo/>
     </div>
   )
 }
