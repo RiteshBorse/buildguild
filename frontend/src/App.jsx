@@ -1,11 +1,11 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import ExploreInfo from './pages/ExploreInfo'
+import Explore from './pages/Explore'
 const App = () => {
   return (
     <div>
       <Navbar auth={false}/>
-       <ExploreInfo/>
+       <Explore/>
     </div>
   )
 }
