@@ -1,11 +1,15 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Landing from './pages/landing'
+
+import Explore from './components/Explore'
+
+
+
 const App = () => {
   return (
     <div>
       <Navbar auth={false}/>
-      <Landing></Landing>
+       <Explore/>
     </div>
   )
 }

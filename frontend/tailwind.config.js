@@ -75,6 +75,7 @@ module.exports = {
         "roboto" : ["Roboto Condensed"]
       }
     },
+    
   },
   plugins: [require("tailwindcss-animate")],
 }
