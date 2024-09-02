@@ -1,6 +1,10 @@
 import React from 'react'
 import Navbar from './components/Navbar'
-import Explore from './pages/Explore'
+
+import Explore from './components/Explore'
+
+
+
 const App = () => {
   return (
     <div>
