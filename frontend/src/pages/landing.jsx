@@ -23,11 +23,10 @@ const Intro = () => {
         </div>
         <div className="mt-6 flex gap-4">
           <Link to="/signup">
-            {" "}
             <Button>Get Started</Button>
           </Link>
           <Link to="/explore">
-            <Button variant="outline">Explore</Button>{" "}
+            <Button variant="outline">Explore</Button>
           </Link>
         </div>
       </div>
