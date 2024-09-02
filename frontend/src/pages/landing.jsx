@@ -3,33 +3,32 @@ import { FaUserCheck } from "react-icons/fa";
 import { FaToolbox } from "react-icons/fa6";
 import { IoBarChart } from "react-icons/io5";
 import Image from "../assets/images.jpeg";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Intro = () => {
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
-      <div className="px-10">
+      <div className="px-14">
         <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-2 text-3xl md:text-7xl">
           Building Dreams, Managing Reality
         </h1>
-        <div className="text-gray-500 text-2xl w-40 sm:w-80 ">
-          <p>
-            Next Generation 
-            Construction Management 
-            Tool
-          </p>
-          <p className="text-xl text-gray-400 w-[300px] sm:w-[600px]">
+        <div className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 ">
+          <p>Next Generation Construction Management Tool</p>
+          <p className="text-xl mt-5 text-gray-400 w-[300px] sm:w-[600px]">
             A construction management system integrates tools for efficient,
             accurate <br />
             project completion
           </p>
         </div>
-        <div className="mt-6">
-          <button className="rounded-lg bg-black py-2 px-4 text-center align-middle text-xs font-semibold uppercase text-white">
-            Get Started
-          </button>
-          <button className="ml-4 rounded-lg border border-gray-900 py-2 px-4 text-center font-roboto-condensed text-xs font-semibold uppercase">
-            Explore
-          </button>
+        <div className="mt-6 flex gap-4">
+          <Link to="/signup">
+            {" "}
+            <Button>Get Started</Button>
+          </Link>
+          <Link to="/explore">
+            <Button variant="outline">Explore</Button>{" "}
+          </Link>
         </div>
       </div>
     </div>
@@ -38,7 +37,7 @@ const Intro = () => {
 
 const Services = () => {
   return (
-    <div className="flex mt-10 mx-16 gap-8 sm:flex flex-wrap font-roboto-condensed">
+    <div className="flex mt-10 mx-14 gap-8 sm:flex flex-wrap font-roboto-condensed">
       <div className="shadow-lg bg-clip-border rounded-xl w-80 p-4">
         <p className="text-3xl">
           <FaUserCheck />
@@ -87,7 +86,6 @@ const Report = () => {
     </div>
   );
 };
-
 
 const About = () => {
   return (
