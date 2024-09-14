@@ -1,31 +1,19 @@
 import React from "react";
 import Navbar from "./components/Navbar";
+import { BrowserRouter , Routes , Route } from "react-router-dom";
 import Landing from "./pages/Landing";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Explore from "./pages/Explore";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Landing />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/explore",
-    element: <Explore />,
-  },
-]);
-
 const App = () => {
   return (
-    <div>
+    <BrowserRouter>
       <Navbar />
-      <RouterProvider router={router} />
-    </div>
+      <Routes>
+        <Route path="/" element={<Landing/>} />
+        <Route path="/signup" element={<Signup/>} />
+        <Route path="/explore" element={<Explore/>} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
