@@ -51,9 +51,8 @@ const Navbar = ({ auth }) => {
           Contact Us
         </Button>
         {!user ? (
-          <Link to="/signup">
-            <Button className="text-lg font-light">Login</Button>
-          </Link>
+            <Button onClick={toggleLogin} className="text-lg font-light">Login</Button>
+          
         ) : (
           <Button className="text-lg font-light" variant="outline">
             Logout
