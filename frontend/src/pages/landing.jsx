@@ -10,7 +10,7 @@ const Intro = () => {
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
       <div className="px-14">
-        <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-2 text-3xl md:text-7xl">
+        <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl">
           Building Dreams, Managing Reality
         </h1>
         <div className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 ">
