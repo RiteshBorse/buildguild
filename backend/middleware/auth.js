@@ -8,6 +8,7 @@ export const authenticate = (req , res , next) => {
         if(err){
             return res.status(401).send("Invalid Token");
         }
+        req.decode = decode;
         res.status(200).send("Protected Data");
     })
     next()

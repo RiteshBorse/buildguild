@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { useForm } from "react-hook-form";
 import { login } from "@/schema/loginSchema";
+import { apiVerify } from "@/schema/apiSchema";
+import axios from "axios";
 
 const Navbar = ({ auth }) => {
   const user = auth;
@@ -20,7 +22,7 @@ const Navbar = ({ auth }) => {
   const [onClickLogin, setonClickLogin] = useState(false);
   const [errors, seterrors] = useState({});
   const { register, watch, handleSubmit } = useForm();
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const result = login.safeParse(data);
     if (!result.success) {
       const fieldError = result.error.formErrors.fieldErrors;
@@ -28,7 +30,29 @@ const Navbar = ({ auth }) => {
       return;
     }
     seterrors({});
-    toast.success("Login Successfully")
+    
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/user/login`,
+        data
+      );
+      if (!apiVerify(res)) {
+        toast.warning("Api Error , Please contact admin");
+        return;
+      }
+      toast.success(res.data.message);
+    } catch (error) {
+      const { response } = error;
+      if(!response){
+        toast.error("Database connection error")
+        return
+      }
+      if (!apiVerify(response)) {
+        toast.warning("Api Error , Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
   };
 
   const toggleMenu = () => {

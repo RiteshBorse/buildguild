@@ -24,7 +24,7 @@ router.post("/api/user/login", checkExisting, async (req, res) => {
   const { body, user } = req;
   const { password } = body;
   if (!user || !password) {
-    return res.status(400).send("Incorrect username or password");
+    return res.status(400).send({message : "Incorrect username or password" , success : false});
   }
   try {
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -41,21 +41,22 @@ router.post("/api/user/login", checkExisting, async (req, res) => {
         .status(200)
         .cookie("token", token, {
           httpOnly: true,
-          secure: true,
+          secure: false,
           maxAge: 3600000,
         })
-        .send({ message: `Welcome Back ${user.firstName}`, user })
+        .send({ message: `Welcome Back ${user.firstName}`, user , success : true})
     } else {
-      return res.status(400).send("Incorrect username or password");
+      return res.status(400).send({message : "Incorrect username or password" , success : false});
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send({message : "Internal server error" , success : false});
   }
 });
 
 //signin
 router.post("/api/user/signin", checkExisting, async (req, res) => {
+  const { body } = req;
   const requiredFields = [
     "firstName",
     "middleName",
@@ -69,24 +70,27 @@ router.post("/api/user/signin", checkExisting, async (req, res) => {
   ];
   const missingField = requiredFields.find((field) => !req.body[field]);
   if (missingField) {
-    return res.status(400).send(`${missingField} is missing`);
+    return res.status(400).send({message : `${missingField} is missing` , success : false });
   }
   if (req.user) {
-    return res.status(400).send("User already Exists");
+    if(req.user.username == body.username){
+      return res.status(400).send({message : "Username Already Taken" , success : false});
+    }
+    return res.status(400).send({message : "User already exists with this Email" , success : false});
   }
   try {
-    const hash = await bcrypt.hash(password, 10);
+    const hash = await bcrypt.hash(body.password, 10);
     body.password = hash;
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send({message : "Internal server error" , success : false});
   }
   const newUser = new User(body);
   try {
     const savedUser = await newUser.save();
     res
       .status(201)
-      .send({ message: "Account Created Successfully", savedUser });
+      .send({ message: "Account Created Successfully", savedUser , success : true });
   } catch (error) {
     console.log(error);
     res.status(400).send("Something went wrong");
