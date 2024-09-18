@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import ExploreInfo from "./pages/ExploreInfo";
 import axios from "axios";
 import { toast } from "sonner";
+import ForgotPassword from "./pages/ForgotPassword";
 axios.defaults.withCredentials = true;
 const App = () => {
   //Check Network Status
@@ -38,6 +39,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/signup" element={<Signup/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/explore" element={<Explore/>} />
         <Route path="/explore/explore-info" element={<ExploreInfo/>}/>
         <Route path="*" element={<NotFound/>} />

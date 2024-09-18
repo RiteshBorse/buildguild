@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const SignUpForm = () => {
@@ -330,6 +330,7 @@ const LoginForm = () => {
                 )}
                 <Button type="submit">Login</Button>
               </form>
+              <Link to="/forgot-password"><Button variant="link">Forgot Password ?</Button></Link>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>

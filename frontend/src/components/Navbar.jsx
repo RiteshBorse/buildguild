@@ -188,6 +188,7 @@ const Navbar = ({ auth }) => {
                   )}
                   <Button type="submit">Login</Button>
                 </form>
+                <Link to="/forgot-password"><Button variant="link">Forgot Password ?</Button></Link>
               </SheetDescription>
             </SheetHeader>
           </SheetContent>
