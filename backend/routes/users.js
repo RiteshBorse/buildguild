@@ -39,10 +39,16 @@ router.post("/api/user/login", checkExisting, async (req, res) => {
       user,
     };
     const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+    if(!user.verified){
+      return res
+      .status(200)
+      .cookie("token", token)
+      .send({ message: `Welcome Back ${user.firstName},\n Your OTP was not Verifed , you may lose your account within 72 Hrs `, user, success: true });
+    }
     return res
       .status(200)
       .cookie("token", token)
-      .send({ message: `Welcome Back ${user.firstName}`, user, success: true });
+      .send({ message: `Welcome Back ${user.firstName} `, user, success: true });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Internal server error", success: false });
@@ -137,7 +143,7 @@ router.post("/api/user/signin/verifyOtp", checkExisting, async (req, res) => {
     try {
       const otpVerified = await User.findOneAndUpdate(
         { username: user.username },
-        { otp: "" },
+        { otp: "" , verified : true },
         { new: true }
       );
 
