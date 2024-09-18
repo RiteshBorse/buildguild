@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import buildingImage from "@/images/Building.jpg"; 
+import buildingImage from "@/images/mansion.webp"; 
 
 
 
@@ -7,7 +7,7 @@ const Explore = () => {
    return(
     <div className=" flex flex-col" >   
         <div className="mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
-            <img className=" w-full h-full bg-red-200" src={buildingImage} alt="" />
+            <img className="object-cover w-full h-[300px] bg-red-200" src={buildingImage} alt="" />
         
             <div className="flex justify-between bg-white  w-2/3 absolute bottom-[-25px] rounded-xl drop-shadow py-2 px-4 ">
                   <input type="text" placeholder="Destination" className="outline-none w-full" />

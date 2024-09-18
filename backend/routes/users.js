@@ -1,11 +1,11 @@
 import { Router } from "express";
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
-import { mail } from "../utils/mail.js";
+import { mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
+import { generateOTP } from "../utils/otpGenerate.js";
 
 const router = Router();
-
 //check if the user already exists in database
 const checkExisting = async (req, res, next) => {
   const {
@@ -24,38 +24,34 @@ router.post("/api/user/login", checkExisting, async (req, res) => {
   const { body, user } = req;
   const { password } = body;
   if (!user || !password) {
-    return res.status(400).send("Incorrect username or password");
+    return res
+      .status(400)
+      .send({ message: "Incorrect username or password", success: false });
   }
   try {
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (isPasswordValid) {
-      const payload = {
-        userId: user._id,
-        username: user.username,
-        email: user.email,
-      };
-      const token = jwt.sign(payload, process.env.SECRET_KEY_JWT, {
-        expiresIn: "1d",
-      });
+    if (!isPasswordValid) {
       return res
-        .status(200)
-        .cookie("token", token, {
-          httpOnly: true,
-          secure: true,
-          maxAge: 3600000,
-        })
-        .send({ message: `Welcome Back ${user.firstName}`, user })
-    } else {
-      return res.status(400).send("Incorrect username or password");
+        .status(400)
+        .send({ message: "Incorrect username or password", success: false });
     }
+    const payload = {
+      user,
+    };
+    const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+    return res
+      .status(200)
+      .cookie("token", token)
+      .send({ message: `Welcome Back ${user.firstName}`, user, success: true });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    res.status(500).send({ message: "Internal server error", success: false });
   }
 });
 
 //signin
 router.post("/api/user/signin", checkExisting, async (req, res) => {
+  const { body } = req;
   const requiredFields = [
     "firstName",
     "middleName",
@@ -69,47 +65,99 @@ router.post("/api/user/signin", checkExisting, async (req, res) => {
   ];
   const missingField = requiredFields.find((field) => !req.body[field]);
   if (missingField) {
-    return res.status(400).send(`${missingField} is missing`);
+    return res
+      .status(400)
+      .send({ message: `${missingField} is missing`, success: false });
   }
   if (req.user) {
-    return res.status(400).send("User already Exists");
+    if (req.user.username == body.username) {
+      return res
+        .status(400)
+        .send({ message: "Username Already Taken", success: false });
+    }
+    return res
+      .status(400)
+      .send({ message: "User already exists with this Email", success: false });
   }
   try {
-    const hash = await bcrypt.hash(password, 10);
+    const hash = await bcrypt.hash(body.password, 10);
     body.password = hash;
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal server error");
+    return res
+      .status(500)
+      .send({ message: "Internal server error", success: false });
   }
-  const newUser = new User(body);
   try {
+    const newUser = new User(body);
     const savedUser = await newUser.save();
-    res
-      .status(201)
-      .send({ message: "Account Created Successfully", savedUser });
+    const otp = generateOTP();
+    const userWithOtp = await User.findOneAndUpdate(
+      { username: savedUser.username },
+      {
+        otp,
+      },
+      { new: true }
+    );
+
+    const content = {
+      to: savedUser.email,
+      subject: "Account Creation",
+      text: "Your OTP for verification is : ",
+      html: otpFormat(savedUser.username, otp),
+    };
+    try {
+      const sendMail = await mail(content);
+      return res
+        .status(200)
+        .send({ message: "OTP has been sent to your mail", success: true });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(400)
+        .send({ message: "Internal Server Error", success: false });
+    }
   } catch (error) {
     console.log(error);
-    res.status(400).send("Something went wrong");
+    return res
+      .status(400)
+      .send({ message: "Something went wrong", success: false });
   }
 });
 
-//check available usernames
-router.post("/api/user/signin/username", async (req, res) => {
-  const {
-    body: { username },
-  } = req;
-  if (!username) {
-    return res.status(400).send("Something is Missing");
+router.post("/api/user/signin/verifyOtp", checkExisting, async (req, res) => {
+  const { user } = req;
+  const { otp } = req.body;
+  if (!user) {
+    return res
+      .status(400)
+      .send({ message: "OTP verification Failed", success: false });
   }
-  try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(200).send("Username available");
-    } else {
-      return res.status(400).send("Username already taken");
+  if (user.otp == otp) {
+    try {
+      const otpVerified = await User.findOneAndUpdate(
+        { username: user.username },
+        { otp: "" },
+        { new: true }
+      );
+
+      const payload = user.username;
+      const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+      return res.status(201).cookie("token", token).send({
+        message: "Account Created Successfully",
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(400)
+        .send({ message: "Internal Server Error", success: false });
     }
-  } catch (error) {
-    return res.status(500).send("Internal Server Error");
+  } else {
+    const deleted = await User.findOneAndDelete({ username: user.username });
+    return res
+      .status(400)
+      .send({ message: "OTP Verification Failed", success: false });
   }
 });
 
@@ -117,20 +165,71 @@ router.post("/api/user/signin/username", async (req, res) => {
 router.post("/api/user/forgotpassword", checkExisting, async (req, res) => {
   const { user } = req;
   if (!user) {
-    return res.status(400).send("Incorrect Email");
+    return res.status(400).send({ message: "Incorrect Email", success: false });
   }
+  const otp = generateOTP();
+  const userWithOtp = await User.findOneAndUpdate(
+    { username: user.username },
+    {
+      otp,
+    },
+    { new: true }
+  );
   const content = {
     to: user.email,
     subject: "Reset your Password",
     text: "Your OTP for verification is : ",
-    html: "<h1>3456</h1>",
+    html: otpFormat(user.username, otp),
   };
+
   try {
     const sendMail = await mail(content);
-    res.status(200).send("Reset password link has been sent to your gmail");
+    return res
+      .status(200)
+      .send({
+        message: "Reset password link has been sent to your gmail",
+        success: true,
+      });
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
   }
 });
+
+router.post(
+  "/api/user/forgotpassword/verifyOtp",
+  checkExisting,
+  async (req, res) => {
+    const { user } = req;
+    const { otp, newPassword } = req.body;
+    if (!user) {
+      return res
+        .status(400)
+        .send({ message: "OTP verification Failed", success: false });
+    }
+    if (user.otp == otp) {
+      try {
+        const hash = await bcrypt.hash(newPassword, 10);
+        const userUpdatedWithNewPassword = await User.findOneAndUpdate(
+          { username: user.username },
+          { password: hash, otp: "" },
+          { new: true }
+        );
+        return res
+          .status(201)
+          .send({ message: "Password Updated Successfully", success: true });
+      } catch (error) {
+        console.log(error);
+        return res
+          .status(400)
+          .send({ message: "Internal Server Error", success: false });
+      }
+    } else {
+      return res
+        .status(400)
+        .send({ message: "OTP Verification Failed", success: false });
+    }
+  }
+);
+
 export default router;
