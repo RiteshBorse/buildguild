@@ -3,6 +3,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { login } from "@/schema/loginSchema";
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import {
   Sheet,
   SheetContent,
   SheetDescription,
@@ -15,8 +25,14 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
+import { useNavigate } from "react-router-dom";
+
 
 const SignUpForm = () => {
+  const navigate = useNavigate();
+  const [data, setdata] = useState({})
+  const [Otp, setOtp] = useState("")
+  const [isOpen, setisOpen] = useState(false)
   const [errors, seterrors] = useState({});
   const { handleSubmit, register, watch } = useForm();
   const onSubmit = async (data) => {
@@ -26,6 +42,7 @@ const SignUpForm = () => {
       seterrors(fieldError);
       return;
     }
+    setdata(data);
     seterrors({});
 
     try {
@@ -38,11 +55,12 @@ const SignUpForm = () => {
         return;
       }
       toast.success(res.data.message);
+      setisOpen(true);
     } catch (error) {
       const { response } = error;
-      if(!response){
-        toast.error("Database connection error")
-        return
+      if (!response) {
+        toast.error("Database connection error");
+        return;
       }
       if (!apiVerify(response)) {
         toast.warning("Api Error , Please contact admin");
@@ -51,6 +69,35 @@ const SignUpForm = () => {
       toast.error(response.data.message);
     }
   };
+  const getOtp = async () => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/user/signin/verifyOtp`,
+        {
+          otp : Otp,
+          username : data.username
+        }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("Api Error , Please contact admin");
+        return;
+      }
+      setisOpen(false)
+      toast.success(res.data.message);
+      navigate("/")
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("Api Error , Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  }
 
   return (
     <>
@@ -195,6 +242,21 @@ const SignUpForm = () => {
           SignUp
         </Button>
       </form>
+
+      { isOpen &&   <Dialog open={isOpen} >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>OTP Verification</DialogTitle>
+          <DialogDescription className="flex flex-col gap-4 py-4 items-center">
+            <Input type="number" className="w-1/2 self-center" placeholder="OTP" value={Otp} onChange={(event)=>{setOtp(event.target.value)}}/>
+            <Button onClick={getOtp} className="w-1/2">Verify</Button>
+            <div className="flex items-center">
+            <p>Didn't Recieve OTP </p><Button  variant="link">Resend</Button>
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>}
     </>
   );
 };
@@ -209,7 +271,7 @@ const LoginForm = () => {
       seterrors(fieldError);
       return;
     }
-    seterrors({}); 
+    seterrors({});
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/user/login`,
@@ -222,9 +284,9 @@ const LoginForm = () => {
       toast.success(res.data.message);
     } catch (error) {
       const { response } = error;
-      if(!response){
-        toast.error("Database connection error")
-        return
+      if (!response) {
+        toast.error("Database connection error");
+        return;
       }
       if (!apiVerify(response)) {
         toast.warning("Api Error , Please contact admin");
