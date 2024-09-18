@@ -107,7 +107,7 @@ router.post("/api/user/signin", checkExisting, async (req, res) => {
       html: otpFormat(savedUser.username, otp),
     };
     try {
-      const sendMail = await mail(content);
+    //  const sendMail = await mail(content);
       return res
         .status(200)
         .send({ message: "OTP has been sent to your mail", success: true });
@@ -154,7 +154,6 @@ router.post("/api/user/signin/verifyOtp", checkExisting, async (req, res) => {
         .send({ message: "Internal Server Error", success: false });
     }
   } else {
-    const deleted = await User.findOneAndDelete({ username: user.username });
     return res
       .status(400)
       .send({ message: "OTP Verification Failed", success: false });
