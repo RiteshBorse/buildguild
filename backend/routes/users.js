@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
-import { mail } from "../utils/mail.js";
+import { mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
 import { generateOTP } from "../utils/otpGenerate.js";
 
@@ -120,7 +120,7 @@ router.post("/api/user/forgotpassword", checkExisting, async (req, res) => {
     to: user.email,
     subject: "Reset your Password",
     text: "Your OTP for verification is : ",
-    html: `<h1>${otp}</h1>`,
+    html: otpFormat(user.username , otp),
   };
 
   try {
@@ -131,5 +131,27 @@ router.post("/api/user/forgotpassword", checkExisting, async (req, res) => {
     res.sendStatus(400);
   }
 });
+
+router.post("/api/user/forgotpassword/verifyOtp" , checkExisting , async (req , res) => {
+  const { user } = req;
+  const { otp , newPassword } = req.body;
+  if (!user) {
+    return res.status(400).send({ message: "OTP verification Failed", success: false });
+  }
+  if(user.otp == otp){
+   try {
+    const hash = await bcrypt.hash(newPassword, 10);
+     const userUpdatedWithNewPassword = await User.findOneAndUpdate({username : user.username} , {password : hash , otp : ""} , {new : true})
+     return res.status(201).send({message : "Password Updated Successfully" , success : true})
+   } catch (error) {
+    console.log(error)
+    return res.status(400).send({message : "Internal Server Error" , success : false})
+   }
+  }
+  else{
+    return res.status(400).send({message : "OTP Verification Failed" , success : false})
+  }
+
+})
 
 export default router;
