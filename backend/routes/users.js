@@ -91,18 +91,73 @@ router.post("/api/user/signin", checkExisting, async (req, res) => {
   try {
     const newUser = new User(body);
     const savedUser = await newUser.save();
-    const payload = newUser.username
-    const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
-    return res.status(201).cookie("token", token).send({
-      message: "Account Created Successfully",
-      savedUser,
-      success: true,
-    });
+    const otp = generateOTP();
+    const userWithOtp = await User.findOneAndUpdate(
+      { username: savedUser.username },
+      {
+        otp,
+      },
+      { new: true }
+    );
+
+    const content = {
+      to: savedUser.email,
+      subject: "Account Creation",
+      text: "Your OTP for verification is : ",
+      html: otpFormat(savedUser.username, otp),
+    };
+    try {
+      const sendMail = await mail(content);
+      return res
+        .status(200)
+        .send({ message: "OTP has been sent to your mail", success: true });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(400)
+        .send({ message: "Internal Server Error", success: false });
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res
       .status(400)
       .send({ message: "Something went wrong", success: false });
+  }
+});
+
+router.post("/api/user/signin/verifyOtp", checkExisting, async (req, res) => {
+  const { user } = req;
+  const { otp } = req.body;
+  if (!user) {
+    return res
+      .status(400)
+      .send({ message: "OTP verification Failed", success: false });
+  }
+  if (user.otp == otp) {
+    try {
+      const otpVerified = await User.findOneAndUpdate(
+        { username: user.username },
+        { otp: "" },
+        { new: true }
+      );
+
+      const payload = user.username;
+      const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+      return res.status(201).cookie("token", token).send({
+        message: "Account Created Successfully",
+        success: true,
+      });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(400)
+        .send({ message: "Internal Server Error", success: false });
+    }
+  } else {
+    const deleted = await User.findOneAndDelete({ username: user.username });
+    return res
+      .status(400)
+      .send({ message: "OTP Verification Failed", success: false });
   }
 });
 
@@ -113,45 +168,68 @@ router.post("/api/user/forgotpassword", checkExisting, async (req, res) => {
     return res.status(400).send({ message: "Incorrect Email", success: false });
   }
   const otp = generateOTP();
-  const userWithOtp = await User.findOneAndUpdate({username : user.username}, {
-    otp
-  } ,{new : true});
+  const userWithOtp = await User.findOneAndUpdate(
+    { username: user.username },
+    {
+      otp,
+    },
+    { new: true }
+  );
   const content = {
     to: user.email,
     subject: "Reset your Password",
     text: "Your OTP for verification is : ",
-    html: otpFormat(user.username , otp),
+    html: otpFormat(user.username, otp),
   };
 
   try {
     const sendMail = await mail(content);
-    return res.status(200).send({message : "Reset password link has been sent to your gmail" , success : true});
+    return res
+      .status(200)
+      .send({
+        message: "Reset password link has been sent to your gmail",
+        success: true,
+      });
   } catch (error) {
     console.log(error);
     res.sendStatus(400);
   }
 });
 
-router.post("/api/user/forgotpassword/verifyOtp" , checkExisting , async (req , res) => {
-  const { user } = req;
-  const { otp , newPassword } = req.body;
-  if (!user) {
-    return res.status(400).send({ message: "OTP verification Failed", success: false });
+router.post(
+  "/api/user/forgotpassword/verifyOtp",
+  checkExisting,
+  async (req, res) => {
+    const { user } = req;
+    const { otp, newPassword } = req.body;
+    if (!user) {
+      return res
+        .status(400)
+        .send({ message: "OTP verification Failed", success: false });
+    }
+    if (user.otp == otp) {
+      try {
+        const hash = await bcrypt.hash(newPassword, 10);
+        const userUpdatedWithNewPassword = await User.findOneAndUpdate(
+          { username: user.username },
+          { password: hash, otp: "" },
+          { new: true }
+        );
+        return res
+          .status(201)
+          .send({ message: "Password Updated Successfully", success: true });
+      } catch (error) {
+        console.log(error);
+        return res
+          .status(400)
+          .send({ message: "Internal Server Error", success: false });
+      }
+    } else {
+      return res
+        .status(400)
+        .send({ message: "OTP Verification Failed", success: false });
+    }
   }
-  if(user.otp == otp){
-   try {
-    const hash = await bcrypt.hash(newPassword, 10);
-     const userUpdatedWithNewPassword = await User.findOneAndUpdate({username : user.username} , {password : hash , otp : ""} , {new : true})
-     return res.status(201).send({message : "Password Updated Successfully" , success : true})
-   } catch (error) {
-    console.log(error)
-    return res.status(400).send({message : "Internal Server Error" , success : false})
-   }
-  }
-  else{
-    return res.status(400).send({message : "OTP Verification Failed" , success : false})
-  }
-
-})
+);
 
 export default router;
