@@ -2,14 +2,13 @@ import jwt from 'jsonwebtoken'
 export const authenticate = (req , res , next) => {
     const { token } = req.cookies;
     if(!token){
-        return res.status(401).send("Access Denied");
+        return res.status(401).send({message : "You need to login first" , success : false});
     }
     jwt.verify(token , process.env.SECRET_KEY_JWT , (err , decode)=> {
         if(err){
-            return res.status(401).send("Invalid Token");
+            return res.status(401).send({message : "Token not valid , Please Contact Admin"});
         }
-        req.decode = decode;
-        res.status(200).send("Protected Data");
+        req.user = decode;
+        next()
     })
-    next()
 }

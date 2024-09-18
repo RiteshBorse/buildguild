@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    otp : String
 })
 
 export const User = mongoose.model("Users" , userSchema)
