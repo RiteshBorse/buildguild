@@ -1,17 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import Navbar from './components/Navbar'
-import ProjectList from './pages/ProjectList'
-
-const App = () => {
-  return (
-    <div>
-      <Navbar auth={false}/>
-       <ProjectList/>
-    </div>
-  )
-}
-=======
 import React, { useEffect , useState } from "react";
 import Navbar from "./components/Navbar";
 import { BrowserRouter , Routes , Route } from "react-router-dom";
@@ -20,6 +6,7 @@ import Signup from "./pages/Signup";
 import Explore from "./pages/Explore";
 import NotFound from "./pages/NotFound";
 import ExploreInfo from "./pages/ExploreInfo";
+import ProjectList from "./pages/ProjectList.jsx";
 import axios from "axios";
 import { toast } from "sonner";
 axios.defaults.withCredentials = true;
@@ -35,7 +22,6 @@ const App = () => {
       setIsOnline(false);
     }
   };
->>>>>>> c07fc39987ba67e360b0fee7d6471bebccacc492
 
   useEffect(() => {
     updateOnlineStatus();
@@ -56,6 +42,7 @@ const App = () => {
         <Route path="/explore" element={<Explore/>} />
         <Route path="/explore/explore-info" element={<ExploreInfo/>}/>
         <Route path="*" element={<NotFound/>} />
+        <Route path="/projectlist" element={<ProjectList/>}/>
       </Routes>
     </BrowserRouter>
   );
