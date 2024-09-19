@@ -19,6 +19,18 @@ const checkExisting = async (req, res, next) => {
   next();
 };
 
+//check
+const checkExistingForEmail = async (req, res, next) => {
+  const {
+    body: { username, email },
+  } = req;
+  const user = await User.findOne({ email });
+  if (user) {
+    req.user = user;
+  }
+  next();
+};
+
 //login
 router.post("/api/user/login", checkExisting, async (req, res) => {
   const { body, user } = req;
@@ -244,5 +256,86 @@ router.post(
     }
   }
 );
+
+router.patch("/api/user/profile", checkExistingForEmail, async (req, res) => {
+  const { user, body } = req;
+
+  if (!user) {
+    return res.status(400).send({ message: "User not Found", success: false });
+  }
+  const isPasswordValid = await bcrypt.compare(body.password, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .send({ message: "Incorrect username or password", success: false });
+    }
+  const requiredFields = [
+    "firstName",
+    "middleName",
+    "lastName",
+    "city",
+    "state",
+    "country",
+    "username",
+  ];
+  const missingField = requiredFields.find((field) => !req.body[field]);
+  if (missingField) {
+    return res
+      .status(400)
+      .send({ message: `${missingField} is missing`, success: false });
+  }
+  try {
+    if (user.username == body.username) {
+      const updatedUser = await User.findOneAndUpdate(
+        { email: user.email },
+        {
+          firstName: body.firstName,
+          middleName: body.middleName,
+          lastName: body.lastName,
+          city: body.city,
+          state: body.state,
+          country: body.country,
+        },
+        { new: true }
+      );
+      return res
+      .status(200)
+      .send({ message: "Profile Updated Successfully", success: true });
+    }
+    else{
+      const findUser = await User.findOne({username : body.username});
+      if(findUser){
+        return res.status(400).send({message : "Username already taken" , success : false})
+      }
+      else{
+        const updatedUser = await User.findOneAndUpdate(
+          { email: user.email },
+          {
+            firstName: body.firstName,
+            middleName: body.middleName,
+            lastName: body.lastName,
+            city: body.city,
+            state: body.state,
+            country: body.country,
+            username : body.username
+          },
+          { new: true }
+        );
+        return res
+        .status(200)
+        .send({ message: "Profile Updated Successfully", success: true });
+      }
+    }
+
+
+
+    
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(400)
+      .send({ message: "Internal Server Error", success: false });
+  }
+});
 
 export default router;
