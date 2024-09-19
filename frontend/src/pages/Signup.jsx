@@ -27,7 +27,6 @@ import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
 import { Link, useNavigate } from "react-router-dom";
 
-
 const SignUpForm = () => {
   const navigate = useNavigate();
   const [data, setdata] = useState({})
