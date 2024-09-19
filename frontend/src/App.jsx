@@ -9,6 +9,8 @@ import ExploreInfo from "./pages/ExploreInfo";
 import ProjectList from "./pages/ProjectList.jsx";
 import axios from "axios";
 import { toast } from "sonner";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/Profile";
 axios.defaults.withCredentials = true;
 const App = () => {
   //Check Network Status
@@ -39,8 +41,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/signup" element={<Signup/>} />
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/explore" element={<Explore/>} />
         <Route path="/explore/explore-info" element={<ExploreInfo/>}/>
+        <Route path="/profile" element={<Profile/>}/>
         <Route path="*" element={<NotFound/>} />
         <Route path="/projectlist" element={<ProjectList/>}/>
       </Routes>
