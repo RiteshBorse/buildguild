@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
@@ -205,6 +205,13 @@ const Navbar = () => {
 };
 
 const LoggedUserDropdown = ({ user }) => {
+  const {useAuthlogout} = useAuth();
+  const navigate = useNavigate();
+  const logouttheUser = () => {
+    useAuthlogout();
+    navigate("/");
+    toast.success("Logout Successfull")
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -216,10 +223,9 @@ const LoggedUserDropdown = ({ user }) => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="">
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <Link to="/profile"><DropdownMenuItem>Profile</DropdownMenuItem></Link>
+        <Link to="/settings"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
+        <DropdownMenuItem onClick={logouttheUser}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
