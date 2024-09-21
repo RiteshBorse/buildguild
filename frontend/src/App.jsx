@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Explore from "./pages/Explore";
 import NotFound from "./pages/NotFound";
 import ExploreInfo from "./pages/ExploreInfo";
+import ProjectList from "./pages/ProjectList.jsx";
 import axios from "axios";
 import { toast } from "sonner";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="/settings" element={<Settings/>}/>
         <Route path="*" element={<NotFound/>} />
+        <Route path="/projectlist" element={<ProjectList/>}/>
       </Routes>
     </BrowserRouter>
   );
