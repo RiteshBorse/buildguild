@@ -15,13 +15,23 @@ import { useForm } from "react-hook-form";
 import { login } from "@/schema/loginSchema";
 import { apiVerify } from "@/schema/apiSchema";
 import axios from "axios";
+import useAuth from "@/context/authContext";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-const Navbar = ({ auth }) => {
-  const user = auth;
+const Navbar = () => {
+  const { useAuthlogin, useAuthlogout, user, isAuthenticated } = useAuth();
   const [isOpen, setisOpen] = useState(false);
   const [onClickLogin, setonClickLogin] = useState(false);
   const [errors, seterrors] = useState({});
-  const { register, watch, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm();
   const onSubmit = async (data) => {
     const result = login.safeParse(data);
     if (!result.success) {
@@ -30,7 +40,6 @@ const Navbar = ({ auth }) => {
       return;
     }
     seterrors({});
-    
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/user/login`,
@@ -41,11 +50,12 @@ const Navbar = ({ auth }) => {
         return;
       }
       toast.success(res.data.message);
+      useAuthlogin(res.data.user);
     } catch (error) {
       const { response } = error;
-      if(!response){
-        toast.error("Database connection error")
-        return
+      if (!response) {
+        toast.error("Database connection error");
+        return;
       }
       if (!apiVerify(response)) {
         toast.warning("Api Error , Please contact admin");
@@ -90,14 +100,12 @@ const Navbar = ({ auth }) => {
         <Button className="text-lg font-light" variant="ghost">
           Contact Us
         </Button>
-        {!user ? (
+        {!isAuthenticated ? (
           <Button onClick={toggleLogin} className="text-lg font-light">
             Login
           </Button>
         ) : (
-          <Button className="text-lg font-light" variant="outline">
-            Logout
-          </Button>
+          <LoggedUserDropdown user={user} />
         )}
       </div>
 
@@ -139,26 +147,19 @@ const Navbar = ({ auth }) => {
                   >
                     Contact Us
                   </Button>
-                  {!user ? (
+
+                  {!isAuthenticated ? (
                     <Button
                       onClick={() => {
-                        toggleMenu();
                         toggleLogin();
+                        toggleMenu();
                       }}
                       className="text-lg font-light"
                     >
                       Login
                     </Button>
                   ) : (
-                    <Button
-                      onClick={() => {
-                        toggleMenu, onClickLogin;
-                      }}
-                      className="text-lg font-light"
-                      variant="outline"
-                    >
-                      Logout
-                    </Button>
+                    <LoggedUserDropdown user={user} />
                   )}
                 </div>
               </SheetDescription>
@@ -173,7 +174,10 @@ const Navbar = ({ auth }) => {
             <SheetHeader className="flex flex-col mx-auto items-center justify-center w-[80%] sm:w-1/3 my-10  gap-5">
               <SheetTitle className="text-3xl">Login</SheetTitle>
               <SheetDescription className="w-full">
-                <form className="flex flex-col w-full gap-6" onSubmit={handleSubmit(onSubmit)}>
+                <form
+                  className="flex flex-col w-full gap-6"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
                   <Input placeholder="Username" {...register("username")} />
                   {errors.username && (
                     <span className="text-red-600 text-sm self-center">
@@ -188,13 +192,36 @@ const Navbar = ({ auth }) => {
                   )}
                   <Button type="submit">Login</Button>
                 </form>
-                <Link to="/forgot-password"><Button variant="link">Forgot Password ?</Button></Link>
+                <Link to="/forgot-password">
+                  <Button variant="link">Forgot Password ?</Button>
+                </Link>
               </SheetDescription>
             </SheetHeader>
           </SheetContent>
         </Sheet>
       )}
     </div>
+  );
+};
+
+const LoggedUserDropdown = ({ user }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <div className="flex items-center gap-2 border-[0.5px] outline-none border-gray-300 shadow-sm rounded-lg px-3 py-1">
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+          </Avatar>
+          <p className="text-sm font-medium">{user.firstName}</p>
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="">
+        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuItem>Settings</DropdownMenuItem>
+        <DropdownMenuItem>Logout</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
