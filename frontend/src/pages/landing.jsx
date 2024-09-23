@@ -1,10 +1,23 @@
-import React from "react";
+
+import  { useState, useEffect } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { FaToolbox } from "react-icons/fa6";
 import { IoBarChart } from "react-icons/io5";
-import Image from "../assets/images.jpeg";
+import Image from "../images/report.png";
+import chatbot from "../images/chatbot.png";
+import budget from "../images/budget.jpg";
+import schedule from "../images/schedule.avif";
+import document from "../images/budget.jpg";
+import communication from "../images/communication.jpg";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+ 
+} from "@/components/ui/carousel";
+
 
 const Intro = () => {
   return (
@@ -63,28 +76,100 @@ const Services = () => {
 };
 
 const Report = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const items = [
+    {
+      title: "Field Reporting",
+      description:
+        "Capture real-time data, track progress, and generate instant reports directly from the field. Streamline communication between on-site teams and management for efficient project oversight.",
+      image: Image,
+    },
+    {
+      title: "Budget Management",
+      description:
+        "Manage your finances effectively, monitor expenses, and create timely reports from anywhere. Enhance collaboration between teams and stakeholders for better budget control and decision-making.",
+      image: budget,
+    },
+    {
+      title: "Schedule Management",
+      description:
+        "Efficiently plan and track project timelines, evaluate progress against milestones, and generate comprehensive reports at any time, ensuring transparency and effective communication among team members.",
+      image: schedule,
+    },
+    {
+      title: "Document Management",
+      description:
+        "Streamline document tracking processes by monitoring versions, ensuring easy access to important files, and facilitating collaboration, which enhances accountability and keeps all team members informed and aligned.",
+      image: document,
+    },
+    {
+      title: "Communication Tools",
+      description:
+        "Utilize integrated communication tools to enhance collaboration, streamline discussions, and provide real-time updates, ensuring that team members stay connected and informed for improved project efficiency.",
+      image: communication,
+    },
+    {
+      title: "Chatbot",
+      description:
+        "Leverage an intuitive chatbot feature to facilitate instant communication, provide quick answers to queries, and enhance user engagement, ensuring a seamless and efficient interaction experience for all stakeholders.",
+      image: chatbot,
+    },
+  ];
+
+  const imageStyles = {
+    "Field Reporting": "w-full sm:w-[80%] md:w-[90%] h-[260px] sm:h-[240px] object-cover shadow-lg  rounded-2xl",
+    "Budget Management": "w-full sm:w-[80%] h-[260px] sm:h-[240px] object-cover shadow-lg rounded-2xl",
+    "Schedule Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Document Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Communication Tools": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Chatbot": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [items.length]);
+
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-black min-h-1/3 mt-10 text-white font-roboto-condensed p-10">
-        <div className="sm:order-1">
-          <h1 className="text-white text-4xl sm:text-6xl px-6">
-            Field Reporting
-          </h1>
-          <div>
-            <p className="mt-4 text-lg px-6 text-gray-200 font-extralight">
-              Capture real-time data, track progress, and generate instant
-              reports directly from the field. Streamline communication between
-              on-site teams and management for efficient project oversight.
-            </p>
-          </div>
-        </div>
-        <div className="flex justify-center sm:order-2 p-6 sm:mt-0">
-          <img src={Image} alt="Field Reporting" />
-        </div>
-      </div>
-    </div>
+    <Carousel className="w-full overflow-hidden mt-10">
+      <CarouselContent
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {items.map((item, index) => (
+          <CarouselItem key={index} className="flex-shrink-0 w-full">
+            <div className="w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 w-full bg-black min-h-[350px] sm:min-h-[400px] lg:min-h-[350px] text-white font-roboto-condensed p-6 md:p-10">
+                <div className="sm:order-1 flex flex-col justify-center">
+                  <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl px-4 md:px-6">
+                    {item.title}
+                  </h1>
+                  <p className="mt-2 text-base sm:text-lg px-4 md:px-6 text-gray-200 font-extralight">
+                    {item.description}
+                  </p>
+                </div>
+                <div className="flex justify-center sm:order-2 p-4 md:p-6">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className={imageStyles[item.title]}
+                  />
+                </div>
+              </div>
+            </div>
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+     
+    </Carousel>
   );
 };
+
+
+
+
 
 const About = () => {
   return (
