@@ -1,9 +1,8 @@
-
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { FaToolbox } from "react-icons/fa6";
 import { IoBarChart } from "react-icons/io5";
-import Image from "../images/report.png";
+import report from "../images/report.png";
 import chatbot from "../images/chatbot.png";
 import budget from "../images/budget.jpg";
 import schedule from "../images/schedule.avif";
@@ -15,9 +14,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
- 
 } from "@/components/ui/carousel";
-
 
 const Intro = () => {
   return (
@@ -82,7 +79,7 @@ const Report = () => {
       title: "Field Reporting",
       description:
         "Capture real-time data, track progress, and generate instant reports directly from the field. Streamline communication between on-site teams and management for efficient project oversight.",
-      image: Image,
+      image: report,
     },
     {
       title: "Budget Management",
@@ -117,12 +114,17 @@ const Report = () => {
   ];
 
   const imageStyles = {
-    "Field Reporting": "w-full sm:w-[80%] md:w-[90%] h-[260px] sm:h-[240px] object-cover shadow-lg  rounded-2xl",
-    "Budget Management": "w-full sm:w-[80%] h-[260px] sm:h-[240px] object-cover shadow-lg rounded-2xl",
-    "Schedule Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-    "Document Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-    "Communication Tools": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-    "Chatbot": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Field Reporting":
+      "w-full sm:w-[80%] md:w-[90%] h-[260px] sm:h-[240px] object-cover shadow-lg  rounded-2xl",
+    "Budget Management":
+      "w-full sm:w-[80%] h-[260px] sm:h-[240px] object-cover shadow-lg rounded-2xl",
+    "Schedule Management":
+      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Document Management":
+      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Communication Tools":
+      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    Chatbot: "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
   };
 
   useEffect(() => {
@@ -162,14 +164,9 @@ const Report = () => {
           </CarouselItem>
         ))}
       </CarouselContent>
-     
     </Carousel>
   );
 };
-
-
-
-
 
 const About = () => {
   return (
