@@ -1,0 +1,16 @@
+import { Router } from "express";
+import { checkExisting } from "../middleware/checkExisting.middleware.js";
+import { forgotPassword, login, logout, profile, signIn, verifyOtpforForgotPassword, verifyOtpforSignIn } from "../controllers/user.controller.js";
+import { authenticate } from "../middleware/authentication.middleware.js";
+
+const router = Router();
+
+router.route("/signin").post(checkExisting , signIn)
+router.route("/login").post(checkExisting , login)
+router.route("/logout").get(authenticate , logout)
+router.route("/signin/verifyOtp").post(checkExisting , verifyOtpforSignIn)
+router.route("/forgotpassword").post(checkExisting , forgotPassword)
+router.route("/forgotpassword/verifyOtp").post(checkExisting , verifyOtpforForgotPassword)
+router.route("/profile").patch(authenticate , profile)
+
+export default router

@@ -25,7 +25,7 @@ const ForgotPassword = () => {
   const onSubmit = async (data) => {
     try {
         const res = await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/user/forgotpassword`,
+          `${import.meta.env.VITE_API_URL}/users/forgotpassword`,
           data
         );
         if (!apiVerify(res)) {
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
   const getOtp = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/user/forgotpassword/verifyOtp`,
+        `${import.meta.env.VITE_API_URL}/users/forgotpassword/verifyOtp`,
         {
           otp : Otp,
           newPassword : data.password,

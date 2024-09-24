@@ -42,7 +42,7 @@ const Navbar = () => {
     seterrors({});
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/user/login`,
+        `${import.meta.env.VITE_API_URL}/users/login`,
         data
       );
       if (!apiVerify(res)) {
@@ -211,7 +211,7 @@ const LoggedUserDropdown = ({ user }) => {
     useAuthlogout();
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/user/logout`,
+        `${import.meta.env.VITE_API_URL}/users/logout`,
       );
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");

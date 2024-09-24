@@ -18,7 +18,7 @@ const Profile = () => {
   const onSubmit = async (data) => {
     try {
       const res = await axios.patch(
-        `${import.meta.env.VITE_API_URL}/api/user/profile`,
+        `${import.meta.env.VITE_API_URL}/users/profile`,
         data
       );
       if (!apiVerify(res)) {
@@ -76,9 +76,11 @@ const Profile = () => {
             )}
           </div>
         </div>
+        <div className="flex gap-4">
         <Input placeholder="Update First Name" {...register("firstName")} />
         <Input placeholder="Update Middle Name" {...register("middleName")} />
         <Input placeholder="Update Last Name" {...register("lastName")} />
+        </div>
         <Input placeholder="Update Username" {...register("username")} />
         <Input placeholder="Update City" {...register("city")} />
         <Input placeholder="Update State" {...register("state")} />
