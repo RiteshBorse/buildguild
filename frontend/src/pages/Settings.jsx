@@ -1,8 +1,15 @@
 import React from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import useAuth from '@/context/authContext'
 
 const Settings = () => {
+  const { isAuthenticated } = useAuth();
+  if(!isAuthenticated){
+    return(
+      <div className="flex items-center w-full h-screen justify-center">Access Blocked</div>
+    )
+  }
   return (
     <div className='pt-[100px] p-4 flex flex-col w-full'>
         <div className='flex flex-col self-center w-2/3 gap-5'>

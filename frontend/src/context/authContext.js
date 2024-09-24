@@ -5,7 +5,6 @@ const useAuth = create(
   persist((set) => ({
     user: null,
     isAuthenticated: false,
-
     useAuthlogin: (newUser) => {
       set({ user: newUser, isAuthenticated: true });
     },

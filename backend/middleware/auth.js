@@ -6,9 +6,9 @@ export const authenticate = (req , res , next) => {
     }
     jwt.verify(token , process.env.SECRET_KEY_JWT , (err , decode)=> {
         if(err){
-            return res.status(401).send({message : "Token not valid , Please Contact Admin"});
+            return res.status(401).send({message : "Token not valid , Please Contact Admin" , success : false});
         }
-        req.user = decode;
+        req.user = decode.user;
         next()
     })
 }

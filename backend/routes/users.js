@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
 import { generateOTP } from "../utils/otpGenerate.js";
+import { authenticate } from "../middleware/auth.js";
 
 const router = Router();
 //check if the user already exists in database
@@ -13,18 +14,6 @@ const checkExisting = async (req, res, next) => {
   } = req;
   const user =
     (await User.findOne({ username })) || (await User.findOne({ email }));
-  if (user) {
-    req.user = user;
-  }
-  next();
-};
-
-//check
-const checkExistingForEmail = async (req, res, next) => {
-  const {
-    body: { username, email },
-  } = req;
-  const user = await User.findOne({ email });
   if (user) {
     req.user = user;
   }
@@ -74,6 +63,12 @@ router.post("/api/user/login", checkExisting, async (req, res) => {
     res.status(500).send({ message: "Internal server error", success: false });
   }
 });
+
+//logout
+router.get("/api/user/logout" , authenticate ,  (req , res) => {
+  res.clearCookie("token");
+  return res.status(200).send({message : "Logout Successfull" , success : true});
+})
 
 //signin
 router.post("/api/user/signin", checkExisting, async (req, res) => {
@@ -257,18 +252,24 @@ router.post(
   }
 );
 
-router.patch("/api/user/profile", checkExistingForEmail, async (req, res) => {
+router.patch("/api/user/profile", authenticate, async (req, res) => {
   const { user, body } = req;
-
   if (!user) {
     return res.status(400).send({ message: "User not Found", success: false });
   }
-  const isPasswordValid = await bcrypt.compare(body.password, user.password);
+  console.log(user.password)
+  try {
+    const isPasswordValid = await bcrypt.compare(body.password, user.password);
     if (!isPasswordValid) {
       return res
         .status(400)
         .send({ message: "Incorrect username or password", success: false });
     }
+  } catch (error) {
+    return res
+      .status(400)
+      .send({ message: "Error checking password", success: false });
+  }
   const requiredFields = [
     "firstName",
     "middleName",
@@ -299,15 +300,15 @@ router.patch("/api/user/profile", checkExistingForEmail, async (req, res) => {
         { new: true }
       );
       return res
-      .status(200)
-      .send({ message: "Profile Updated Successfully", success: true });
-    }
-    else{
-      const findUser = await User.findOne({username : body.username});
-      if(findUser){
-        return res.status(400).send({message : "Username already taken" , success : false})
-      }
-      else{
+        .status(200)
+        .send({ message: "Profile Updated Successfully", success: true });
+    } else {
+      const findUser = await User.findOne({ username: body.username });
+      if (findUser) {
+        return res
+          .status(400)
+          .send({ message: "Username already taken", success: false });
+      } else {
         const updatedUser = await User.findOneAndUpdate(
           { email: user.email },
           {
@@ -317,19 +318,15 @@ router.patch("/api/user/profile", checkExistingForEmail, async (req, res) => {
             city: body.city,
             state: body.state,
             country: body.country,
-            username : body.username
+            username: body.username,
           },
           { new: true }
         );
         return res
-        .status(200)
-        .send({ message: "Profile Updated Successfully", success: true });
+          .status(200)
+          .send({ message: "Profile Updated Successfully", success: true });
       }
     }
-
-
-
-    
   } catch (error) {
     console.log(error);
     return res
