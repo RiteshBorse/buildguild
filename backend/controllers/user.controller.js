@@ -245,6 +245,22 @@ const profile = asyncHandler(async (req, res) => {
   }
 });
 
+const deleteUser = asyncHandler(async (req , res) => {
+    const { user , body } = req;
+    const validate = await bcrypt.compare(body.password , user.password);
+    if(!validate){
+        return res.status(400).send({
+            message : "Incorrect Password1",
+            success : false
+        })
+    }
+    await User.findByIdAndDelete(user._id);
+    return res.status(200).send({
+        message : "Account Deleted Successfully",
+        success : true
+    })
+});
+
 export {
   signIn,
   login,
@@ -252,7 +268,8 @@ export {
   verifyOtpforSignIn,
   forgotPassword,
   verifyOtpforForgotPassword,
-  profile
+  profile,
+  deleteUser
 };
 
 export default router;
