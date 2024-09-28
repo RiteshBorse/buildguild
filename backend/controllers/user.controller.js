@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User } from "../models/user.model.js";
+import { User } from "../models/User/user.model.js";
 import bcrypt from "bcrypt";
 import { mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";

@@ -1,4 +1,4 @@
-import { User } from "../models/user.model.js";
+import { User } from "../models/User/user.model.js";
 
 const checkExisting = async (req, res, next) => {
     const {

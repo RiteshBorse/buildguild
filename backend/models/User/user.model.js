@@ -28,7 +28,13 @@ const userSchema = new mongoose.Schema({
     verified : {
         type : Boolean,
         default : false
-    }
+    },
+    projects : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "Project"
+        }
+    ]
 })
 
-export const User = mongoose.model("Users" , userSchema)
+export const User = mongoose.model("User" , userSchema)
