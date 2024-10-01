@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosAddCircle } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { addProject } from "@/schema/addProjectSchema";
-import axios from "axios";
+import Image from "@/images/mansion.webp";
 import {
   Dialog,
   DialogContent,
@@ -13,12 +13,13 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 
-const ProjectCard = ({ name, location, image }) => {
+const ProjectCard = ({ name, location, imageUrl }) => {
   return (
     <div className="flex sm:flex-col w-[70%] sm:h-56 sm:w-[20%] h-[20%] mt-5 sm:m-5 rounded-lg shadow-lg hover:scale-105 transition-transform hover:cursor-pointer">
+
       <img
         className="w-[75%] sm:w-full h-[100%] sm:h-[60%] overflow-hidden border-r-2 sm:border-b-2 sm:border-r-0 border-black rounded-l-lg sm:rounded-t-lg sm:rounded-b-none"
-        src={URL.createObjectURL(image)}
+        src={imageUrl || Image}
         alt="Project site"
       />
       <div className="flex flex-col w-full sm:h-[40%] px-4 justify-center rounded-r-lg sm:rounded-b-lg overflow-x-auto overflow-y-hidden bg-white">
@@ -36,12 +37,7 @@ const ProjectCard = ({ name, location, image }) => {
 };
 
 const AddProjectForm = ({ onSubmit }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
   const [validationErrors, setValidationErrors] = useState({});
   const onSubmitProject = (data) => {
     const newProject = {
@@ -56,7 +52,8 @@ const AddProjectForm = ({ onSubmit }) => {
     }
     setValidationErrors({});
     onSubmit(newProject);
-    reset();
+    setValue("name", "");
+    setValue("location", "");
   };
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -93,12 +90,7 @@ const AddProjectForm = ({ onSubmit }) => {
 
         <div className="flex flex-col space-y-1.5">
           <Label htmlFor="image">Upload Image</Label>
-          <Input
-            id="image"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
         </div>
 
         <Button type="submit" className="mt-4">
@@ -123,24 +115,10 @@ const AddProjectDialog = ({ isOpen, onClose, onSubmit }) => {
 };
 
 const ProjectList = () => {
-  const [isAddProjectDialogVisible, setIsAddProjectDialogVisible] =
-    useState(false);
-  const [projects, setProjects] = useState([
-    //  { name: "Siddhi Niwas", location: "Amrutdham,Nashik", imageUrl: Image },
+  const [isAddProjectDialogVisible, setIsAddProjectDialogVisible] = useState(false);
+  const [cards, setCards] = useState([
+    { name: "Siddhi Niwas", location: "Amrutdham,Nashik", imageUrl: Image },
   ]);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get("/api/v1/projects");
-        setProjects(response.data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-
-    fetchProjects();
-  }, []);
 
   const handleAddProjectClick = () => {
     setIsAddProjectDialogVisible(true);
@@ -150,21 +128,9 @@ const ProjectList = () => {
     setIsAddProjectDialogVisible(false);
   };
 
-  const handleAddProject = async (newProject) => {
-    try {
-      const formData = new FormData();
-      formData.append("name", newProject.name);
-      formData.append("location", newProject.location);
-      if (newProject.imageUrl) {
-        formData.append("image", newProject.image);
-      }
-
-      const response = await axios.post("/api/v1/projects", formData);
-      setProjects([...projects, response.data]);
-      handleCloseDialog();
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
+  const handleAddProject = (newProject) => {
+    console.log(newProject);
+    handleCloseDialog();
   };
 
   return (

@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-router.route("/myProjects").get(getMyProjects);
+router.route("/myProjects").get(authenticate, getMyProjects);
 router.route("/createProject").post(authenticate, createProject);
 
 export default router;

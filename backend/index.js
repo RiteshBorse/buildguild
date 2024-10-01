@@ -15,8 +15,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use(userRouter);
-app.use(projectRouter);
 
 //Routes import
 import userRouter from "./routes/user.routes.js"
