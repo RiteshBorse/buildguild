@@ -2,10 +2,12 @@ import mongoose from "mongoose";
 
 const financialSchema = new mongoose.Schema(
     {
-    receipt: {
+    receipt:
+     {
         type : mongoose.Schema.Types.ObjectId,
         ref : "SharedInfo"
     },
+    
     withdraw: String 
     }
 )

@@ -12,4 +12,4 @@ const approvalhistorySchema = new mongoose.Schema(
 
 })
 
-export const ApprovalHistory = mongoose.model("ApprovalHistory" , approvalhistorySchema)
+export const ApprovalHistory = mongoose.model("ApprovalHistory" , approvalhistorySchema);
