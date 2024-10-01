@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const receiptSchema = new mongoose.Schema({
     main_info: {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "FinancialInfo"
+        ref : "Information"
     },
     attachments :{
         type: Image,

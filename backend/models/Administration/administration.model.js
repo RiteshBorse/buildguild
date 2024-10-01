@@ -4,23 +4,23 @@ const administrationSchema = new mongoose.Schema(
     {
         main_info:{
              type : mongoose.Schema.Types.ObjectId,
-             ref : "AdministrationInfo"
+             ref : "Information"
         },
         address:{
              type : mongoose.Schema.Types.ObjectId,
-             ref : "AdministrationAddress"
+             ref : "Address"
         },
         contact:{
             type : mongoose.Schema.Types.ObjectId,
-            ref : "AdministrationContact"
+            ref : "Contact"
         },
         attachment:{
             type : mongoose.Schema.Types.ObjectId,
-            ref : "AdministrationAttachment"
+            ref : "Attachment"
         },
         extra_info:{
              type : mongoose.Schema.Types.ObjectId,
-            ref : "AdministrationExtraInfo "
+             ref : "ExtraInfo "
         }
 
     }

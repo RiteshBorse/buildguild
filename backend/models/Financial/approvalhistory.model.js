@@ -20,7 +20,7 @@ const approvalhistorySchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        creater_name :  {
+        creator_name :  {
             type: String,
             required: true
         },

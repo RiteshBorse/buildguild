@@ -5,11 +5,11 @@ company_status:String,
 cst_no:String,
 pan_no:String,
 registration_number:{
-    Type: String,
+    type: String,
     unique:true
 },
 gst_in:{
-    Type: String,
+    type: String,
     unique:true
 },
 gst_type : String,
@@ -19,4 +19,4 @@ rera_registration_no : String
 
 })
 
-export const AdministrationExtraInfo =("AdministrationExtraInfo",extrainfoSchema);
+export const ExtraInfo =mongoose.model("ExtraInfo",extrainfoSchema);

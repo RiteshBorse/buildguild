@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const attachmentSchema = new mongoose.model({
 logo:{
-    Type : Image,
+    type : String,
     required : true
 },
 
-qr_code : Image
+qr_code : String
 })
 
-export const AdministrationAttachment = mongoose.model("AdministrationAttachment" , attachmentSchema);
+export const Attachment = mongoose.model("Attachment" , attachmentSchema);

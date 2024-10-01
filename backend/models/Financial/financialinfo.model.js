@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const financialinfoSchema = new mongoose.Schema(
     {
         business_unit : String,
-        document_type : Image,
+        document_type : String,
         document_number : String,
         bank :  {
             type: String,
@@ -22,4 +22,4 @@ const financialinfoSchema = new mongoose.Schema(
     }
 )
 
-export const FinancialInfo = mongoose.model("FinancialInfo" , financialinfoSchema);
+export const Information = mongoose.model("Information" , financialinfoSchema);
