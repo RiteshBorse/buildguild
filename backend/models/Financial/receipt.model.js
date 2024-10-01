@@ -6,7 +6,7 @@ const receiptSchema = new mongoose.Schema({
         ref : "Information"
     },
     attachments :{
-        type: Image,
+        type: String,
         required :true
     },
     change_history : [{

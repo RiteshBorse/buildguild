@@ -20,7 +20,7 @@ const administrationSchema = new mongoose.Schema(
         },
         extra_info:{
              type : mongoose.Schema.Types.ObjectId,
-             ref : "ExtraInfo "
+             ref : "ExtraInfo"
         }
 
     }
