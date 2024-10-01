@@ -13,15 +13,16 @@ const corsOptions = {
 }
 const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
-app.use(cors(corsOptions))
-app.use(express.json())
-app.use(userRouter);
+app.use(cors(corsOptions));
+app.use(express.json());
 
 //Routes import
 import userRouter from "./routes/user.routes.js"
+import projectRouter from "./routes/project.routes.js"
 
 //Routes Declaration
 app.use("/api/v1/users" , userRouter)
+app.use("/api/v1/projects", projectRouter)
 
 app.listen(PORT , ()=>{
     connectDB();

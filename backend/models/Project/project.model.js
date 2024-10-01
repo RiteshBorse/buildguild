@@ -1,18 +1,33 @@
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
-    name : String,
-    location : String , 
-    insights : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "ProjectInsight"
+    name: {
+        type: String,
+        required: true
     },
-    sub_project : [
+    location: {
+        type: String,
+        required: true
+    }, 
+    displayImage: {
+        type: String,
+        required: true 
+    },
+    insights: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProjectInsight"
+    },
+    sub_project: [
         {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "SubProject"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "SubProject"
         }
-    ]
-})
+    ],
+    creator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
+});
 
-export const Project = mongoose.model("Project" , projectSchema);
+export const Project = mongoose.model("Project", projectSchema);
