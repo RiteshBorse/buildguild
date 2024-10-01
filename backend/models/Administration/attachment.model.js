@@ -9,4 +9,4 @@ logo:{
 qr_code : Image
 })
 
-export const AdministrationAttachment = mongoose.model("AdministrationAttachment" , attachmentSchema)
+export const AdministrationAttachment = mongoose.model("AdministrationAttachment" , attachmentSchema);

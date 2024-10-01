@@ -1,12 +1,17 @@
 import mongoose from 'mongoose';
 
-const sharedinfoSchema = new mongoose.Schema({
+const receiptSchema = new mongoose.Schema({
     main_info: {
         type : mongoose.Schema.Types.ObjectId,
         ref : "FinancialInfo"
     },
-    attachments :Image,
-    change_history : String,
+    attachments :{
+        type: Image,
+        required :true
+    },
+    change_history : [{
+        
+    }],
     approval_history:[
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -17,4 +22,4 @@ const sharedinfoSchema = new mongoose.Schema({
 
 
 })
-export const SharedInfo = mongoose.model("SharedInfo",sharedinfoSchema);
+export const Receipt = mongoose.model("Receipt",receiptSchema);

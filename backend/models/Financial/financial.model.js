@@ -5,7 +5,7 @@ const financialSchema = new mongoose.Schema(
     receipt:
      {
         type : mongoose.Schema.Types.ObjectId,
-        ref : "SharedInfo"
+        ref : "Receipt"
     },
     
     withdraw: String 

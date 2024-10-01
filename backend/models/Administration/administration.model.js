@@ -26,4 +26,4 @@ const administrationSchema = new mongoose.Schema(
     }
 )
 
-export const Administration=mongoose.model("Administration" , administrationSchema)
+export const Administration=mongoose.model("Administration" , administrationSchema);
