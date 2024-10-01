@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import {
   Sheet,
@@ -26,12 +26,14 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
 import { Link, useNavigate } from "react-router-dom";
+import { Loader } from "lucide-react";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const [data, setdata] = useState({})
-  const [Otp, setOtp] = useState("")
-  const [isOpen, setisOpen] = useState(false)
+  const [loading, setloading] = useState(false)
+  const [data, setdata] = useState({});
+  const [Otp, setOtp] = useState("");
+  const [isOpen, setisOpen] = useState(false);
   const [errors, seterrors] = useState({});
   const { handleSubmit, register, watch } = useForm();
   const onSubmit = async (data) => {
@@ -45,10 +47,12 @@ const SignUpForm = () => {
     seterrors({});
 
     try {
+      setloading(true)
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/signin`,
         data
       );
+      setloading(false)
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
         return;
@@ -56,6 +60,7 @@ const SignUpForm = () => {
       toast.success(res.data.message);
       setisOpen(true);
     } catch (error) {
+      setloading(false)
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
@@ -73,17 +78,17 @@ const SignUpForm = () => {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/signin/verifyOtp`,
         {
-          otp : Otp,
-          username : data.username
+          otp: Otp,
+          username: data.username,
         }
       );
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
         return;
       }
-      setisOpen(false)
+      setisOpen(false);
       toast.success(res.data.message);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -96,7 +101,7 @@ const SignUpForm = () => {
       }
       toast.error(response.data.message);
     }
-  }
+  };
 
   return (
     <>
@@ -237,25 +242,42 @@ const SignUpForm = () => {
             )}
           </div>
         </div>
-        <Button type="submit" className="dark font-bold text-lg">
-          SignUp
-        </Button>
+        {loading ? (
+          <Button disabled={true} className="dark font-bold text-lg"><Loader className="animate-spin mr-2"/>Please Wait</Button>
+        ) : (
+          <Button type="submit" className="dark font-bold text-lg">
+            SignUp
+          </Button>
+        )}
       </form>
 
-      { isOpen &&   <Dialog open={isOpen} >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>OTP Verification</DialogTitle>
-          <DialogDescription className="flex flex-col gap-4 py-4 items-center">
-            <Input type="number" className="w-1/2 self-center" placeholder="OTP" value={Otp} onChange={(event)=>{setOtp(event.target.value)}}/>
-            <Button onClick={getOtp} className="w-1/2">Verify</Button>
-            <div className="flex items-center">
-            <p>Didn't Recieve OTP </p><Button  variant="link">Resend</Button>
-            </div>
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>}
+      {isOpen && (
+        <Dialog open={isOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>OTP Verification</DialogTitle>
+              <DialogDescription className="flex flex-col gap-4 py-4 items-center">
+                <Input
+                  type="number"
+                  className="w-1/2 self-center"
+                  placeholder="OTP"
+                  value={Otp}
+                  onChange={(event) => {
+                    setOtp(event.target.value);
+                  }}
+                />
+                <Button onClick={getOtp} className="w-1/2">
+                  Verify
+                </Button>
+                <div className="flex items-center">
+                  <p>Didn't Recieve OTP </p>
+                  <Button variant="link">Resend</Button>
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };
@@ -329,7 +351,9 @@ const LoginForm = () => {
                 )}
                 <Button type="submit">Login</Button>
               </form>
-              <Link to="/forgot-password"><Button variant="link">Forgot Password ?</Button></Link>
+              <Link to="/forgot-password">
+                <Button variant="link">Forgot Password ?</Button>
+              </Link>
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
