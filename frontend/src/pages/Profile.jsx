@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 const Profile = () => {
   const { register, handleSubmit } = useForm();
-  const { user , isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
     try {
@@ -40,10 +40,12 @@ const Profile = () => {
       toast.error(response.data.message);
     }
   };
-  if(!isAuthenticated){
-    return(
-      <div className="flex items-center w-full h-screen justify-center">Access Blocked</div>
-    )
+  if (!isAuthenticated) {
+    return (
+      <div className="flex items-center w-full h-screen justify-center">
+        Access Blocked
+      </div>
+    );
   }
   return (
     <div className="w-full h-screen pt-[100px] px-16 py-10 flex flex-col">
@@ -77,21 +79,22 @@ const Profile = () => {
           </div>
         </div>
         <div className="flex gap-4">
-        <Input placeholder="Update First Name" {...register("firstName")} />
-        <Input placeholder="Update Middle Name" {...register("middleName")} />
-        <Input placeholder="Update Last Name" {...register("lastName")} />
+          <Input placeholder="Update First Name" {...register("firstName")} />
+          <Input placeholder="Update Middle Name" {...register("middleName")} />
+          <Input placeholder="Update Last Name" {...register("lastName")} />
         </div>
         <Input placeholder="Update Username" {...register("username")} />
         <Input placeholder="Update City" {...register("city")} />
         <Input placeholder="Update State" {...register("state")} />
         <Input placeholder="Update Country" {...register("country")} />
         <Input placeholder="Enter Password" {...register("password")} />
-        {
-          user.verified ? <Button type="submit" className="mt-2 w-1/3 self-end">
-          Update Profile
-        </Button> : <p className="text-red-600">Verify your Account to Update Details</p>
-        }
-        
+        {user.verified ? (
+          <Button type="submit" className="mt-2 w-1/3 self-end">
+            Update Profile
+          </Button>
+        ) : (
+          <p className="text-red-600">Verify your Account to Update Details</p>
+        )}
       </form>
     </div>
   );

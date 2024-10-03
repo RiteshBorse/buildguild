@@ -44,7 +44,7 @@ const Settings = () => {
     <div className='pt-[100px] p-4 flex flex-col w-full'>
         <div className='flex flex-col self-center w-2/3 gap-5'>
         <p className='text-4xl'>Delete your Account</p>
-        <p>Are your surely want to delete your account ? This task cannnot be undone . Our servers doesn't retain data.</p>
+        <p>Are your surely want to delete your account ? This task cannnot be undone . Our servers don't retain data.</p>
         <Input value={password} onChange={(e)=>setpassword(e.target.value)} placeholder="Enter password to confirm" />
         <Button onClick={handleClick}>Verify OTP</Button>
         </div>

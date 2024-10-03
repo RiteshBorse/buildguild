@@ -30,7 +30,7 @@ import { Loader } from "lucide-react";
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-  const [loading, setloading] = useState(false)
+  const [loading, setloading] = useState(false);
   const [data, setdata] = useState({});
   const [Otp, setOtp] = useState("");
   const [isOpen, setisOpen] = useState(false);
@@ -47,12 +47,12 @@ const SignUpForm = () => {
     seterrors({});
 
     try {
-      setloading(true)
+      setloading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/signin`,
         data
       );
-      setloading(false)
+      setloading(false);
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
         return;
@@ -60,7 +60,7 @@ const SignUpForm = () => {
       toast.success(res.data.message);
       setisOpen(true);
     } catch (error) {
-      setloading(false)
+      setloading(false);
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
@@ -243,7 +243,10 @@ const SignUpForm = () => {
           </div>
         </div>
         {loading ? (
-          <Button disabled={true} className="dark font-bold text-lg"><Loader className="animate-spin mr-2"/>Please Wait</Button>
+          <Button disabled={true} className="dark font-bold text-lg">
+            <Loader className="animate-spin mr-2" />
+            Please Wait
+          </Button>
         ) : (
           <Button type="submit" className="dark font-bold text-lg">
             SignUp
