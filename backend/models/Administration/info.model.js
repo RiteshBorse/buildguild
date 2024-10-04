@@ -3,11 +3,9 @@ import mongoose from "mongoose";
 const administrationinfoSchema = new mongoose.Schema({
   code: {
     type: String,
-    required: true,
   },
   type_info: {
     type: String,
-    required: true,
   },
   segment: String,
   start_fin_Year: String,
@@ -17,7 +15,7 @@ const administrationinfoSchema = new mongoose.Schema({
   start_date: Date,
 });
 
-export const Information = mongoose.model(
-  "Information",
+export const MainInfo = mongoose.model(
+  "MainInfo",
   administrationinfoSchema
 );

@@ -1,10 +1,10 @@
 import { Administration } from "../models/Administration/administration.model.js";
-import { Information } from "../models/Administration/info.model.js"
+import { MainInfo } from "../models/Administration/info.model.js"
 import { ProjectInsight } from "../models/Project/projectinsights.model.js";
 import { Project } from "../models/Project/project.model.js";
 
 const projectCreationUtility = async (projectBody) => {
-    const main_info = new Information();
+    const main_info = new MainInfo();
     await main_info.save();
 
     const administration = new Administration({main_info : main_info._id});

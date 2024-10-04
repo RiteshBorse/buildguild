@@ -4,6 +4,6 @@ import { addMainInfo, getMainInfo } from "../controllers/administration.controll
 const router = Router();
 
 router.post("/main-info/:id" , authenticate , addMainInfo);
-router.get('/main-info/:id' , authenticate , getMainInfo )
+router.get('/main-info/:id' , authenticate , getMainInfo );
 
 export default router
