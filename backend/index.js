@@ -19,10 +19,12 @@ app.use(express.json());
 //Routes import
 import userRouter from "./routes/user.routes.js"
 import projectRouter from "./routes/project.routes.js"
+import administrationRouter from './routes/administration.routes.js'
 
 //Routes Declaration
 app.use("/api/v1/users" , userRouter)
 app.use("/api/v1/projects", projectRouter)
+app.use("/api/v1/projects/administration" , administrationRouter)
 
 app.listen(PORT , ()=>{
     connectDB();

@@ -10,7 +10,7 @@ const administrationinfoSchema = new mongoose.Schema({
     required: true,
   },
   segment: String,
-  start_Fin_Year: String,
+  start_fin_Year: String,
   description: String,
   belongs_to: String,
   zone: String,

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const projectinsightSchema = new mongoose.Schema({
-  adminstration: {
+  administration: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Administration",
   },
