@@ -25,10 +25,12 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
+import useAuth from "@/context/authContext";
 
 const SignUpForm = () => {
+  const {isAuthenticated} = useAuth();
   const navigate = useNavigate();
   const [loading, setloading] = useState(false)
   const [data, setdata] = useState({});
@@ -102,6 +104,9 @@ const SignUpForm = () => {
       toast.error(response.data.message);
     }
   };
+  if(isAuthenticated){
+    return(<Navigate to = "/"/>)
+  }
 
   return (
     <>

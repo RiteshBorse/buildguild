@@ -8,7 +8,7 @@ import axios from "axios";
 import { CrossIcon, Verified } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Profile = () => {
@@ -42,7 +42,7 @@ const Profile = () => {
   };
   if(!isAuthenticated){
     return(
-      <div className="flex items-center w-full h-screen justify-center">Access Blocked</div>
+      <Navigate to='/'/>
     )
   }
   return (

@@ -12,8 +12,10 @@ import { toast } from "sonner";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import { useCookieMonitor } from "./context/authContext";
 axios.defaults.withCredentials = true;
 const App = () => {
+  useCookieMonitor();
   //Check Network Status
   const [isOnline, setIsOnline] = useState(navigator.onLine); 
   const updateOnlineStatus = () => {
