@@ -12,8 +12,15 @@ import { toast } from "sonner";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
+import { useCookieMonitor } from "./context/authContext";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import Engineering from "./pages/Dashboard/Engineering";
+import Administration from "./pages/Dashboard/Administration";
+import Materials from "./pages/Dashboard/Materials";
+import Financials from "./pages/Dashboard/Financials";
 axios.defaults.withCredentials = true;
 const App = () => {
+  useCookieMonitor();
   //Check Network Status
   const [isOnline, setIsOnline] = useState(navigator.onLine); 
   const updateOnlineStatus = () => {
@@ -49,6 +56,11 @@ const App = () => {
         <Route path="/settings" element={<Settings/>}/>
         <Route path="*" element={<NotFound/>} />
         <Route path="/projectlist" element={<ProjectList/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/administration" element={<Administration/>}/>
+        <Route path="/engineering" element={<Engineering/>}/>
+        <Route path="/materials" element={<Materials/>}/>
+        <Route path="/financials" element={<Financials/>}/>
       </Routes>
     </BrowserRouter>
   );

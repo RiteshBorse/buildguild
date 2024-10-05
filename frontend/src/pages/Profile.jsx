@@ -8,7 +8,7 @@ import axios from "axios";
 import { CrossIcon, Verified } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Profile = () => {
@@ -40,12 +40,19 @@ const Profile = () => {
       toast.error(response.data.message);
     }
   };
+<<<<<<< HEAD
   if (!isAuthenticated) {
     return (
       <div className="flex items-center w-full h-screen justify-center">
         Access Blocked
       </div>
     );
+=======
+  if(!isAuthenticated){
+    return(
+      <Navigate to='/'/>
+    )
+>>>>>>> 9cb31161d5a0e34b25ccf90112355609e96e9b68
   }
   return (
     <div className="w-full h-screen pt-[100px] px-16 py-10 flex flex-col">

@@ -15,8 +15,11 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import useAuth from "@/context/authContext";
 
 const Intro = () => {
+  const { isAuthenticated } = useAuth();
+  
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
       <div className="px-14">
@@ -32,9 +35,15 @@ const Intro = () => {
           </p>
         </div>
         <div className="mt-6 flex gap-4">
-          <Link to="/signup">
-            <Button>Get Started</Button>
-          </Link>
+          {isAuthenticated ? (
+            <Link to="/projectlist">
+              <Button>Go to Dashboard</Button>
+            </Link>
+          ) : (
+            <Link to="/signup">
+              <Button>Get Started</Button>
+            </Link>
+          )}
           <Link to="/explore">
             <Button variant="outline">Explore</Button>
           </Link>
@@ -43,6 +52,7 @@ const Intro = () => {
     </div>
   );
 };
+
 
 const Services = () => {
   return (
