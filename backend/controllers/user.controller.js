@@ -174,6 +174,35 @@ const verifyOtpforForgotPassword = asyncHandler(async (req, res) => {
     .send({ message: "Password Updated Successfully", success: true });
 });
 
+//resendOtp
+
+const resendOtp = asyncHandler(async (req, res) => {
+  const { user } = req;
+  if (!user) {
+    return res.status(400).send({ message: "User not found", success: false });
+  }
+
+  const otp = generateOTP();
+  const userWithOtp = await User.findOneAndUpdate(
+    { email: user.email },
+    { otp },
+    { new: true }
+  );
+  const content = {
+    to: user.email,
+    subject: "Resent OTP for Account Verification",
+    text: "Your OTP for verification is : ",
+    html: otpFormat(user.username, otp),
+  };
+  await mail(content);
+
+  return res
+    .status(200)
+    .send({ message: "OTP resent. Check your email", success: true });
+});
+
+//resendOtp
+
 const profile = asyncHandler(async (req, res) => {
   const { user, body } = req;
   if (!user) {
@@ -268,8 +297,9 @@ export {
   verifyOtpforSignIn,
   forgotPassword,
   verifyOtpforForgotPassword,
+  resendOtp,
   profile,
-  deleteUser
+  deleteUser,
 };
 
 export default router;
