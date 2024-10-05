@@ -288,8 +288,10 @@ const SignUpForm = () => {
 };
 
 const LoginForm = () => {
+  const {isAuthenticated , useAuthlogin } = useAuth();
   const { handleSubmit, register } = useForm();
   const [errors, seterrors] = useState({});
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const onSubmit = async (data) => {
     const result = login.safeParse(data);
     if (!result.success) {
@@ -308,6 +310,8 @@ const LoginForm = () => {
         return;
       }
       toast.success(res.data.message);
+      useAuthlogin(res.data.user);
+      setIsLoginOpen(false);
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -323,11 +327,11 @@ const LoginForm = () => {
   };
   return (
     <div className="flex flex-col self-center">
-      <Sheet>
+      <Sheet open={isLoginOpen} onOpenChange={setIsLoginOpen}>
         <p className="text-lg">
           Already have an account ?
           <SheetTrigger>
-            <Button className="text-white font-bold text-lg" variant="link">
+            <Button className="text-white font-bold text-lg" variant="link"  onClick={() => setIsLoginOpen(true)}>
               Login
             </Button>
           </SheetTrigger>
