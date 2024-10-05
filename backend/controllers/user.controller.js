@@ -174,34 +174,7 @@ const verifyOtpforForgotPassword = asyncHandler(async (req, res) => {
     .send({ message: "Password Updated Successfully", success: true });
 });
 
-//resendOtp
 
-const resendOtp = asyncHandler(async (req, res) => {
-  const { user } = req;
-  if (!user) {
-    return res.status(400).send({ message: "User not found", success: false });
-  }
-
-  const otp = generateOTP();
-  const userWithOtp = await User.findOneAndUpdate(
-    { email: user.email },
-    { otp },
-    { new: true }
-  );
-  const content = {
-    to: user.email,
-    subject: "Resent OTP for Account Verification",
-    text: "Your OTP for verification is : ",
-    html: otpFormat(user.username, otp),
-  };
-  await mail(content);
-
-  return res
-    .status(200)
-    .send({ message: "OTP resent. Check your email", success: true });
-});
-
-//resendOtp
 
 const profile = asyncHandler(async (req, res) => {
   const { user, body } = req;
@@ -274,20 +247,20 @@ const profile = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteUser = asyncHandler(async (req , res) => {
-    const { user , body } = req;
-    const validate = await bcrypt.compare(body.password , user.password);
-    if(!validate){
-        return res.status(400).send({
-            message : "Incorrect Password1",
-            success : false
-        })
-    }
-    await User.findByIdAndDelete(user._id);
-    return res.status(200).send({
-        message : "Account Deleted Successfully",
-        success : true
-    })
+const deleteUser = asyncHandler(async (req, res) => {
+  const { user, body } = req;
+  const validate = await bcrypt.compare(body.password, user.password);
+  if (!validate) {
+    return res.status(400).send({
+      message: "Incorrect Password1",
+      success: false,
+    });
+  }
+  await User.findByIdAndDelete(user._id);
+  return res.status(200).send({
+    message: "Account Deleted Successfully",
+    success: true,
+  });
 });
 
 export {

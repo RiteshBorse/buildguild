@@ -20,12 +20,12 @@ app.use(express.json());
 import userRouter from "./routes/user.routes.js"
 import projectRouter from "./routes/project.routes.js"
 import administrationRouter from './routes/administration.routes.js'
-
+import uploadRouter from './routes/upload.routes.js'
 //Routes Declaration
 app.use("/api/v1/users" , userRouter)
 app.use("/api/v1/projects", projectRouter)
 app.use("/api/v1/administration" , administrationRouter)
-
+app.use("/api/v1/upload", uploadRouter);
 app.listen(PORT , ()=>{
     connectDB();
     console.log(`Server is listening on ${PORT}`);

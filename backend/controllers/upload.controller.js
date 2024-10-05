@@ -3,7 +3,7 @@ import fs from "fs";
 import Image from "../models/image/image.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
-cloudinary.v2.config({
+cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
@@ -16,7 +16,7 @@ export const uploadFile = asyncHandler(async (req, res) => {
 
   console.log(req.file.path);
 
-  const x = await cloudinary.v2.uploader.upload(req.file.path);
+  const x = await cloudinary.uploader.upload(req.file.path);
   console.log("Cloudinary Response:", x);
 
   const newImage = new Image({ Image_Url: x.secure_url });
