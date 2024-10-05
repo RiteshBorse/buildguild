@@ -6,13 +6,14 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { apiVerify } from '@/schema/apiSchema'
 import { toast } from 'sonner'
+import { Navigate } from 'react-router-dom'
 
 const Settings = () => {
   const { isAuthenticated , user , useAuthLogin } = useAuth();
   const [password, setpassword] = useState("");
   if(!isAuthenticated){
     return(
-      <div className="flex items-center w-full h-screen justify-center">Access Blocked</div>
+      <Navigate to='/'/>
     )
   }
   const handleClick = async () => {

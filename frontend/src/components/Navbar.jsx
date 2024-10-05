@@ -51,6 +51,7 @@ const Navbar = () => {
       }
       toast.success(res.data.message);
       useAuthlogin(res.data.user);
+      setonClickLogin(false)
     } catch (error) {
       const { response } = error;
       if (!response) {
