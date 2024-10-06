@@ -11,7 +11,7 @@ const projectSchema = new mongoose.Schema({
     }, 
     displayImage: {
         type: String,
-        required: true 
+        //required: true 
     },
     insights: {
         type: mongoose.Schema.Types.ObjectId,

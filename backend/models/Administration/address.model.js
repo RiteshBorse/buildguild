@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 const addressSchema = new mongoose.Schema({
-  address: {
+  address_info: {
     type: String,
-    required: true,
   },
   city: String,
   state: String,
@@ -11,10 +10,9 @@ const addressSchema = new mongoose.Schema({
 
   postal_code: {
     type: String,
-    required: true,
   },
 
-  latitude: String,
+  location: String,
 });
 
 export const Address = mongoose.model("Address", addressSchema);
