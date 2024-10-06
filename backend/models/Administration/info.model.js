@@ -8,7 +8,7 @@ const administrationinfoSchema = new mongoose.Schema({
     type: String,
   },
   segment: String,
-  start_fin_Year: String,
+  start_fin_year: String,
   description: String,
   belongs_to: String,
   zone: String,

@@ -21,8 +21,6 @@ const getMyProjects = asyncHandler(async (req, res) => {
 
 const createProject = asyncHandler(async (req, res) => {
   const { name, location, displayImage } = req.body;
-
-
   if (!name || !location) {
     return res
       .status(400)
@@ -35,9 +33,7 @@ const createProject = asyncHandler(async (req, res) => {
     displayImage,
     creator: req.user._id,
   });
-
-  await newProject.save();
-  
+ 
   const projectId = await projectCreationUtility(newProject);
   const user = await User.findById(req.user._id);
   user.projects.push(projectId);

@@ -17,6 +17,7 @@ import {
 import buildingImage from "@/images/mansion.webp";
 import { FaEye, FaEyeSlash, FaCog } from 'react-icons/fa';
 import useAuth from "@/context/authContext";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -116,7 +117,7 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
           </div>
         </div>
       ) : (
-        <>
+        <div>
           <img
             className="w-[75%] sm:w-full h-[100%] sm:h-[60%] overflow-hidden border-r-2 sm:border-b-2 sm:border-r-0 border-black rounded-l-lg sm:rounded-t-lg sm:rounded-b-none object-cover"
             src={displayImage || buildingImage}
@@ -132,7 +133,7 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
               <h4 className="text-lg sm:text-base">&nbsp;{location}</h4>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* Confirmation Dialog */}
@@ -336,7 +337,7 @@ const ProjectList = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   // Fetch projects from the backend
   useEffect(() => {
     const fetchProjects = async () => {
@@ -391,11 +392,10 @@ const ProjectList = () => {
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-center w-full h-min mt-[70px]">
       {projects.length > 0 ? (
         projects.map((project) => (
+         <Link to={`/dashboard/${project._id}`}  key={project._id}>
           <ProjectCard
-            key={project._id}
-            {...project}
-            onClick={() => console.log("Hi")}
-          />
+            {...project}/>
+          </Link>
         ))
       ) : (
         <div className="flex items-center justify-center min-w-full min-h-96">No projects found.</div> // no projects available

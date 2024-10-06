@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Sidebar from "./Sidebar";
+import { useParams } from "react-router-dom";
 
 const Dashboard = () => {
-
+  const { id } = useParams();
   return (
     <div className="w-full h-screen pt-[100px] px-8 py-10">
-      <Sidebar/>
+      <Sidebar id={id}/>
     </div>
   );
 };

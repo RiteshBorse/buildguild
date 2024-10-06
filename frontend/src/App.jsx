@@ -56,11 +56,11 @@ const App = () => {
         <Route path="/settings" element={<Settings/>}/>
         <Route path="*" element={<NotFound/>} />
         <Route path="/projectlist" element={<ProjectList/>}/>
-        <Route path="/dashboard" element={<Dashboard/>}/>
-        <Route path="/administration" element={<Administration/>}/>
-        <Route path="/engineering" element={<Engineering/>}/>
-        <Route path="/materials" element={<Materials/>}/>
-        <Route path="/financials" element={<Financials/>}/>
+        <Route path="/dashboard/:id" element={<Dashboard/>}/>
+        <Route path="/administration/:id" element={<Administration/>}/>
+        <Route path="/engineering/:id" element={<Engineering/>}/>
+        <Route path="/materials/:id" element={<Materials/>}/>
+        <Route path="/financials/:id" element={<Financials/>}/>
       </Routes>
     </BrowserRouter>
   );

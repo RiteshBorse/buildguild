@@ -30,17 +30,17 @@ import {
   import { FaMoneyBill } from "react-icons/fa";
   import { Navigate, useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({id}) => {
     const Navigate = useNavigate();
     const [menuOpen, setmenuOpen] = useState(false);
-    const [menuValue, setmenuValue] = useState("")
+    const [menuValue, setmenuValue] = useState("");
     const handleMenu = () => {
       setmenuOpen(!menuOpen);
     };
     const onClickMenuItems = (value) => {
       setmenuValue(value)
       handleMenu();
-      Navigate(`/${value}`)
+      Navigate(`/${value}/${id}`)
     }
     
     return (
