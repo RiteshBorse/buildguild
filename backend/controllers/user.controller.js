@@ -181,7 +181,6 @@ const profile = asyncHandler(async (req, res) => {
   if (!user) {
     return res.status(400).send({ message: "User not Found", success: false });
   }
-  console.log(user.password);
   const isPasswordValid = await bcrypt.compare(body.password, user.password);
   if (!isPasswordValid) {
     return res

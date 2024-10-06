@@ -4,7 +4,6 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 
-dotenv.config()
 
 const app = express()
 const corsOptions = {
@@ -12,6 +11,7 @@ const corsOptions = {
     credentials : true
 }
 const PORT = process.env.PORT || 3000;
+dotenv.config()
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -20,12 +20,12 @@ app.use(express.json());
 import userRouter from "./routes/user.routes.js"
 import projectRouter from "./routes/project.routes.js"
 import administrationRouter from './routes/administration.routes.js'
-import uploadRouter from './routes/upload.routes.js'
+
 //Routes Declaration
 app.use("/api/v1/users" , userRouter)
 app.use("/api/v1/projects", projectRouter)
 app.use("/api/v1/administration" , administrationRouter)
-app.use("/api/v1/upload", uploadRouter);
+
 app.listen(PORT , ()=>{
     connectDB();
     console.log(`Server is listening on ${PORT}`);
