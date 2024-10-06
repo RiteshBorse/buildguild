@@ -103,7 +103,7 @@ const getAddress = asyncHandler(async(req , res) => {
   });
   let address_id = user.projects[0].insights.administration.address._id;
   address_id = address_id.toString();
-  const address = await MainInfo.findById(address_id);
+  const address = await Address.findById(address_id);
   return res.status(200).send({message : "Fetched Address" , success : true , address})
 });
 
