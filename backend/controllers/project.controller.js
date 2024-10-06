@@ -1,12 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Router } from "express";
 import { Project } from "../models/Project/project.model.js";
-<<<<<<< HEAD
 import { User } from "../models/User/user.model.js";
-=======
-import {User} from "../models/User/user.model.js";
 import { projectCreationUtility } from "../utils/projectCreation.js";
->>>>>>> 9cb31161d5a0e34b25ccf90112355609e96e9b68
 
 const router = Router();
 
@@ -33,20 +29,16 @@ const createProject = asyncHandler(async (req, res) => {
       .send({ message: "All fields are required", success: false });
   }
 
-  const newProject = {
+  const newProject = ({
     name,
     location,
     displayImage,
     creator: req.user._id,
-<<<<<<< HEAD
   });
 
   await newProject.save();
-=======
-  };
   
   const projectId = await projectCreationUtility(newProject);
->>>>>>> 9cb31161d5a0e34b25ccf90112355609e96e9b68
   const user = await User.findById(req.user._id);
   user.projects.push(projectId);
   await user.save();
