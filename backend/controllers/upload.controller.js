@@ -4,9 +4,9 @@ import Image from "../models/image/image.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
+  cloud_name: "dyx5palzq",  
+  api_key: "475368171827547",  
+  api_secret: "pMZxsWVC8aZDuHhBxlURFYY3y5Y"  
 });
 
 export const uploadFile = asyncHandler(async (req, res) => {

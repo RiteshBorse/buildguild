@@ -270,7 +270,6 @@ export {
   verifyOtpforSignIn,
   forgotPassword,
   verifyOtpforForgotPassword,
-  resendOtp,
   profile,
   deleteUser,
 };
