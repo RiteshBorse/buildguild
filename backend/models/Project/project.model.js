@@ -10,12 +10,15 @@ const projectSchema = new mongoose.Schema({
         required: true
     }, 
     displayImage: {
-        type: String,
-        //required: true 
+        type: String, 
     },
     insights: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "ProjectInsight"
+    },
+    published : {
+        type : Boolean,
+        default : false
     },
     sub_project: [
         {

@@ -1,10 +1,8 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { Router } from "express";
 import { Project } from "../models/Project/project.model.js";
 import { User } from "../models/User/user.model.js";
 import { projectCreationUtility } from "../utils/projectCreation.js";
-
-const router = Router();
+import { Explore } from "../models/Explore/explore.model.js";
 
 const getMyProjects = asyncHandler(async (req, res) => {
 
@@ -64,7 +62,20 @@ const deleteProject = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Project Deleted Successfully", success: true });
 });
 
+const publishProject = asyncHandler(async(req , res)=> {
+    const { id } = req.params;
+    console.log(id)
+    const { user } = req;
+    const project = await Project.findById(id);
+    project.published = true;
+    await project.save();
+    const explore = await Explore.create({
+        project : id,
+        user : user._id
+    })
+    await explore.save();
+    return res.status(200).send({message : "Project Published" , success : true});
+})
 
-export { getMyProjects, createProject, deleteProject };
+export { getMyProjects, createProject, deleteProject , publishProject };
 
-export default router;
