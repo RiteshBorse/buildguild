@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { login } from "@/schema/loginSchema";
@@ -25,19 +25,20 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "lucide-react";
-import useAuth from "@/context/authContext";
+
 
 const SignUpForm = () => {
-  const {isAuthenticated} = useAuth();
   const navigate = useNavigate();
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(false)
   const [data, setdata] = useState({});
   const [Otp, setOtp] = useState("");
   const [isOpen, setisOpen] = useState(false);
   const [errors, seterrors] = useState({});
   const { handleSubmit, register, watch } = useForm();
+  const [resendDisabled, setResendDisabled] = useState(false);
+  const [timer, setTimer] = useState(0);
   const onSubmit = async (data) => {
     const result = signUp.safeParse(data);
     if (!result.success) {
@@ -49,12 +50,12 @@ const SignUpForm = () => {
     seterrors({});
 
     try {
-      setloading(true);
+      setloading(true)
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/signin`,
         data
       );
-      setloading(false);
+      setloading(false)
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
         return;
@@ -62,7 +63,7 @@ const SignUpForm = () => {
       toast.success(res.data.message);
       setisOpen(true);
     } catch (error) {
-      setloading(false);
+      setloading(false)
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
@@ -75,6 +76,49 @@ const SignUpForm = () => {
       toast.error(response.data.message);
     }
   };
+
+  const resendOtp = async () => {
+    try {
+      setResendDisabled(true);
+      setTimer(30);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/resendOtp`,
+        {
+          username: data.username,
+        }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.success("OTP Resent Successfully");
+  
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    if (timer > 0) {
+      const countdown = setTimeout(() => {
+        setTimer(timer - 1);
+      }, 1000);
+      return () => clearTimeout(countdown);
+    } else {
+      setResendDisabled(false);
+    }
+  }, [timer]);
+
+
   const getOtp = async () => {
     try {
       const res = await axios.post(
@@ -104,9 +148,6 @@ const SignUpForm = () => {
       toast.error(response.data.message);
     }
   };
-  if(isAuthenticated){
-    return(<Navigate to = "/"/>)
-  }
 
   return (
     <>
@@ -248,10 +289,7 @@ const SignUpForm = () => {
           </div>
         </div>
         {loading ? (
-          <Button disabled={true} className="dark font-bold text-lg">
-            <Loader className="animate-spin mr-2" />
-            Please Wait
-          </Button>
+          <Button disabled={true} className="dark font-bold text-lg"><Loader className="animate-spin mr-2"/>Please Wait</Button>
         ) : (
           <Button type="submit" className="dark font-bold text-lg">
             SignUp
@@ -279,7 +317,16 @@ const SignUpForm = () => {
                 </Button>
                 <div className="flex items-center">
                   <p>Didn't Recieve OTP </p>
-                  <Button variant="link">Resend</Button>
+                  <div className="mx-3">
+                  <button
+                    onClick={resendOtp}
+                    disabled={resendDisabled}
+                    variant="link"
+                  >
+                    {resendDisabled ? `Resend OTP (${timer}s)` : "Resend OTP"}
+                  </button>
+                  </div>
+                  
                 </div>
               </DialogDescription>
             </DialogHeader>
@@ -291,10 +338,8 @@ const SignUpForm = () => {
 };
 
 const LoginForm = () => {
-  const {isAuthenticated , useAuthlogin } = useAuth();
   const { handleSubmit, register } = useForm();
   const [errors, seterrors] = useState({});
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
   const onSubmit = async (data) => {
     const result = login.safeParse(data);
     if (!result.success) {
@@ -313,8 +358,6 @@ const LoginForm = () => {
         return;
       }
       toast.success(res.data.message);
-      useAuthlogin(res.data.user);
-      setIsLoginOpen(false);
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -330,11 +373,11 @@ const LoginForm = () => {
   };
   return (
     <div className="flex flex-col self-center">
-      <Sheet open={isLoginOpen} onOpenChange={setIsLoginOpen}>
+      <Sheet>
         <p className="text-lg">
           Already have an account ?
           <SheetTrigger>
-            <Button className="text-white font-bold text-lg" variant="link"  onClick={() => setIsLoginOpen(true)}>
+            <Button className="text-white font-bold text-lg" variant="link">
               Login
             </Button>
           </SheetTrigger>
