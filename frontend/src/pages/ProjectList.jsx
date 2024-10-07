@@ -215,22 +215,11 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
-    const { name, location, displayImage } = data;
-    //  const { name, location, displayImage } = data;
-    // if (!displayImage || displayImage.length === 0) {
-    //   setErrors({ image: ["Please upload an image"] });
-    //   console.log("Image is missing");
-    //   return;
-    // }
-    //const file = displayImage[0]; // Extract the first file from the FileList
-
     const projectData = {
-      name,
-      location: location.toString(),
-      // displayimage: file,
-      displayImage: buildingImage, // Placeholder image string
-    };
-
+      name : data.name,
+      location : data.location,
+      uploadfile : data.uploadfile[0]
+    }
     const result = addProject.safeParse(projectData);
     if (!result.success) {
       setErrors(result.error.formErrors.fieldErrors);
@@ -241,7 +230,11 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
       setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/projects/createProject`,
-        data
+        projectData , {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       if (!apiVerify(res)) {
@@ -250,7 +243,7 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
       }
       toast.success(res.data.message);
 
-      addProjectToList(data); // Add the new project to the list
+      addProjectToList(data); 
       reset();
       onClose(); // Close the dialog after successful submission
     } catch (error) {
@@ -305,10 +298,9 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="image">Upload Image</Label>
               <Input
-                id="image"
+                name="uploadfile"
                 type="file"
-                accept="image/*"
-                {...register("image", { required: true })}
+                {...register("uploadfile", { required: true })}
               />
             </div>
 

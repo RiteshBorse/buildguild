@@ -20,17 +20,17 @@ const getMyProjects = asyncHandler(async (req, res) => {
 });
 
 const createProject = asyncHandler(async (req, res) => {
-  const { name, location, displayImage } = req.body;
+  const { name, location } = req.body;
+  const { imageUrl } = req;
   if (!name || !location) {
     return res
       .status(400)
       .send({ message: "All fields are required", success: false });
   }
-
   const newProject = ({
     name,
     location,
-    displayImage,
+    displayImage : imageUrl,
     creator: req.user._id,
   });
  

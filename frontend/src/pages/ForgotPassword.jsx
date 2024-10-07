@@ -72,7 +72,6 @@ const ForgotPassword = () => {
     } catch (error) {
       const { response } = error;
       if (!response) {
-        console.log(error);
         toast.error("Database connection error");
         return;
       }

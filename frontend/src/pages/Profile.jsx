@@ -27,7 +27,6 @@ const Profile = () => {
       }
       toast.success(res.data.message);
     } catch (error) {
-      console.log(error);
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
