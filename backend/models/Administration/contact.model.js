@@ -6,16 +6,11 @@ const contactSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true,
   },
-  contact_number: String,
-  mobile_number: {
+  contact_number: {
     type: String,
-    unique: true,
   },
-  effective_from: {
-    type: Date,
-  },
+  effective_from: Date,
 });
 
 export const Contact = mongoose.model("Contact", contactSchema);
