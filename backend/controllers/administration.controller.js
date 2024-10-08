@@ -1,6 +1,6 @@
 import { User } from "../models/User/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
-import { MainInfo } from "../models/Administration/info.model.js";
+import { AMainInfo } from "../models/Administration/info.model.js";
 import { Address } from "../models/Administration/address.model.js";
 import { Contact } from "../models/Administration/contact.model.js";
 
@@ -33,7 +33,7 @@ const addMainInfo = asyncHandler(async (req, res) => {
   });
   let main_info_id = user.projects[0].insights.administration.main_info._id;
   main_info_id = main_info_id.toString();
-  const main_info = await MainInfo.findByIdAndUpdate(main_info_id ,{...body} , {new : true});
+  const main_info = await AMainInfo.findByIdAndUpdate(main_info_id ,{...body} , {new : true});
   res.status(200).send({message : "Main Info Saved" , success : true});
 });
 
@@ -53,7 +53,7 @@ const getMainInfo = asyncHandler(async(req , res) => {
   });
   let main_info_id = user.projects[0].insights.administration.main_info._id;
   main_info_id = main_info_id.toString();
-  const main_info = await MainInfo.findById(main_info_id);
+  const main_info = await AMainInfo.findById(main_info_id);
   return res.status(200).send({message : "Fetched Main Info" , success : true , main_info})
 });
 

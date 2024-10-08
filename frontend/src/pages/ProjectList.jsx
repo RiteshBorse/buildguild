@@ -29,26 +29,31 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // For toggling password visibility
 
   const { user } = useAuth();
+  const navigate = useNavigate(); // Use navigate for routing
 
-  const toggleEditing = () => setIsEditing((prev) => !prev);
+  const toggleEditing = (event) => {
+    event.stopPropagation(); // Prevent the card's click from triggering
+    console.log("Toggling edit mode");
+    setIsEditing((prev) => !prev);
+  };
 
   const openDialog = (action) => {
+    console.log(`Opening dialog for action: ${action}`);
     setActionType(action);
     setDialogOpen(true);
   };
 
-  // Handle dialog confirmation or cancel
   const handleDialogAction = async (confirm) => {
+    console.log(`Dialog confirmed: ${confirm}`);
     setDialogOpen(false);
 
     if (confirm) {
       if (actionType === "delete") {
+        console.log(`Attempting to delete project with ID: ${projectId}`);
         if (email === user?.email && password === user?.password) {
           try {
             const res = await axios.delete(
-              `${
-                import.meta.env.VITE_API_URL
-              }/projects/deleteProject/${projectId}`
+              `${import.meta.env.VITE_API_URL}/projects/deleteProject/${projectId}`
             );
             if (!apiVerify(res)) {
               toast.warning("API Error, Please contact admin");
@@ -57,6 +62,7 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
             toast.success(res.data.message);
           } catch (error) {
             const { response } = error;
+            console.log("Error during deletion:", error);
             if (!response) {
               toast.error("Database connection error");
               return;
@@ -71,11 +77,11 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
           toast.error("Credentials do not match");
         }
       } else if (actionType === "publish") {
+        console.log("Publishing project");
         setPublished(true); // Mark project as published
-        console.log("Project published");
       } else if (actionType === "unpublish") {
+        console.log("Unpublishing project");
         setPublished(false); // Mark project as unpublished
-        console.log("Project unpublished");
       }
     }
     setIsEditing(false);
@@ -86,37 +92,60 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
+    console.log(`Password visibility: ${!isPasswordVisible}`);
+  };
+
+  const handleCardClick = (e) => {
+    console.log(`Card clicked. isEditing: ${isEditing}`);
+    if (isEditing) {
+      e.stopPropagation(); // Prevent navigation if in editing mode
+      return;
+    }
+    console.log(`Navigating to project details for ID: ${projectId}`);
+    navigate(`/dashboard/${projectId}`);
   };
 
   return (
-    <div className="relative flex sm:flex-col w-[300px] h-[200px] mt-5 sm:m-5 rounded-lg shadow-2xl hover:scale-105 transition-transform hover:cursor-pointer">
+    <div
+      className="relative sm:flex-col w-[300px] h-[200px] mt-5 sm:m-5 rounded-lg shadow-2xl hover:scale-105 transition-transform hover:cursor-pointer"
+      onClick={handleCardClick} // Handle card click for navigation
+    >
       {/* Settings Icon */}
       <div className="absolute top-2 right-2">
         <FaCog
-          className={`cursor-pointer ${
-            isEditing ? "text-black" : "text-black"
-          }`}
-          onClick={toggleEditing}
+          className={`cursor-pointer ${isEditing ? "text-black" : "text-black"}`}
+          onClick={(e) => {
+            console.log("Settings icon clicked");
+            toggleEditing(e);
+          }} // Ensure only this triggers when clicked
         />
       </div>
 
       {isEditing ? (
         <div className="flex items-center justify-center w-full h-full shadow-lg">
-          <div className="flex space-x-4 ">
+          <div className="flex space-x-4">
             <Button
               className={`py-2 px-4 text-white rounded-md shadow-lg ${
                 published
                   ? "bg-yellow-500 hover:bg-yellow-600"
                   : "bg-slate-900 hover:bg-slate-700"
               }`}
-              onClick={() => openDialog(published ? "unpublish" : "publish")}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent the card click
+                console.log(published ? "Unpublishing project" : "Publishing project");
+                openDialog(published ? "unpublish" : "publish");
+              }}
             >
               {published ? "Unpublish" : "Publish"}
             </Button>
 
             <Button
               className="py-2 px-4 text-white bg-red-500 hover:bg-red-600 rounded-md shadow-lg"
-              onClick={() => openDialog("delete")}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent the card click
+                console.log("Delete button clicked");
+                openDialog("delete");
+              }}
             >
               Delete
             </Button>
@@ -124,94 +153,25 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
         </div>
       ) : (
         <div className="w-full h-full rounded-lg ">
-        <div className="w-full h-[60%] overflow-hidden rounded-t-lg">
-          <img
-            className="w-full h-full object-cover"
-            src={displayImage || buildingImage}
-            alt="Project site"
-          />
-        </div>
-        <div className="flex flex-col w-full h-[40%] px-4 py-2 justify-center bg-white rounded-b-lg">
-          <div className="flex m-1">
-            <h3 className="font-bold text-lg">Name:</h3>
-            <h4 className="text-lg">&nbsp;{name}</h4>
+          <div className="w-full h-[60%] overflow-hidden rounded-t-lg">
+            <img
+              className="w-full h-full object-cover"
+              src={displayImage || buildingImage}
+              alt="Project site"
+            />
           </div>
-          <div className="flex m-1">
-            <h3 className="font-bold text-lg">Location:</h3>
-            <h4 className="text-lg">&nbsp;{location}</h4>
-          </div>
-        </div>
-      </div>
-      )}
-
-      {/* Confirmation Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>
-              {actionType === "publish"
-                ? "Are you sure you want to publish this project?"
-                : actionType === "unpublish"
-                ? "Do you want to unpublish this project?"
-                : "Enter your credentials to delete this project"}
-            </DialogTitle>
-          </DialogHeader>
-
-          {actionType === "delete" && (
-            <div className="flex flex-col space-y-4 my-4">
-              <input
-                type="email"
-                className="border p-2 rounded"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-
-              {/* Password input with visibility toggle */}
-              <div className="relative flex items-center">
-                <input
-                  type={isPasswordVisible ? "text" : "password"} // Toggle between text and password
-                  className="border p-2 rounded w-full"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <div
-                  className="absolute right-3 cursor-pointer"
-                  onClick={togglePasswordVisibility}
-                >
-                  {isPasswordVisible ? (
-                    <FaEyeSlash className="text-gray-500" />
-                  ) : (
-                    <FaEye className="text-gray-500" />
-                  )}
-                </div>
-              </div>
+          <div className="flex flex-col w-full h-[40%] px-4 py-2 justify-center bg-white rounded-b-lg">
+            <div className="flex m-1">
+              <h3 className="font-bold text-lg">Name:</h3>
+              <h4 className="text-lg">&nbsp;{name}</h4>
             </div>
-          )}
-
-          <div className="flex justify-end space-x-4">
-            <Button
-              className="bg-slate-900 hover:bg-slate-700 text-white py-2 px-4 rounded-lg"
-              onClick={() => handleDialogAction(false)} // Cancel
-            >
-              Cancel
-            </Button>
-            <Button
-              className={`py-2 px-4 text-white rounded-lg ${
-                actionType === "publish"
-                  ? "bg-slate-900 hover:bg-slate-700"
-                  : actionType === "unpublish"
-                  ? "bg-yellow-500 hover:bg-yellow-600"
-                  : "bg-red-500 hover:bg-red-600"
-              }`}
-              onClick={() => handleDialogAction(true)} // Confirm
-            >
-              Confirm
-            </Button>
+            <div className="flex m-1">
+              <h3 className="font-bold text-lg">Location:</h3>
+              <h4 className="text-lg">&nbsp;{location}</h4>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </div>
+      )}
     </div>
   );
 };
@@ -389,7 +349,7 @@ const ProjectList = () => {
   }
 
   return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap items-center w-full h-min mt-[70px]">
+    <div className="flex flex-col sm:flex-row sm:flex-wrap items-center w-full h-min mt-[80px] ">
       {projects.length > 0 ? (
         projects.map((project) => (
           <Link to={`/dashboard/${project._id}`} key={project._id}>
