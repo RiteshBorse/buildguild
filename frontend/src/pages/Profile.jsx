@@ -16,10 +16,25 @@ const Profile = () => {
   const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
+    const profileData = {
+      uploadfile : data.uploadfile[0],
+      firstName : data.firstName,
+      middleName : data.middleName,
+      lastName : data.lastName ,
+      username : data.username,
+      city : data.city ,
+      state : data.state,
+      country : data.country,
+      password : data.password
+    }
     try {
       const res = await axios.patch(
         `${import.meta.env.VITE_API_URL}/users/profile`,
-        data
+        profileData ,{
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
@@ -56,7 +71,7 @@ const Profile = () => {
         <div className="bg-gray-100 px-4 py-4 flex gap-4 w-full rounded-md relative">
           <div className=" flex items-center">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarImage src={user.profileImage ||"https://github.com/shadcn.png"} />
             </Avatar>
           </div>
           <div>
@@ -77,6 +92,7 @@ const Profile = () => {
             )}
           </div>
         </div>
+        <Input type='file' {...register("uploadfile")} />
         <div className="flex gap-4">
           <Input placeholder="Update First Name" {...register("firstName")} />
           <Input placeholder="Update Middle Name" {...register("middleName")} />

@@ -177,7 +177,7 @@ const verifyOtpforForgotPassword = asyncHandler(async (req, res) => {
 
 
 const profile = asyncHandler(async (req, res) => {
-  const { user, body } = req;
+  const { user, body , imageUrl } = req;
   if (!user) {
     return res.status(400).send({ message: "User not Found", success: false });
   }
@@ -202,17 +202,13 @@ const profile = asyncHandler(async (req, res) => {
       .status(400)
       .send({ message: `${missingField} is missing`, success: false });
   }
-
+  const {password , ...restBody} = body;
   if (user.username == body.username) {
     const updatedUser = await User.findOneAndUpdate(
       { email: user.email },
       {
-        firstName: body.firstName,
-        middleName: body.middleName,
-        lastName: body.lastName,
-        city: body.city,
-        state: body.state,
-        country: body.country,
+        ...restBody,
+        profileImage : imageUrl
       },
       { new: true }
     );
