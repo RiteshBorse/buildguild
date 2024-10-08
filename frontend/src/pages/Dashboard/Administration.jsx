@@ -26,10 +26,10 @@ const Administration = () => {
   ];
 
   return (
-    <div className="w-full h-screen pt-[85px] px-8 py-10">
-      <div className="flex items-center w-full h-fit">
+    <div className="w-full h-screen pt-[85px] px-2 md:px-8 py-10">
+      <div className="flex  md:flex-row items-center md:items-start w-full h-fit   my-1">
         <Sidebar />
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full flex flex-wrap justify-center gap-4 md:gap-10 " >
           {buttonOptions.map((option) => (
             <Button
               key={option.value}
@@ -86,99 +86,103 @@ const MainInfo = ({ id }) => {
   };
 
   return (
-    <form
-      className="flex flex-col gap-4 w-full "
+    <form 
+      className="flex flex-col gap-4 w-full bg-gray-100 mt-2 rounded-lg p-5"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-xl font-bold my-2">Main Info</h1>
-      <div className="flex items-center gap-2">
+      <h1 className="text-3xl mb-2 font-bold">Main Info </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
+        <div className="flex items-center gap-2">
+          <Label htmlFor="belongs-to">Belongs to</Label>
+          <Input
+            id="belongs-to"
+            {...register("belongs_to")}
+            placeholder="Belongs to"
+            className="w-[70%]"
+          />
+        </div>
+
+        <div className="flex items-center gap-10 md:gap-2">
         <Label htmlFor="code">Code</Label>
-        <Input
-          id="code"
-          {...register("code", { required: "Code is required" })}
-          placeholder="Code"
-          className="w-1/3"
-        />
-        {errors.code && (
-          <span className="text-red-500 text-sm">{errors.code.message}</span>
-        )}
-      </div>
+          <Input
+            id="code"
+            {...register("code", { required: "Code is required" })}
+            placeholder="Code"
+            className="w-[70%]"
+          />
+          {errors.code && (
+            <span className="text-red-500 text-sm">{errors.code.message}</span>
+          )}
+        </div>
 
-      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 md:gap-2">
+          <Label htmlFor="start_date">Start Date</Label>
+          <Input
+            id="start-date"
+            type="date"
+            {...register("startDate")}
+            className="w-[70%]"
+          />
+        </div>
+
+        <div className="flex items-center gap-10 md:gap-2">
+       
         <Label htmlFor="type">Type</Label>
-        <Input
-          id="type"
-          {...register("type_info", { required: "Type is required" })}
-          placeholder="Type"
-          className="w-1/3"
-        />
-        {errors.type && (
-          <span className="text-red-500 text-sm">{errors.type.message}</span>
-        )}
-      </div>
-      
-      <div className="flex items-center gap-2">
+          <Input
+            id="type"
+            {...register("type_info", { required: "Type is required" })}
+            placeholder="Type"
+            className="w-[70%]"
+          />
+          {errors.type && (
+            <span className="text-red-500 text-sm">{errors.type.message}</span>
+          )}
+        </div>
+
+        <div className="flex items-center gap-5 md:gap-2">
         <Label htmlFor="segment">Segment</Label>
-        <Input
-          id="segment"
-          {...register("segment")}
-          placeholder="Segment"
-          className="w-1/3"
-        />
-      </div>
+          <Input
+            id="segment"
+            {...register("segment")}
+            placeholder="Segment"
+            className="w-[71%]"
+          />
+         
+        </div>
 
-      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-10 md:gap-2">
+          <Label htmlFor="zone">Zone</Label>
+          <Input
+            id="zone"
+            {...register("zone")}
+            placeholder="Zone"
+            className="w-[70%]"
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
         <Label htmlFor="start-financial-year">Start Financial Year</Label>
-        <Input
-          id="start-date"
-          type="date"
-          {...register("start_fin_year")}
-          placeholder="Start Date"
-          className="w-1/3"
-        />
+          <Input
+            id="start-financial-year"
+            type="date"
+            {...register("start_fin_year")}
+            placeholder="Start Date"
+            className="md:w-[62%] w-[55%]"
+          />
+
+        </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center mx-6 gap-2">
         <Label htmlFor="description">Description</Label>
         <Input
           id="description"
           {...register("description")}
           placeholder="Description"
-          className="w-1/3"
+          className="w-full"
         />
       </div>
-
-      <div className="flex items-center gap-2">
-        <Label htmlFor="belongs-to">Belongs to</Label>
-        <Input
-          id="belongs-to"
-          {...register("belongs_to")}
-          placeholder="Belongs to"
-          className="w-1/3"
-        />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Label htmlFor="zone">Zone</Label>
-        <Input
-          id="zone"
-          {...register("zone")}
-          placeholder="Zone"
-          className="w-1/3"
-        />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <Label htmlFor="start_date">Start Date</Label>
-        <Input
-          id="start-date"
-          type="date"
-          {...register("startDate")}
-          className="w-1/3"
-        />
-      </div>
-
-      <Button type="submit" className="mt-4">
+      <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
         Submit
       </Button>
     </form>
@@ -220,10 +224,13 @@ const Address = ({ id }) => {
 
   return (
     <form
-      className="flex flex-col gap-4 w-full "
+ className="flex flex-col gap-4 w-full bg-gray-100 mt-2 rounded-lg p-5"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-xl font-bold my-2">Address</h1>
+      <h1 className="text-3xl mb-2 font-bold">Address</h1>
+      <div className="flex flex-col mx-6 gap-3">
+
+
       <div className="flex items-center gap-2">
         <Label htmlFor="address_info">Address Info</Label>
         <Input
@@ -232,8 +239,9 @@ const Address = ({ id }) => {
             required: "Address info is required",
           })}
           placeholder="Address Info"
-          className="w-1/3"
+         className="w-[70%]"
         />
+      
         {errors.address_info && (
           <span className="text-red-500 text-sm">
             {errors.address_info.message}
@@ -241,60 +249,62 @@ const Address = ({ id }) => {
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+
+
+      <div className="flex items-center gap-[55px]">
         <Label htmlFor="city">City</Label>
         <Input
           id="city"
           {...register("city", { required: "City is required" })}
           placeholder="City"
-          className="w-1/3"
+          className="w-[70%]"
         />
         {errors.city && (
           <span className="text-red-500 text-sm">{errors.city.message}</span>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-[50px]">
         <Label htmlFor="state">State</Label>
         <Input
           id="state"
           {...register("state")}
           placeholder="State"
-          className="w-1/3"
+         className="w-[70%]"
         />
       </div>
-
-      <div className="flex items-center gap-2">
+    
+      <div className="flex items-center gap-[35px]">
         <Label htmlFor="country">Country</Label>
         <Input
           id="country"
           {...register("country")}
           placeholder="Country"
-          className="w-1/3"
+          className="w-[70%]"
         />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-[10px]">
         <Label htmlFor="postal_code">Postal Code</Label>
         <Input
           id="postal_code"
           {...register("postal_code")}
           placeholder="Postal Code"
-          className="w-1/3"
+           className="w-[70%]"
         />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-[30px]">
         <Label htmlFor="location">Location</Label>
         <Input
           id="location"
           {...register("location")}
           placeholder="Google Maps Location"
-          className="w-1/3"
+         className="w-[70%]"
         />
       </div>
-
-      <Button type="submit" className="mt-4">
+      </div>
+      <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
         Submit
       </Button>
     </form>
@@ -336,58 +346,60 @@ const Contact = ({ id }) => {
 
   return (
     <form
-      className="flex flex-col gap-4 w-full px-20 bg-gray-200 p-5 rounded-b-2xl"
+     className="flex flex-col gap-4 w-full bg-gray-100 mt-2 rounded-lg p-5"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <h1 className="text-2xl font-bold my-2 pl-12">Contact</h1>
-      <div className="flex items-center gap-2">
-        <Label htmlFor="name">Name :</Label>
+      <h1 className="text-3xl mb-2 font-bold">Contact</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
+      <div className="flex items-center gap-[60px] md:gap-2">
+        <Label htmlFor="name">Name </Label>
         <Input
           id="name"
           {...register("name", { required: "Name is required" })}
           placeholder="Name"
-          className="w-1/3  bg-gray-100"
+            className="w-[70%]"
         />
         {errors.name && (
           <span className="text-red-500 text-sm">{errors.name.message}</span>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <Label htmlFor="email">Email :</Label>
+      <div className="flex items-center gap-1 md:gap-2">
+        <Label htmlFor="contact_number">Contact Number </Label>
+        <Input
+          id="contact_number"
+          {...register("contact_number")}
+          placeholder="Contact Number"
+           className="w-[70%]"
+        />
+      </div>
+      <div className="flex items-center gap-[62px] md:gap-2">
+        <Label htmlFor="email">Email </Label>
         <Input
           id="email"
           {...register("email", { required: "Email is required" })}
           placeholder="Email"
-          className="w-1/3 bg-gray-100"
+            className="w-[70%]"
         />
         {errors.email && (
           <span className="text-red-500 text-sm">{errors.email.message}</span>
         )}
       </div>
 
-      <div className="flex items-center gap-2">
-        <Label htmlFor="contact_number">Contact Number :</Label>
-        <Input
-          id="contact_number"
-          {...register("contact_number")}
-          placeholder="Contact Number"
-          className="w-1/3  bg-gray-100"
-        />
-      </div>
+    
 
-      <div className="flex items-center gap-2">
-        <Label htmlFor="effective_from">Effective From :</Label>
+      <div className="flex items-center gap-3 md:gap-5">
+        <Label htmlFor="effective_from">Effective From </Label>
         <Input
           id="effective_from"
           type="date"
           {...register("effective_from")}
           placeholder="Effective From"
-          className="w-1/3  bg-gray-100"
+           className="w-[70%]"
         />
       </div>
-
-      <Button type="submit" className="mt-4">
+      </div>
+      <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
         Submit
       </Button>
     </form>
