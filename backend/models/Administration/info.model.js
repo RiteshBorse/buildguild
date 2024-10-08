@@ -15,7 +15,7 @@ const administrationinfoSchema = new mongoose.Schema({
   start_date: Date,
 });
 
-export const MainInfo = mongoose.model(
-  "MainInfo",
+export const AMainInfo = mongoose.model(
+  "AMainInfo",
   administrationinfoSchema
 );

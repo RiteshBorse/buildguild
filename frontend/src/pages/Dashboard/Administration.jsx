@@ -116,6 +116,7 @@ const MainInfo = ({ id }) => {
           <span className="text-red-500 text-sm">{errors.type.message}</span>
         )}
       </div>
+      
       <div className="flex items-center gap-2">
         <Label htmlFor="segment">Segment</Label>
         <Input

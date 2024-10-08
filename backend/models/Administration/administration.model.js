@@ -4,7 +4,7 @@ const administrationSchema = new mongoose.Schema(
     {
         main_info:{
              type : mongoose.Schema.Types.ObjectId,
-             ref : "MainInfo"
+             ref : "AMainInfo"
         },
         address:{
              type : mongoose.Schema.Types.ObjectId,
