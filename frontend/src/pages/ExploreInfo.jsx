@@ -47,7 +47,7 @@ const ExploreInfo = () => {
         <div className="w-full sm:w-1/2 flex items-center justify-center shadow-sm">
           <img
             src={explore?.project?.displayImage || ""}
-            className="size-[300px] my-10 sm:my-0 sm:size-[400px]"
+            className="h-[300px] my-10 sm:my-0 sm:h-[400px]"
             alt="Project"
           />
         </div>
