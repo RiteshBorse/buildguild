@@ -112,7 +112,6 @@ const addContact = asyncHandler(async (req, res) => {
     name,
     email,
     contact_number,
-    mobile_number,
     effective_from,
   } = req.body;
   const {body} = req;

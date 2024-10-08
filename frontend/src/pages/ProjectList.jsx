@@ -15,7 +15,7 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import buildingImage from "@/images/mansion.webp";
-import { FaEye, FaEyeSlash, FaCog } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaCog } from "react-icons/fa";
 import useAuth from "@/context/authContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
@@ -46,7 +46,9 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
         if (email === user?.email && password === user?.password) {
           try {
             const res = await axios.delete(
-              `${import.meta.env.VITE_API_URL}/projects/deleteProject/${projectId}`
+              `${
+                import.meta.env.VITE_API_URL
+              }/projects/deleteProject/${projectId}`
             );
             if (!apiVerify(res)) {
               toast.warning("API Error, Please contact admin");
@@ -87,21 +89,25 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   };
 
   return (
-    <div className="relative flex sm:flex-col w-[70%] sm:h-56 sm:w-[20%] h-[20%] mt-5 sm:m-5 rounded-lg shadow-lg hover:scale-105 transition-transform hover:cursor-pointer">
+    <div className="relative flex sm:flex-col w-[300px] h-[200px] mt-5 sm:m-5 rounded-lg shadow-2xl hover:scale-105 transition-transform hover:cursor-pointer">
       {/* Settings Icon */}
       <div className="absolute top-2 right-2">
         <FaCog
-          className={`cursor-pointer ${isEditing ? "text-black" : "text-white"}`}
+          className={`cursor-pointer ${
+            isEditing ? "text-black" : "text-black"
+          }`}
           onClick={toggleEditing}
         />
       </div>
 
       {isEditing ? (
-        <div className="flex items-center justify-center w-full h-full bg-gray-200 rounded-lg shadow-lg"> 
+        <div className="flex items-center justify-center w-full h-full shadow-lg">
           <div className="flex space-x-4 ">
             <Button
               className={`py-2 px-4 text-white rounded-md shadow-lg ${
-                published ? "bg-yellow-500 hover:bg-yellow-600" : "bg-slate-900 hover:bg-slate-700"
+                published
+                  ? "bg-yellow-500 hover:bg-yellow-600"
+                  : "bg-slate-900 hover:bg-slate-700"
               }`}
               onClick={() => openDialog(published ? "unpublish" : "publish")}
             >
@@ -117,23 +123,25 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="w-full h-full rounded-lg ">
+        <div className="w-full h-[60%] overflow-hidden rounded-t-lg">
           <img
-            className="w-[75%] sm:w-full h-[100%] sm:h-[60%] overflow-hidden border-r-2 sm:border-b-2 sm:border-r-0 border-black rounded-l-lg sm:rounded-t-lg sm:rounded-b-none object-cover"
+            className="w-full h-full object-cover"
             src={displayImage || buildingImage}
             alt="Project site"
           />
-          <div className="flex flex-col w-full sm:h-[40%] px-4 justify-center rounded-r-lg sm:rounded-b-lg overflow-x-auto overflow-y-hidden bg-white">
-            <div className="flex m-1">
-              <h3 className="font-bold text-lg sm:text-base">Name:</h3>
-              <h4 className="text-lg sm:text-base">&nbsp;{name}</h4>
-            </div>
-            <div className="flex m-1">
-              <h3 className="font-bold text-lg sm:text-base">Location:</h3>
-              <h4 className="text-lg sm:text-base">&nbsp;{location}</h4>
-            </div>
+        </div>
+        <div className="flex flex-col w-full h-[40%] px-4 py-2 justify-center bg-white rounded-b-lg">
+          <div className="flex m-1">
+            <h3 className="font-bold text-lg">Name:</h3>
+            <h4 className="text-lg">&nbsp;{name}</h4>
+          </div>
+          <div className="flex m-1">
+            <h3 className="font-bold text-lg">Location:</h3>
+            <h4 className="text-lg">&nbsp;{location}</h4>
           </div>
         </div>
+      </div>
       )}
 
       {/* Confirmation Dialog */}
@@ -162,7 +170,7 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
               {/* Password input with visibility toggle */}
               <div className="relative flex items-center">
                 <input
-                  type={isPasswordVisible ? 'text' : 'password'} // Toggle between text and password
+                  type={isPasswordVisible ? "text" : "password"} // Toggle between text and password
                   className="border p-2 rounded w-full"
                   placeholder="Enter your password"
                   value={password}
@@ -208,7 +216,6 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   );
 };
 
-
 const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
   const { register, handleSubmit, reset } = useForm();
   const [errors, setErrors] = useState({});
@@ -216,10 +223,10 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
 
   const onSubmit = async (data) => {
     const projectData = {
-      name : data.name,
-      location : data.location,
-      uploadfile : data.uploadfile[0]
-    }
+      name: data.name,
+      location: data.location,
+      uploadfile: data.uploadfile[0],
+    };
     const result = addProject.safeParse(projectData);
     if (!result.success) {
       setErrors(result.error.formErrors.fieldErrors);
@@ -230,7 +237,8 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
       setLoading(true);
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/projects/createProject`,
-        projectData , {
+        projectData,
+        {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -243,7 +251,7 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
       }
       toast.success(res.data.message);
 
-      addProjectToList(data); 
+      addProjectToList(data);
       reset();
       onClose(); // Close the dialog after successful submission
     } catch (error) {
@@ -384,14 +392,14 @@ const ProjectList = () => {
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-center w-full h-min mt-[70px]">
       {projects.length > 0 ? (
         projects.map((project) => (
-         <Link to={`/dashboard/${project._id}`}  key={project._id}>
-          <ProjectCard
-            {...project}/>
+          <Link to={`/dashboard/${project._id}`} key={project._id}>
+            <ProjectCard {...project} />
           </Link>
         ))
       ) : (
-        <div className="flex items-center justify-center min-w-full min-h-96">No projects found.</div> // no projects available
-      
+        <div className="flex items-center justify-center min-w-full min-h-96">
+          No projects found.
+        </div> // no projects available
       )}
 
       <IoIosAddCircle
