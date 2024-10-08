@@ -262,6 +262,37 @@ const deleteUser = asyncHandler(async (req, res) => {
   });
 });
 
+const resendOtp = asyncHandler(async(req, res) => {
+  const { user } = req;
+  const newOtp = generateOTP();
+  
+  const updatedOtp = await User.findOneAndUpdate(
+    { username: user.username },
+    { otp: newOtp },
+    { new: true }
+  );
+
+  if (!updatedOtp) {
+    return res
+      .status(400)
+      .send({ message: "Failed to resend OTP", success: false });
+  }
+
+  const content = {
+    to: user.email,
+    subject: "Resend OTP",
+    text: `Your new OTP is: `,
+    html: otpFormat(user.username, newOtp),
+  };
+
+  await mail(content);
+
+  return res
+    .status(200)
+    .send({ message: "OTP has been sent to your email", success: true });
+});
+
+
 export {
   signIn,
   login,
@@ -271,6 +302,7 @@ export {
   verifyOtpforForgotPassword,
   profile,
   deleteUser,
+  resendOtp
 };
 
 export default router;
