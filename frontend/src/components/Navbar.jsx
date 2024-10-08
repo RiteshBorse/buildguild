@@ -238,7 +238,7 @@ const LoggedUserDropdown = ({ user }) => {
       <DropdownMenuTrigger>
         <div className="flex items-center gap-2 border-[0.5px] outline-none border-gray-300 shadow-sm rounded-lg px-3 py-1">
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={user.profileImage ||"https://github.com/shadcn.png"} />
           </Avatar>
           <p className="text-sm font-medium">{user.firstName}</p>
         </div>
