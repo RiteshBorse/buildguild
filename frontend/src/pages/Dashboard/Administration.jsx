@@ -8,7 +8,14 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
-import { toast } from "sonner";
+import { toast } from "sonner";import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Administration = () => {
   const [selection, setSelection] = useState("main-info");
@@ -16,6 +23,9 @@ const Administration = () => {
   const handleClick = (value) => {
     setSelection(value);
   };
+  
+
+
 
   const buttonOptions = [
     { label: "Main Info", value: "main-info" },
@@ -27,28 +37,55 @@ const Administration = () => {
 
   return (
     <div className="w-full h-screen pt-[85px] px-2 md:px-8 py-10">
-      <div className="flex  md:flex-row items-center md:items-start w-full h-fit   my-1">
+
+      <div className="flex  md:flex-row   items-center md:items-start w-full h-fit   my-1">
+
+ 
+      
+
         <Sidebar />
-        <div className="w-full flex flex-wrap justify-center gap-4 md:gap-10 " >
+        <div className="w-full flex flex-wrap justify-center gap-1 hidden md:gap-10  md:flex" >
           {buttonOptions.map((option) => (
             <Button
               key={option.value}
               variant="ghost"
-              className={`text-black ${selection === option.value ? "bg-gray-200" : ""}`}
+              className={`text-black ${selection === option.value ? "bg-gray-200"  : ""}`}
               onClick={() => handleClick(option.value)}
             >
               {option.label}
             </Button>
           ))}
         </div>
+
+        
+        <div className="md:hidden flex ml-auto ">
+      <DropdownMenu >
+        <DropdownMenuTrigger >
+          <Button className="bg-gray-100 hover:font-normal text-black border-2 hover:text-white">Sections </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent> 
+          {buttonOptions.map((option) => (
+             <DropdownMenuItem key={option.value} onClick={() => handleClick(option.value)}>
+                {option.label}
+              </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>    
+      </DropdownMenu>
+     </div>
+
       </div>
+
       <Separator />
       {selection === "main-info" && <MainInfo id={id} />}
       {selection === "address" && <Address id={id} />}
       {selection === "contact" && <Contact id={id} />}
       {selection === "attachment" && <div>Attachment</div>}
       {selection === "extra-info" && <div>Extra Info</div>}
+      
     </div>
+
+
+
   );
 };
 
@@ -387,7 +424,6 @@ const Contact = ({ id }) => {
       </div>
 
     
-
       <div className="flex items-center gap-3 md:gap-5">
         <Label htmlFor="effective_from">Effective From </Label>
         <Input
