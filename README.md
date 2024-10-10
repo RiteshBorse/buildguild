@@ -44,18 +44,6 @@
 
 ---
 
-## Project Structure
-
-### Key Files and Directories
-- **index.html**: Main HTML file, where the root `div` is declared for React to render the components.
-- **main.jsx**: Renders the root component, `App.jsx`, and includes the toast notification system.
-- **components/**: Contains all reusable UI components (e.g., Navbar, input fields, buttons, dropdowns).
-- **context/**: Zustand-based state management for global app state (e.g., user authentication, project data).
-- **schema/**: Zod-based form validation schemas for signup, login, project creation, and other forms.
-- **pages/**: Contains the main app pages (Landing, Explore, Dashboard, etc.).
-
----
-
 ## Core Functionalities
 
 ### 1. Project Management & Tracking
@@ -89,6 +77,8 @@
 ### Steps to Set Up the Project:
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/RiteshBorse/buildguild.git
    cd frontend
-
+   cd backend
+   npm install
+   npm run dev
