@@ -8,7 +8,8 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { apiVerify } from "@/schema/apiSchema";
-import { toast } from "sonner";import {
+import { toast } from "sonner";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -37,14 +38,9 @@ const Administration = () => {
 
   return (
     <div className="w-full h-screen pt-[85px] px-2 md:px-8 py-10">
-
-      <div className="flex  md:flex-row   items-center md:items-start w-full h-fit   my-1">
-
- 
-      
-
+      <div className="flex md:flex-row items-center md:items-start w-full h-fit my-1">
         <Sidebar />
-        <div className="w-full flex flex-wrap justify-center gap-1 hidden md:gap-10  md:flex" >
+        <div className="w-full md:flex flex-wrap justify-center gap-1 hidden md:gap-10 " >
           {buttonOptions.map((option) => (
             <Button
               key={option.value}
@@ -59,21 +55,20 @@ const Administration = () => {
 
         
         <div className="md:hidden flex ml-auto ">
-      <DropdownMenu >
-        <DropdownMenuTrigger >
-          <Button className="bg-gray-100 hover:font-normal text-black border-2 hover:text-white">Sections </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent> 
-          {buttonOptions.map((option) => (
-             <DropdownMenuItem key={option.value} onClick={() => handleClick(option.value)}>
-                {option.label}
-              </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>    
-      </DropdownMenu>
+           <DropdownMenu >
+            <DropdownMenuTrigger >
+              <Button className="bg-gray-100 hover:font-normal text-black border-2 hover:text-white">Sections </Button>
+            </DropdownMenuTrigger>
+           <DropdownMenuContent> 
+           {buttonOptions.map((option) => (
+            <DropdownMenuItem key={option.value} onClick={() => handleClick(option.value)}>
+              {option.label}
+            </DropdownMenuItem>
+            ))}
+            </DropdownMenuContent>    
+           </DropdownMenu>
+        </div>
      </div>
-
-      </div>
 
       <Separator />
       {selection === "main-info" && <MainInfo id={id} />}
@@ -81,10 +76,7 @@ const Administration = () => {
       {selection === "contact" && <Contact id={id} />}
       {selection === "attachment" && <div>Attachment</div>}
       {selection === "extra-info" && <div>Extra Info</div>}
-      
     </div>
-
-
 
   );
 };
@@ -128,72 +120,75 @@ const MainInfo = ({ id }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-3xl mb-2 font-bold">Main Info </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2  mx-6 gap-4">
         <div className="flex items-center gap-2">
           <Label htmlFor="belongs-to">Belongs to</Label>
           <Input
             id="belongs-to"
             {...register("belongs_to")}
             placeholder="Belongs to"
-            className="w-[70%]"
+            className="md:mr-20"
           />
         </div>
 
-        <div className="flex items-center gap-10 md:gap-2">
+        <div className="flex items-center gap-6 md:gap-2 ">
         <Label htmlFor="code">Code</Label>
-          <Input
+        <div className="flex flex-col w-full md:mr-20">
+        <Input
             id="code"
             {...register("code", { required: "Code is required" })}
             placeholder="Code"
-            className="w-[70%]"
           />
           {errors.code && (
             <span className="text-red-500 text-sm">{errors.code.message}</span>
           )}
         </div>
+        </div>
 
-        <div className="flex items-center gap-3 md:gap-2">
+        
+
+        <div className="flex items-center gap-2">
           <Label htmlFor="start_date">Start Date</Label>
           <Input
             id="start-date"
             type="date"
             {...register("startDate")}
-            className="w-[70%]"
+            className=" md:mr-20"
           />
         </div>
 
-        <div className="flex items-center gap-10 md:gap-2">
+        <div className="flex items-center gap-7 md:gap-2">
        
         <Label htmlFor="type">Type</Label>
           <Input
             id="type"
             {...register("type_info", { required: "Type is required" })}
             placeholder="Type"
-            className="w-[70%]"
+            className=" md:mr-20"
           />
           {errors.type && (
             <span className="text-red-500 text-sm">{errors.type.message}</span>
           )}
         </div>
 
-        <div className="flex items-center gap-5 md:gap-2">
+        <div className="flex items-center gap-2">
         <Label htmlFor="segment">Segment</Label>
           <Input
             id="segment"
             {...register("segment")}
             placeholder="Segment"
-            className="w-[71%]"
+            className=" md:mr-20"
           />
          
         </div>
 
-        <div className="flex items-center gap-10 md:gap-2">
+        <div className="flex items-center gap-8 md:gap-2">
           <Label htmlFor="zone">Zone</Label>
           <Input
             id="zone"
             {...register("zone")}
             placeholder="Zone"
-            className="w-[70%]"
+            className="md:mr-20"
           />
         </div>
 
@@ -204,7 +199,7 @@ const MainInfo = ({ id }) => {
             type="date"
             {...register("start_fin_year")}
             placeholder="Start Date"
-            className="md:w-[62%] w-[55%]"
+            className=" md:mr-20 "
           />
 
         </div>
@@ -216,7 +211,7 @@ const MainInfo = ({ id }) => {
           id="description"
           {...register("description")}
           placeholder="Description"
-          className="w-full"
+          className=" md:mr-20"
         />
       </div>
       <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
@@ -265,82 +260,84 @@ const Address = ({ id }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-3xl mb-2 font-bold">Address</h1>
-      <div className="flex flex-col mx-6 gap-3">
+      <div className="flex flex-col mx-6 w-[80%] md:w-[70%] gap-4 ">
 
-
-      <div className="flex items-center gap-2">
-        <Label htmlFor="address_info">Address Info</Label>
-        <Input
+       <div className="flex w-full items-center">
+            <Label htmlFor="address_info">Address Info</Label>
+         <div className="w-full">
+         <Input
           id="address_info"
           {...register("address_info", {
             required: "Address info is required",
           })}
           placeholder="Address Info"
-         className="w-[70%]"
-        />
-      
-        {errors.address_info && (
-          <span className="text-red-500 text-sm">
+          
+          />
+          {errors.address_info && (
+          <span className="text-red-500 text-sm ">
             {errors.address_info.message}
           </span>
-        )}
-      </div>
+          )}
+         </div>  
+       </div>
 
-
-
-      <div className="flex items-center gap-[55px]">
-        <Label htmlFor="city">City</Label>
-        <Input
+     
+          <div className="flex w-full items-center gap-10 ">
+            <Label htmlFor="city">City</Label>
+         <div className="w-full">
+         <Input
           id="city"
-          {...register("city", { required: "City is required" })}
+          {...register("city", {
+            required: "City is required",
+          })}
           placeholder="City"
-          className="w-[70%]"
-        />
-        {errors.city && (
-          <span className="text-red-500 text-sm">{errors.city.message}</span>
-        )}
-      </div>
+        
+          />
+          {errors.address_info && (
+          <span className="text-red-500 text-sm ">
+            {errors.city.message}
+          </span>
+          )}
+         
+         </div>  
+       </div>
 
-      <div className="flex items-center gap-[50px]">
+      <div className="flex items-center gap-8">
         <Label htmlFor="state">State</Label>
         <Input
           id="state"
           {...register("state")}
           placeholder="State"
-         className="w-[70%]"
         />
       </div>
     
-      <div className="flex items-center gap-[35px]">
+      <div className="flex items-center gap-4">
         <Label htmlFor="country">Country</Label>
         <Input
           id="country"
           {...register("country")}
           placeholder="Country"
-          className="w-[70%]"
         />
       </div>
 
-      <div className="flex items-center gap-[10px]">
+      <div className="flex items-center gap-2 md:gap-0">
         <Label htmlFor="postal_code">Postal Code</Label>
         <Input
           id="postal_code"
           {...register("postal_code")}
-          placeholder="Postal Code"
-           className="w-[70%]"
+          placeholder="Postal Code"       
         />
       </div>
 
-      <div className="flex items-center gap-[30px]">
+      <div className="flex items-center gap-3">
         <Label htmlFor="location">Location</Label>
         <Input
           id="location"
           {...register("location")}
-          placeholder="Google Maps Location"
-         className="w-[70%]"
+          placeholder="Google Maps Location"    
         />
       </div>
-      </div>
+   </div>
       <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
         Submit
       </Button>
@@ -387,53 +384,58 @@ const Contact = ({ id }) => {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-3xl mb-2 font-bold">Contact</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
-      <div className="flex items-center gap-[60px] md:gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 mx-6  gap-4">
+
+
+      <div className="flex items-center gap-9 md:gap-3 md:w-[80%]  md:mr-10">
         <Label htmlFor="name">Name </Label>
+        <div className=" w-full">
         <Input
           id="name"
           {...register("name", { required: "Name is required" })}
           placeholder="Name"
-            className="w-[70%]"
+           
         />
         {errors.name && (
           <span className="text-red-500 text-sm">{errors.name.message}</span>
         )}
+        </div>
+      
       </div>
 
-      <div className="flex items-center gap-1 md:gap-2">
+      <div className="flex items-center md:w-[80%] md:mr-10">
         <Label htmlFor="contact_number">Contact Number </Label>
         <Input
           id="contact_number"
           {...register("contact_number")}
           placeholder="Contact Number"
-           className="w-[70%]"
+        
         />
       </div>
-      <div className="flex items-center gap-[62px] md:gap-2">
+      <div className="flex items-center gap-10 md:mr-10 md:w-[80%]  md:gap-3">
         <Label htmlFor="email">Email </Label>
+        <div className="w-full">
         <Input
           id="email"
           {...register("email", { required: "Email is required" })}
           placeholder="Email"
-            className="w-[70%]"
         />
         {errors.email && (
           <span className="text-red-500 text-sm">{errors.email.message}</span>
         )}
+        </div>
       </div>
 
     
-      <div className="flex items-center gap-3 md:gap-5">
+      <div className="flex items-center gap-2  md:w-[80%]  md:mr-10">
         <Label htmlFor="effective_from">Effective From </Label>
         <Input
           id="effective_from"
           type="date"
           {...register("effective_from")}
-          placeholder="Effective From"
-           className="w-[70%]"
+          placeholder="Effective From" 
         />
-      </div>
+       </div>
       </div>
       <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
         Submit
