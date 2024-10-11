@@ -298,6 +298,7 @@ const ProjectList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
   // Fetch projects from the backend
   useEffect(() => {
     const fetchProjects = async () => {

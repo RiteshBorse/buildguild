@@ -8,9 +8,9 @@ const projectinsightSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Engineering",
   },
-  material: {
+  materials: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Material",
+    ref: "Materials",
   },
   financials:  {
     type : mongoose.Schema.Types.ObjectId,
