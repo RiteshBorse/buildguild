@@ -40,6 +40,12 @@ const SignUpForm = () => {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [timer, setTimer] = useState(0);
   const onSubmit = async (data) => {
+
+    if (data.password !== data.confirmPassword) {
+      seterrors({ confirmPassword: "Passwords do not match" });
+      return;
+    }
+
     const result = signUp.safeParse(data);
     if (!result.success) {
       const fieldError = result.error.formErrors.fieldErrors;
@@ -281,7 +287,7 @@ const SignUpForm = () => {
               placeholder="Confirm Password"
               {...register("confirmPassword")}
             />
-            {errors.password && (
+            {errors.confirmPassword && (
               <span className="text-red-600 text-sm self-center">
                 *{errors.confirmPassword}
               </span>
