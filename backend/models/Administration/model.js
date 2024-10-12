@@ -3,7 +3,7 @@ import { Address } from "./address.model.js";
 import { Attachment } from "./attachment.model.js";
 import { Contact } from "./contact.model.js"
 import { ExtraInfo } from "./extrainfo.model.js";
-import { MainInfo } from "./info.model.js";
+import { AMainInfo } from "./info.model.js";
 
 const model = {
     Administration,
@@ -11,6 +11,6 @@ const model = {
     Attachment,
     Contact,
     ExtraInfo,
-    MainInfo
+    AMainInfo
 }
 export default model

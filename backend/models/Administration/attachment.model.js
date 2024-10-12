@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
 
-const attachmentSchema = new mongoose.model({
+const attachmentSchema = new mongoose.Schema({
   logo: {
     type: String,
-    required: true,
+    
   },
-
   qr_code: String,
 });
 

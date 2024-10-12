@@ -6,11 +6,11 @@ const extrainfoSchema = new mongoose.Schema({
   pan_no: String,
   registration_number: {
     type: String,
-    unique: true,
+   
   },
   gst_in: {
     type: String,
-    unique: true,
+    
   },
   gst_type: String,
   gstin_reg_date: Date,
