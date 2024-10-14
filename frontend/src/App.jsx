@@ -14,7 +14,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import { useCookieMonitor } from "./context/authContext";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Engineering from "./pages/Dashboard/Engineering";
+import Engineering from "./pages/Dashboard/Engineering/Engineering";
 import Administration from "./pages/Dashboard/Administration";
 import Materials from "./pages/Dashboard/Materials";
 import Financials from "./pages/Dashboard/Financials";
