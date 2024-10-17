@@ -8,11 +8,10 @@ const approvalhisSchema = new mongoose.Schema({
     time: { type: String },
     remark: { type: String },
     created_by: { type: String }
-    
   });
 
-  export const MApprovalhis = mongoose.model(
-    "MApprovalhis",
+  export const MApprovalHistory = mongoose.model(
+    "MApprovalHistory",
     approvalhisSchema
   );
   

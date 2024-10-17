@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const materialsInfoSchema = new mongoose.Schema({
     business_unit: { type: String },
-    financial_year: { type: Date },
+    financial_year: { type: Number },
     document_type: { type: String },
     document_date: { type: Date },
     document_no: { type: String },
@@ -12,8 +12,8 @@ const materialsInfoSchema = new mongoose.Schema({
     quotation_date: { type: Date },
     party_ref_no: { type: String },
     rate_basis: { type: String },
-    credit_period: { type: String },
-    days_from: { type: Date },
+    credit_period: { type: Number },
+    days_from: { type: Number },
     approval_note: { type: String },
     remark: { type: String },
   });

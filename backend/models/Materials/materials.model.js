@@ -1,30 +1,30 @@
 import mongoose from "mongoose";
 
 const materialsSchema = new mongoose.Schema({
-  main_info: {
+  main_info: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "MMainInfo",
-  },
-  item_info: {
+  }],
+  item_info: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "MItemInfo",
-  },
-  billing_term: {
+  }],
+  billing_term: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "MBillingTerm",
-  },
-  attachment: {
+  }],
+  attachment: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "MAttachment",
-  },
-  change_history: {
+  }],
+  change_history: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "MChangeHistory",
-  },
-  approval_history: {
+  }],
+  approval_history: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "MApprovalhis",
-  },
+    ref: "MApprovalHistory",
+  }],
 });
 
-export const Materials = mongoose.model("Materials" , materialsSchema);
+export const Materials = mongoose.model("Materials", materialsSchema);
