@@ -665,7 +665,6 @@ const MainInfo = ({ id }) => {
   );
 };
 
-
 const Attachment = ({ id }) => {
   const [attachments, setAttachments] = useState([]);
   const [isAddAttachmentDialogVisible, setIsAddAttachmentDialogVisible] =
@@ -1366,41 +1365,75 @@ const BillingTerm = ({ id }) => {
 
 const ApprovalHistory = ({ id }) => {
   const [approvals, setApprovals] = useState([]);
+  const [approve, setApprove] = useState({});
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/materials/approvalhis/${id}`
+      );
+
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+
+      setApprovals(res.data.approval_history);
+      toast.success("Approval History Updated");
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
+
+ const approveItem = async(id) => {
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/materials/approveItem`, {id}
+
+    );
+
+    if (!apiVerify(res)) {
+      toast.warning("API Error, Please contact admin");
+      return;
+    }
+
+
+    setApprovals((prev) =>
+      prev.map((doc) =>
+        doc._id === id ? { ...doc, status: 'Approved' } : doc
+      )
+    );
+    toast.success("Approval Updated");
+  } catch (error) {
+    const { response } = error;
+    if (!response) {
+      toast.error("Database connection error");
+      return;
+    }
+    if (!apiVerify(response)) {
+      toast.warning("API Error, Please contact admin");
+      return;
+    }
+    toast.error(response.data.message);
+  }
+ };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/materials/approvalhis/${id}`
-        );
-
-        if (!apiVerify(res)) {
-          toast.warning("API Error, Please contact admin");
-          return;
-        }
-
-        setApprovals(res.data.approval_history);
-        toast.success("Approval History Updated");
-      } catch (error) {
-        const { response } = error;
-        if (!response) {
-          toast.error("Database connection error");
-          return;
-        }
-        if (!apiVerify(response)) {
-          toast.warning("API Error, Please contact admin");
-          return;
-        }
-        toast.error(response.data.message);
-      }
-    };
-
     fetchData();
   }, [id]);
 
   return (
     <div>
-      <Table>
+      <Table >
         <TableHeader className="bg-black">
           <TableRow>
             <TableHead className="text-white">Approved By</TableHead>
@@ -1410,6 +1443,7 @@ const ApprovalHistory = ({ id }) => {
             <TableHead className="text-white">Remark</TableHead>
             <TableHead className="text-white">Created By</TableHead>
             <TableHead className="text-white">Status</TableHead>
+            <TableHead className="text-white">Approve</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -1425,6 +1459,7 @@ const ApprovalHistory = ({ id }) => {
                 <TableCell>{approval.remark}</TableCell>
                 <TableCell>{approval.created_by}</TableCell>
                 <TableCell>{approval.status}</TableCell>
+                <TableCell>  {approval.status != "Approved" ? <Button onClick = {() => {approveItem(approval._id)} }> Approve</Button> : <Button disabled> Approved </Button> } </TableCell>
               </TableRow>
             ))
           ) : (

@@ -289,6 +289,22 @@ const addApprovalHistory = asyncHandler(async (req, res) => {
   });
 });
 
+const approveItem = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  if ( !id) {
+    return res.status(500).send({message: "Not found", success: false})
+  }
+  const approve = await MApprovalHistory.findByIdAndUpdate(
+    id,
+    { status: "Approved" },
+    { new: true },
+  );
+  res.status(200).send({
+    message: "Item Approved",
+    success: true,
+    approve,
+  });
+});
 const getApprovalHistory = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).populate({
     path: "projects",
@@ -345,6 +361,7 @@ export {
   addBillingTerm,
   getBillingTerm,
   addApprovalHistory,
+  approveItem,
   getApprovalHistory,
   getChangeHistory,
 };

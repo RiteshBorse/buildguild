@@ -11,6 +11,7 @@ import {
   getAttachment,
   addApprovalHistory,
   getApprovalHistory,
+  approveItem,
   addBillingTerm,
   getBillingTerm,
   getChangeHistory
@@ -25,6 +26,7 @@ router.get("/item-info/:id", authenticate, getItemInfo);
 router.post("/attachment/:id", authenticate,addAttachment);
 router.get("/attachment/:id", authenticate, getAttachment);
 router.post("/approvalhis/:id", authenticate, addApprovalHistory);
+router.post("/approveitem", authenticate, approveItem);
 router.get("/approvalhis/:id", authenticate, getApprovalHistory);
 router.post("/billingterm/:id", authenticate, addBillingTerm);
 router.get("/billingterm/:id", authenticate, getBillingTerm);
