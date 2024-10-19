@@ -19,10 +19,14 @@ import {
 const Administration = () => {
   const [selection, setSelection] = useState("main-info");
   const { id } = useParams();
+  console.log("ID from useParams:", id);
 
   const handleClick = (value) => {
     setSelection(value);
   };
+
+
+
 
   const buttonOptions = [
     { label: "Main Info", value: "main-info" },
@@ -278,7 +282,7 @@ const Address = ({ id }) => {
     >
       <h1 className="text-3xl mb-2 font-bold">Address</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
-        {/* Address Info */}
+     
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="address_info" className="mb-1">
             Address Info
@@ -298,7 +302,7 @@ const Address = ({ id }) => {
           )}
         </div>
 
-        {/* City */}
+     
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="city" className="mb-1">
             City
@@ -314,7 +318,7 @@ const Address = ({ id }) => {
           )}
         </div>
 
-        {/* State */}
+
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="state" className="mb-1">
             State
@@ -327,7 +331,7 @@ const Address = ({ id }) => {
           />
         </div>
 
-        {/* Country */}
+
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="country" className="mb-1">
             Country
@@ -340,7 +344,7 @@ const Address = ({ id }) => {
           />
         </div>
 
-        {/* Postal Code */}
+ 
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="postal_code" className="mb-1">
             Postal Code
@@ -353,7 +357,7 @@ const Address = ({ id }) => {
           />
         </div>
 
-        {/* Location */}
+      
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="location" className="mb-1">
             Location
@@ -414,7 +418,7 @@ const Contact = ({ id }) => {
     >
       <h1 className="text-3xl mb-2 font-bold">Contact</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
-        {/* Name Field */}
+
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="name" className="mb-1">
             Name
@@ -430,7 +434,7 @@ const Contact = ({ id }) => {
           )}
         </div>
 
-        {/* Contact Number Field */}
+    
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="contact_number" className="mb-1">
             Contact Number
@@ -443,7 +447,6 @@ const Contact = ({ id }) => {
           />
         </div>
 
-        {/* Email Field */}
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="email" className="mb-1">
             Email
@@ -459,7 +462,7 @@ const Contact = ({ id }) => {
           )}
         </div>
 
-        {/* Effective From Field */}
+
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="effective_from" className="mb-1">
             Effective From
@@ -625,7 +628,7 @@ const Attachment = ({ id }) => {
       <h1 className="text-3xl mb-2 font-bold">Upload Attachment</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
-        {/* Upload logo */}
+      
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="uploadfile" className="w-full mb-1">
             Upload Logo
@@ -643,7 +646,7 @@ const Attachment = ({ id }) => {
           )}
         </div>
 
-        {/* QR Code */}
+   
         <div className="flex flex-col gap-1 w-full">
           <Label htmlFor="qrCode" className="w-full mb-1">
             QR Code

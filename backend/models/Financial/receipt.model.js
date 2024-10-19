@@ -1,25 +1,23 @@
 import mongoose from 'mongoose';
 
 const receiptSchema = new mongoose.Schema({
-    main_info: {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "Information"
-    },
-    attachments :{
-        type: String,
-        required :true
-    },
-    change_history : [{
-        
+    main_info: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "FMainInfo"
     }],
-    approval_history:[
-        {
+    attachment: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "FAttachment"
+
+    }],
+    change_history: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "FChangeHistory"
+    }],
+    approval_history:
+        [{
             type: mongoose.Schema.Types.ObjectId,
-            ref:"ApprovalHistory"
-         }
-    ]
-    
-
-
+            ref: "FApprovalHistory"
+        }]
 })
-export const Receipt = mongoose.model("Receipt",receiptSchema);
+export const Receipt = mongoose.model("Receipt", receiptSchema);
