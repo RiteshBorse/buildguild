@@ -6,8 +6,8 @@ const attachmentSchema = new mongoose.Schema({
     uploaded_on: { type: Date },
     remark: { type: String },
     document_date: { type: Date },
-    document_no: { type: String }
-   // document : { type: String}
+    document_no: { type: String },
+    displayFile : { type: String}
   });
 
   export const MAttachment = mongoose.model(

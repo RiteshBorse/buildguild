@@ -8,6 +8,7 @@ import { MBillingTerm } from "../models/Materials/billingterm.model.js";
 import { MApprovalHistory } from "../models/Materials/approvalhis.model.js";
 import { MChangeHistory } from "../models/Materials/changehis.model.js";
 
+// Main Info --------------------------------------------------------------------------------
 const addMainInfo = asyncHandler(async (req, res) => {
   const {
     business_unit,
@@ -80,6 +81,16 @@ const getMainInfo = asyncHandler(async (req, res) => {
     .send({ message: "Fetched Main Info", success: true, main_info });
 });
 
+const deleteMainInfo = asyncHandler(async (req ,res) => {
+  const { id } = req.body;
+  if(!id){
+    return res.status(500).send({message : "Main Info not found" , success : false})
+  }
+  const maininfo = await MMainInfo.findByIdAndDelete(id);
+  res.status(200).send({message : "Main Info Deleted" , success: true , maininfo})
+})
+
+//Item Info ------------------------------------------------------------------------------------------------
 const addItemInfo = asyncHandler(async (req, res) => {
   const { code, description, unit, quantity, rate, amount, terms } = req.body;
   const { body } = req;
@@ -112,6 +123,17 @@ const addItemInfo = asyncHandler(async (req, res) => {
   await change_history.save();
   material.change_history.push(change_history);
   await material.save();
+
+  const approval_history = await MApprovalHistory.create({
+    code: code,
+    description:description,
+    amount:amount,
+    created_by:req.user.username,
+  
+  });
+  await approval_history.save();
+  material.approval_history.push(approval_history);
+  await material.save();
   res.status(200).send({ message: "Item Info Saved", success: true, iteminfo });
 });
 
@@ -135,12 +157,20 @@ const getItemInfo = asyncHandler(async (req, res) => {
     .send({ message: "Fetched Item Info", success: true, iteminfo });
 });
 
+const deleteItemInfo = asyncHandler(async (req ,res) => {
+  const { id } = req.body;
+  if(!id){
+    return res.status(500).send({message : "Item Info not found" , success : false})
+  }
+  const itemInfo = await MItemInfo.findByIdAndDelete(id);
+  res.status(200).send({message : "Item Info Deleted" , success: true , itemInfo})
+})
+
+//Attachment ------------------------------------------------------------------------------------------------
 const addAttachment = asyncHandler(async (req, res) => {
   const { name, category, uploaded_on, remark, document_date, document_no } =
     req.body;
-  const { imageUrl } = req;
-  const { body } = req;
-
+  const { body, imageUrl } = req;
   const user = await User.findById(req.user._id).populate({
     path: "projects",
     match: { _id: req.params.id },
@@ -154,6 +184,7 @@ const addAttachment = asyncHandler(async (req, res) => {
   let material_id = user.projects[0].insights.materials._id;
   const attachment = await MAttachment.create({
     ...body,
+    displayFile: imageUrl,
   });
   await attachment.save();
   material_id = material_id.toString();
@@ -168,6 +199,8 @@ const addAttachment = asyncHandler(async (req, res) => {
   await change_history.save();
   material.change_history.push(change_history);
   await material.save();
+
+  
 
   res
     .status(200)
@@ -194,6 +227,16 @@ const getAttachment = asyncHandler(async (req, res) => {
     .send({ message: "Fetched Attachment", success: true, attachment });
 });
 
+const deleteAttachment = asyncHandler(async (req ,res) => {
+  const { id } = req.body;
+  if(!id){
+    return res.status(500).send({message : "Attachment not found" , success : false})
+  }
+  const attachment = await MAttachment.findByIdAndDelete(id);
+  res.status(200).send({message : "Attachment Deleted" , success: true , attachment})
+})
+
+//Billing Term ----------------------------------------------------------------------------------------------
 const addBillingTerm = asyncHandler(async (req, res) => {
   const { basic, igst, discount, round_of, gross, net } = req.body;
   const { body } = req;
@@ -250,6 +293,16 @@ const getBillingTerm = asyncHandler(async (req, res) => {
     .send({ message: "Fetched Billing Term", success: true, billing_term });
 });
 
+const deleteBillingTerm = asyncHandler(async (req ,res) => {
+  const { id } = req.body;
+  if(!id){
+    return res.status(500).send({message : "Billing Term not found" , success : false})
+  }
+  const billingterm = await MBillingTerm.findByIdAndDelete(id);
+  res.status(200).send({message : "Billing Term Deleted" , success: true , billingterm})
+})
+
+//Approval History -------------------------------------------------------------------------------
 const addApprovalHistory = asyncHandler(async (req, res) => {
   const { approved_by, level, status, date, time, remark, created_by } =
     req.body;
@@ -291,13 +344,16 @@ const addApprovalHistory = asyncHandler(async (req, res) => {
 
 const approveItem = asyncHandler(async (req, res) => {
   const { id } = req.body;
-  if ( !id) {
-    return res.status(500).send({message: "Not found", success: false})
+  if (!id) {
+    return res.status(500).send({ message: "Not found", success: false });
   }
   const approve = await MApprovalHistory.findByIdAndUpdate(
     id,
-    { status: "Approved" },
-    { new: true },
+    { status: "Approved" ,
+      approved_by: req.user.username,
+      approval_date: new Date()
+    },
+    { new: true }
   );
   res.status(200).send({
     message: "Item Approved",
@@ -305,6 +361,7 @@ const approveItem = asyncHandler(async (req, res) => {
     approve,
   });
 });
+
 const getApprovalHistory = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).populate({
     path: "projects",
@@ -327,6 +384,7 @@ const getApprovalHistory = asyncHandler(async (req, res) => {
   });
 });
 
+//Change  History ------------------------------------------------------------------------------------------------
 const getChangeHistory = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).populate({
     path: "projects",
@@ -354,12 +412,16 @@ const getChangeHistory = asyncHandler(async (req, res) => {
 export {
   addMainInfo,
   getMainInfo,
+  deleteMainInfo,
   addItemInfo,
   getItemInfo,
+  deleteItemInfo,
   addAttachment,
   getAttachment,
+  deleteAttachment,
   addBillingTerm,
   getBillingTerm,
+  deleteBillingTerm,
   addApprovalHistory,
   approveItem,
   getApprovalHistory,

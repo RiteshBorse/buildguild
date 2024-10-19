@@ -28,6 +28,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IoIosAddCircle } from "react-icons/io";
+import { formatDate } from "@/utils/formatdate.js";
 
 const Materials = () => {
   const [selection, setSelection] = useState("main-info");
@@ -43,12 +44,11 @@ const Materials = () => {
     { label: "Attachment", value: "attachment" },
     { label: "Approval History", value: "approval-history" },
     { label: "Change History", value: "change-history" },
-    
   ];
 
   return (
-    <div className="w-full h-screen pt-[85px] px-8 py-10">
-      <div className="flex items-center w-full h-fit">
+    <div className="w-full h-screen pt-[85px] px-8 py-10 ">
+      <div className="flex items-center m-2 w-full h-fit">
         <Sidebar />
         <div className="w-full flex items-center justify-center">
           {buttonOptions.map((option) => (
@@ -66,6 +66,7 @@ const Materials = () => {
         </div>
       </div>
       <Separator />
+
       {selection === "main-info" && <MainInfo id={id} />}
       {selection === "item-info" && <ItemInfo id={id} />}
       {selection === "billing-term" && <BillingTerm id={id} />}
@@ -75,208 +76,6 @@ const Materials = () => {
     </div>
   );
 };
-
-// const MainInfo = ({ id }) => {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm();
-
-//   const onSubmit = async (data) => {
-//     try {
-//       const res = await axios.post(
-//         `${import.meta.env.VITE_API_URL}/materials/main-info/${id}`,
-//         data
-//       );
-
-//       if (!apiVerify(res)) {
-//         toast.warning("API Error, Please contact admin");
-//         return;
-//       }
-//       toast.success("Main Info Updated");
-//     } catch (error) {
-//       const { response } = error;
-//       if (!response) {
-//         toast.error("Database connection error");
-//         return;
-//       }
-//       if (!apiVerify(response)) {
-//         toast.warning("API Error, Please contact admin");
-//         return;
-//       }
-//       toast.error(response.data.message);
-//     }
-//   };
-
-//   return (
-//     <form 
-//       className="flex flex-col gap-4 w-full bg-gray-100 mt-2 rounded-lg p-5"
-//       onSubmit={handleSubmit(onSubmit)}
-//     >
-//       <h1 className="text-3xl mb-2 font-bold">Main Info</h1>
-      
-//       <div className="grid grid-cols-1 md:grid-cols-2 mx-6 gap-4">
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="business_unit">Business Unit</Label>
-//           <Input
-//             id="business_unit"
-//             {...register("business_unit")}
-//             placeholder="Business Unit"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="financial_year">Financial Year</Label>
-//           <Input
-//             id="financial_year"
-//             type="number"
-//             {...register("financial_year")}
-//             placeholder="Financial Year"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="document_type">Document Type</Label>
-//           <Input
-//             id="document_type"
-//             {...register("document_type")}
-//             placeholder="Document Type"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="document_date">Document Date</Label>
-//           <Input
-//             id="document_date"
-//             type="date"
-//             {...register("document_date")}
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="document_no">Document No</Label>
-//           <Input
-//             id="document_no"
-//             {...register("document_no")}
-//             placeholder="Document No"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="supplier">Supplier</Label>
-//           <Input
-//             id="supplier"
-//             {...register("supplier")}
-//             placeholder="Supplier"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="parent_account">Parent Account</Label>
-//           <Input
-//             id="parent_account"
-//             {...register("parent_account")}
-//             placeholder="Parent Account"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="quotation_no">Quotation No</Label>
-//           <Input
-//             id="quotation_no"
-//             {...register("quotation_no")}
-//             placeholder="Quotation No"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="quotation_date">Quotation Date</Label>
-//           <Input
-//             id="quotation_date"
-//             type="date"
-//             {...register("quotation_date")}
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="party_ref_no">Party Reference No</Label>
-//           <Input
-//             id="party_ref_no"
-//             {...register("party_ref_no")}
-//             placeholder="Party Reference No"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="rate_basis">Rate Basis</Label>
-//           <Input
-//             id="rate_basis"
-//             {...register("rate_basis")}
-//             placeholder="Rate Basis"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="credit_period">Credit Period</Label>
-//           <Input
-//             id="credit_period"
-//             type="number"
-//             {...register("credit_period")}
-//             placeholder="Credit Period"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="days_from">Days From</Label>
-//           <Input
-//             id="days_from"
-//             type="number"
-//             {...register("days_from")}
-//             placeholder="Days From"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="approval_note">Approval Note</Label>
-//           <Input
-//             id="approval_note"
-//             {...register("approval_note")}
-//             placeholder="Approval Note"
-//             className="md:mr-20"
-//           />
-//         </div>
-
-//         <div className="flex items-center gap-2">
-//           <Label htmlFor="remark">Remark</Label>
-//           <Input
-//             id="remark"
-//             {...register("remark")}
-//             placeholder="Remark"
-//             className="md:mr-20"
-//           />
-//         </div>
-//       </div>
-
-//       <Button type="submit" className="mt-4 self-center w-full md:w-[200px]">
-//         Submit
-//       </Button>
-//     </form>
-//   );
-// };
 
 const MainInfo = ({ id }) => {
   const [mainInfos, setMainInfos] = useState([]);
@@ -345,6 +144,33 @@ const MainInfo = ({ id }) => {
     }
   };
 
+  const deleteMainInfo = async (id) => {
+    console.log(id);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/materials/main-info`,
+        { id }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      setMainInfos((prev) => prev.filter((maininfo) => maininfo._id !== id));
+      toast.success("Main Info Deleted");
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
+
   return (
     <div>
       <Table>
@@ -365,6 +191,7 @@ const MainInfo = ({ id }) => {
             <TableHead className="text-white">Days From</TableHead>
             <TableHead className="text-white">Approval Note</TableHead>
             <TableHead className="text-white">Remark</TableHead>
+            <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -374,18 +201,29 @@ const MainInfo = ({ id }) => {
                 <TableCell>{mainInfo.business_unit}</TableCell>
                 <TableCell>{mainInfo.financial_year}</TableCell>
                 <TableCell>{mainInfo.document_type}</TableCell>
-                <TableCell>{mainInfo.document_date}</TableCell>
+                <TableCell>{formatDate(mainInfo.document_date)}</TableCell>
                 <TableCell>{mainInfo.document_no}</TableCell>
                 <TableCell>{mainInfo.supplier}</TableCell>
                 <TableCell>{mainInfo.parent_account}</TableCell>
                 <TableCell>{mainInfo.quotation_no}</TableCell>
-                <TableCell>{mainInfo.quotation_date}</TableCell>
+                <TableCell>{formatDate(mainInfo.quotation_date)}</TableCell>
                 <TableCell>{mainInfo.party_ref_no}</TableCell>
                 <TableCell>{mainInfo.rate_basis}</TableCell>
                 <TableCell>{mainInfo.credit_period}</TableCell>
                 <TableCell>{mainInfo.days_from}</TableCell>
                 <TableCell>{mainInfo.approval_note}</TableCell>
                 <TableCell>{mainInfo.remark}</TableCell>
+                <TableCell>
+                  {" "}
+                  <Button
+                    className="bg-red-500 hover:bg-red-700"
+                    onClick={() => {
+                      deleteMainInfo(mainInfo._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -670,6 +508,7 @@ const Attachment = ({ id }) => {
   const [isAddAttachmentDialogVisible, setIsAddAttachmentDialogVisible] =
     useState(false);
   const navigate = useNavigate();
+  const [loading , setloading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -689,7 +528,6 @@ const Attachment = ({ id }) => {
         }
 
         setAttachments(res.data.attachment);
-        toast.success("Attachments Updated");
       } catch (error) {
         const { response } = error;
         if (!response) {
@@ -709,10 +547,20 @@ const Attachment = ({ id }) => {
 
   // Handle form submission
   const onSubmit = async (data) => {
+    const attachmentData = {
+      ...data,
+      uploadfile: data.uploadfile[0],
+    };
+    setloading(true)
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_URL}/materials/attachment/${id}`,
-        data
+        attachmentData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
 
       if (!apiVerify(res)) {
@@ -720,7 +568,9 @@ const Attachment = ({ id }) => {
         return;
       }
 
-      setAttachments((prev) => [...prev, res.data.attachment]); // Update the state with the new attachment
+      setAttachments((prev) => [...prev, res.data.attachment]);
+      setloading(false)
+       // Update the state with the new attachment
       toast.success("Attachment Added Successfully");
       setIsAddAttachmentDialogVisible(false);
     } catch (error) {
@@ -728,6 +578,35 @@ const Attachment = ({ id }) => {
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
+
+  const deleteAttachment = async (id) => {
+    console.log(id);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/materials/attachment`,
+        { id }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      setAttachments((prev) =>
+        prev.filter((attachment) => attachment._id !== id)
+      );
+      toast.success("Attachment Deleted");
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
         return;
       }
       toast.error(response.data.message);
@@ -745,6 +624,8 @@ const Attachment = ({ id }) => {
             <TableHead className="text-white">Remark</TableHead>
             <TableHead className="text-white">Document Date</TableHead>
             <TableHead className="text-white">Document No</TableHead>
+            <TableHead className="text-white">View File</TableHead>
+            <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -753,10 +634,30 @@ const Attachment = ({ id }) => {
               <TableRow key={attachment._id}>
                 <TableCell>{attachment.name}</TableCell>
                 <TableCell>{attachment.category}</TableCell>
-                <TableCell>{attachment.uploaded_on}</TableCell>
+                <TableCell>{formatDate(attachment.uploaded_on)}</TableCell>
                 <TableCell>{attachment.remark}</TableCell>
-                <TableCell>{attachment.document_date}</TableCell>
+                <TableCell>{formatDate(attachment.document_date)}</TableCell>
                 <TableCell>{attachment.document_no}</TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() =>
+                      window.open(attachment.displayFile, "_blank")
+                    }
+                  >
+                    View
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  {" "}
+                  <Button
+                    className="bg-red-500 hover:bg-red-700"
+                    onClick={() => {
+                      deleteAttachment(attachment._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -874,8 +775,17 @@ const Attachment = ({ id }) => {
               )}
             </div>
 
+            <div className="mb-4">
+              <Label htmlFor="uploadFile">Upload File</Label>
+              <Input
+                name="uploadfile"
+                type="file"
+                {...register("uploadfile", { required: true })}
+              />
+            </div>
+
             <DialogFooter>
-              <Button type="submit">Add</Button>
+              <Button type="submit" disabled={loading}>{!loading ? "Add" : "Please Wait"}</Button>
               <Button
                 variant="outline"
                 onClick={() => setIsAddAttachmentDialogVisible(false)}
@@ -913,7 +823,6 @@ const ItemInfo = ({ id }) => {
         }
 
         setItemInfos(res.data.iteminfo);
-        toast.success("Item Info Updated");
       } catch (error) {
         const { response } = error;
         if (!response) {
@@ -947,12 +856,38 @@ const ItemInfo = ({ id }) => {
       setItemInfos((prev) => [...prev, res.data.iteminfo]); // Update the state with the new item info
       toast.success("Item Info Added Successfully");
       setIsAddItemInfoDialogVisible(false);
-      
     } catch (error) {
       console.error("Submission Error:", error);
       const { response } = error;
       if (!response) {
         toast.error("Database connection error");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
+
+  const deleteItemInfo = async (id) => {
+    console.log(id);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/materials/item-info`,
+        { id }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      setItemInfos((prev) => prev.filter((itemInfo) => itemInfo._id !== id));
+      toast.success("Item Info Deleted");
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
         return;
       }
       toast.error(response.data.message);
@@ -971,6 +906,7 @@ const ItemInfo = ({ id }) => {
             <TableHead className="text-white">Rate</TableHead>
             <TableHead className="text-white">Amount</TableHead>
             <TableHead className="text-white">Terms</TableHead>
+            <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -984,6 +920,17 @@ const ItemInfo = ({ id }) => {
                 <TableCell>{itemInfo.rate}</TableCell>
                 <TableCell>{itemInfo.amount}</TableCell>
                 <TableCell>{itemInfo.terms}</TableCell>
+                <TableCell>
+                  {" "}
+                  <Button
+                    className="bg-red-500 hover:bg-red-700"
+                    onClick={() => {
+                      deleteItemInfo(itemInfo._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -1162,7 +1109,6 @@ const BillingTerm = ({ id }) => {
         }
 
         setBillingTerms(res.data.billing_term);
-        toast.success("Billing Terms Updated");
       } catch (error) {
         const { response } = error;
         if (!response) {
@@ -1207,6 +1153,33 @@ const BillingTerm = ({ id }) => {
     }
   };
 
+  const deleteBillingTerm = async (id) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/materials/billingterm`,
+        { id }
+      );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      setBillingTerms((prev) =>
+        prev.filter((billingTerm) => billingTerm._id !== id)
+      );
+      toast.success("Billing Term Deleted");
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    }
+  };
   return (
     <div>
       <Table>
@@ -1218,6 +1191,7 @@ const BillingTerm = ({ id }) => {
             <TableHead className="text-white">Round Off</TableHead>
             <TableHead className="text-white">Gross</TableHead>
             <TableHead className="text-white">Net</TableHead>
+            <TableHead className="text-white">Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -1230,6 +1204,17 @@ const BillingTerm = ({ id }) => {
                 <TableCell>{term.round_of}</TableCell>
                 <TableCell>{term.gross}</TableCell>
                 <TableCell>{term.net}</TableCell>
+                <TableCell>
+                  {" "}
+                  <Button
+                    className="bg-red-500 hover:bg-red-700"
+                    onClick={() => {
+                      deleteBillingTerm(term._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -1276,7 +1261,7 @@ const BillingTerm = ({ id }) => {
               <Label htmlFor="igst">IGST</Label>
               <Input
                 id="igst"
-                 type="number"
+                type="number"
                 {...register("igst", { required: "IGST is required" })}
                 placeholder="Enter IGST"
               />
@@ -1291,7 +1276,7 @@ const BillingTerm = ({ id }) => {
               <Label htmlFor="discount">Discount</Label>
               <Input
                 id="discount"
-                 type="number"
+                type="number"
                 {...register("discount", { required: "Discount is required" })}
                 placeholder="Enter Discount"
               />
@@ -1306,7 +1291,7 @@ const BillingTerm = ({ id }) => {
               <Label htmlFor="round_of">Round Off</Label>
               <Input
                 id="round_of"
-                 type="number"
+                type="number"
                 {...register("round_of", { required: "Round off is required" })}
                 placeholder="Enter Round Off"
               />
@@ -1321,7 +1306,7 @@ const BillingTerm = ({ id }) => {
               <Label htmlFor="gross">Gross</Label>
               <Input
                 id="gross"
-                 type="number"
+                type="number"
                 {...register("gross", { required: "Gross is required" })}
                 placeholder="Enter Gross"
               />
@@ -1336,7 +1321,7 @@ const BillingTerm = ({ id }) => {
               <Label htmlFor="net">Net</Label>
               <Input
                 id="net"
-                 type="number"
+                type="number"
                 {...register("net", { required: "Net is required" })}
                 placeholder="Enter Net"
               />
@@ -1379,7 +1364,6 @@ const ApprovalHistory = ({ id }) => {
       }
 
       setApprovals(res.data.approval_history);
-      toast.success("Approval History Updated");
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -1394,38 +1378,36 @@ const ApprovalHistory = ({ id }) => {
     }
   };
 
- const approveItem = async(id) => {
-  try {
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/materials/approveItem`, {id}
+  const approveItem = async (id) => {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/materials/approveItem`,
+        { id }
+      );
 
-    );
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
 
-    if (!apiVerify(res)) {
-      toast.warning("API Error, Please contact admin");
-      return;
+      setApprovals((prev) =>
+        prev.map((doc) =>
+          doc._id === id ? { ...doc, status: "Approved" , approved_by:res.data.approve.approved_by, approval_date: res.data.approve.approval_date } : doc
+        )
+      );
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
     }
-
-
-    setApprovals((prev) =>
-      prev.map((doc) =>
-        doc._id === id ? { ...doc, status: 'Approved' } : doc
-      )
-    );
-    toast.success("Approval Updated");
-  } catch (error) {
-    const { response } = error;
-    if (!response) {
-      toast.error("Database connection error");
-      return;
-    }
-    if (!apiVerify(response)) {
-      toast.warning("API Error, Please contact admin");
-      return;
-    }
-    toast.error(response.data.message);
-  }
- };
+  };
 
   useEffect(() => {
     fetchData();
@@ -1433,16 +1415,15 @@ const ApprovalHistory = ({ id }) => {
 
   return (
     <div>
-      <Table >
+      <Table>
         <TableHeader className="bg-black">
           <TableRow>
-            <TableHead className="text-white">Approved By</TableHead>
-            <TableHead className="text-white">Level</TableHead>
             <TableHead className="text-white">Date</TableHead>
-            <TableHead className="text-white">Time</TableHead>
-            <TableHead className="text-white">Remark</TableHead>
+            <TableHead className="text-white">Code</TableHead>
+            <TableHead className="text-white">Description</TableHead>
+            <TableHead className="text-white">Amount</TableHead>
             <TableHead className="text-white">Created By</TableHead>
-            <TableHead className="text-white">Status</TableHead>
+            <TableHead className="text-white">Approved By</TableHead>
             <TableHead className="text-white">Approve</TableHead>
           </TableRow>
         </TableHeader>
@@ -1450,16 +1431,26 @@ const ApprovalHistory = ({ id }) => {
           {approvals && approvals.length > 0 ? (
             approvals.map((approval) => (
               <TableRow key={approval._id}>
-                <TableCell>{approval.approved_by}</TableCell>
-                <TableCell>{approval.level}</TableCell>
-                <TableCell>
-                  {new Date(approval.date).toLocaleDateString()}
-                </TableCell>
-                <TableCell>{approval.time}</TableCell>
-                <TableCell>{approval.remark}</TableCell>
+                 <TableCell>{approval.approval_date}</TableCell>
+                <TableCell>{approval.code}</TableCell>
+                <TableCell>{approval.description}</TableCell>
+                <TableCell>{approval.amount}</TableCell>
                 <TableCell>{approval.created_by}</TableCell>
-                <TableCell>{approval.status}</TableCell>
-                <TableCell>  {approval.status != "Approved" ? <Button onClick = {() => {approveItem(approval._id)} }> Approve</Button> : <Button disabled> Approved </Button> } </TableCell>
+                <TableCell>{approval.approved_by}</TableCell>
+                <TableCell>
+                  {approval.status != "Approved" ? (
+                    <Button
+                      onClick={() => {
+                        approveItem(approval._id);
+                      }}
+                    >
+                      {" "}
+                      Approve
+                    </Button>
+                  ) : (
+                    <Button disabled> Approved </Button>
+                  )}{" "}
+                </TableCell>
               </TableRow>
             ))
           ) : (
@@ -1491,7 +1482,6 @@ const ChangeHistory = ({ id }) => {
         }
 
         setChangeHistory(res.data.change_history); // Assuming the backend returns `change_history`
-        toast.success("Change History Updated");
       } catch (error) {
         const { response } = error;
         if (!response) {
@@ -1542,8 +1532,5 @@ const ChangeHistory = ({ id }) => {
     </div>
   );
 };
-
-
-
 
 export default Materials;
