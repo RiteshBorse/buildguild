@@ -12,7 +12,7 @@ const administrationinfoSchema = new mongoose.Schema({
   description: String,
   belongs_to: String,
   zone: String,
-  start_date: Date,
+  start_date: String,
 });
 
 export const AMainInfo = mongoose.model(
