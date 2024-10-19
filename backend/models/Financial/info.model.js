@@ -4,22 +4,23 @@ const financialinfoSchema = new mongoose.Schema(
     {
         business_unit : String,
         document_type : String,
-        document_number : String,
+        document_no : String,
         bank :  {
             type: String,
-            required: true
+          
         },
         financial_year :  {
             type: String,
-            required: true
+          
         },
         document_date :  {
             type: Date,
-            required: true
+            
         },
-        narration : String
+        narration : String,
+        status : {type : String , default : "Not Approved"}
 
     }
 )
 
-export const Information = mongoose.model("Information" , financialinfoSchema);
+export const FMainInfo = mongoose.model("FMainInfo" , financialinfoSchema);

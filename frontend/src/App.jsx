@@ -18,6 +18,8 @@ import Engineering from "./pages/Dashboard/Engineering";
 import Administration from "./pages/Dashboard/Administration";
 import Materials from "./pages/Dashboard/Materials";
 import Financials from "./pages/Dashboard/Financials";
+
+
 axios.defaults.withCredentials = true;
 const App = () => {
   useCookieMonitor();
@@ -61,6 +63,8 @@ const App = () => {
         <Route path="/engineering/:id" element={<Engineering/>}/>
         <Route path="/materials/:id" element={<Materials/>}/>
         <Route path="/financials/:id" element={<Financials/>}/>
+        
+       
       </Routes>
     </BrowserRouter>
   );

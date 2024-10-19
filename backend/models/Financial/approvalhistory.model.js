@@ -2,29 +2,12 @@ import mongoose from "mongoose";
 
 const approvalhistorySchema = new mongoose.Schema(
     {
-        approval_name : {
-            type: String,
-            required: true
-        },
-        level : String,
-        status :  {
-            type: String,
-            required: true
-        },
-        approval_date :  {
-            type: Date,
-            required: true
-        },
-        approval_time : String,
-        remark :  {
-            type: String,
-            required: true
-        },
-        creator_name :  {
-            type: String,
-            required: true
-        },
+        approved_by: { type: String },
+        status: { type: String, default: "Not Approved" },
+        creation_date: { type: Date , default : Date.now },
+        business_unit: { type: String },
+        document_no: { type: String },
+        created_by: { type: String },
+      });
 
-})
-
-export const ApprovalHistory = mongoose.model("ApprovalHistory" , approvalhistorySchema);
+export const FApprovalHistory = mongoose.model("FApprovalHistory" , approvalhistorySchema);

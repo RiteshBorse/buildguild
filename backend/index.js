@@ -2,6 +2,7 @@ import express from 'express'
 import connectDB from './utils/connectDB.js';
 import dotenv from 'dotenv'
 import cors from 'cors'
+
 import cookieParser from 'cookie-parser';
 
 
@@ -21,12 +22,14 @@ import userRouter from "./routes/user.routes.js"
 import projectRouter from "./routes/project.routes.js"
 import administrationRouter from './routes/administration.routes.js'
 import exploreRouter from './routes/explore.routes.js'
+import financialRouter from './routes/financial.routes.js'
 
 //Routes Declaration
 app.use("/api/v1/users" , userRouter)
 app.use("/api/v1/projects", projectRouter)
 app.use("/api/v1/administration" , administrationRouter)
 app.use("/api/v1/explore" , exploreRouter)
+app.use("/api/v1/financials" , financialRouter)
 
 app.listen(PORT , ()=>{
     connectDB();
