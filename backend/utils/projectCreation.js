@@ -46,30 +46,17 @@ const projectCreationUtility = async (projectBody) => {
   });
   await administration.save();
 
-  //materials section  --------------------------------------------------------------------------  //const fmain_info = new FMainInfo();
-  //await fmain_info.save();
-
-  // const materials_main_info = new MMainInfo();
-  // await materials_main_info.save();
-
-  //const materials_item_info = new MItemInfo();
-  //await materials_item_info.save();
-
-  //  const materials_attachment = new MAttachment();
-  //  await materials_attachment.save();
-
-  // const materials_approvalhis = new MApprovalhis();
-  // await materials_approvalhis.save();
-
    const materials = new Materials({
    });
    await materials.save();
+   const receipt = new Receipt();
+   await receipt.save();
+   const financial = new Financial({receipt : receipt._id});
+   await financial.save();
 
   //others  ----------------------------------------------------------------------------------------
-  const insights = new ProjectInsight({ administration: administration._id, materials:materials._id});
+  const insights = new ProjectInsight({ administration: administration._id, materials:materials._id , financials : financial._id});
   await insights.save();
-
-
 
   const project = await Project.create(projectBody);
   await project.save();
