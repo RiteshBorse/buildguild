@@ -4,6 +4,12 @@ import { Address } from "../models/Administration/address.model.js";
 import { Contact } from "../models/Administration/contact.model.js";
 import { ProjectInsight } from "../models/Project/projectinsights.model.js";
 import { Project } from "../models/Project/project.model.js";
+
+import { Materials } from "../models/Materials/materials.model.js";
+import { MMainInfo } from "../models/Materials/info.model.js";
+import { MItemInfo } from "../models/Materials/iteminfo.model.js";
+import { MAttachment } from "../models/Materials/attachment.model.js";
+import { MApprovalHistory } from "../models/Materials/approvalhis.model.js";
 import { ExtraInfo } from "../models/Administration/extrainfo.model.js";
 import { Attachment } from "../models/Administration/attachment.model.js";
 import { FMainInfo } from "../models/Financial/info.model.js";
@@ -15,6 +21,8 @@ import { FAttachment } from "../models/Financial/attachment.model.js";
 
 
 const projectCreationUtility = async (projectBody) => {
+
+  //administration section  ------------------------------------------------------------------
   const administration_main_info = new AMainInfo();
   await administration_main_info.save();
 
@@ -38,34 +46,27 @@ const projectCreationUtility = async (projectBody) => {
   });
   await administration.save();
 
-  //const fmain_info = new FMainInfo();
+  //materials section  --------------------------------------------------------------------------  //const fmain_info = new FMainInfo();
   //await fmain_info.save();
 
-  //const fattachment = new FAttachment();
-  //await fattachment.save();
+  // const materials_main_info = new MMainInfo();
+  // await materials_main_info.save();
 
- // const approval_history = new FApprovalHistory();
- // await approval_history.save()
+  //const materials_item_info = new MItemInfo();
+  //await materials_item_info.save();
 
- // const daily_wages = new DailyWages();
- // await daily_wages.save()
+  //  const materials_attachment = new MAttachment();
+  //  await materials_attachment.save();
 
-  const receipt = new Receipt({
-    // main_info: fmain_info._id , 
-   // approval_history:approval_history._id , 
-    //attachment:fattachment._id
-  });
-  await receipt.save()
+  // const materials_approvalhis = new MApprovalhis();
+  // await materials_approvalhis.save();
 
-  const financial = new Financial({
-    receipt: receipt._id,
-   // daily_wages: daily_wages._id,
-  });
-  await financial.save();
+   const materials = new Materials({
+   });
+   await materials.save();
 
-
-
-  const insights = new ProjectInsight({ administration: administration._id, financials: financial._id });
+  //others  ----------------------------------------------------------------------------------------
+  const insights = new ProjectInsight({ administration: administration._id, materials:materials._id});
   await insights.save();
 
 
