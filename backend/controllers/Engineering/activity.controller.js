@@ -40,4 +40,33 @@ const addActivity = asyncHandler(async (req, res) => {
   res.status(200).send({ message: "Activity Saved", success: true, activity });
 });
 
-export { addActivity };
+
+const getActivity = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id).populate({
+      path: "projects",
+      match: { _id: req.params.id },
+      populate: {
+        path: "insights",
+        populate: {
+          path: "engineering",
+          populate: {
+            path: "activity"
+          }
+        }
+      }
+    });
+  
+    if (!user.projects[0]) {
+      return res.status(404).send({ message: "Project not found", success: false });
+    }
+  
+    const activities = user.projects[0].insights.engineering.activity;
+  
+    if (!activities || activities.length === 0) {
+      return res.status(404).send({ message: "No activities found", success: false });
+    }
+  
+    res.status(200).send({ message: "Fetched Activities", success: true, activities });
+});
+  
+export { addActivity , getActivity};
