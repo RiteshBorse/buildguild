@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Label } from "@/components/ui/label";
 
-const MainInfo = ({ id }) => {
+const BOQMainInfo = ({ id }) => {
     const {
         register,
         handleSubmit,
@@ -133,4 +133,4 @@ const MainInfo = ({ id }) => {
   );
 };
 
-export default MainInfo;
+export default BOQMainInfo;

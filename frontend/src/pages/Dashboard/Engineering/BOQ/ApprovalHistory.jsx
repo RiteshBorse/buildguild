@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ApprovalHistory = ({id}) => {
+const BOQApprovalHistory = ({id}) => {
   return (
     <div>ApprovalHistory</div>
   )
 }
 
-export default ApprovalHistory
+export default BOQApprovalHistory

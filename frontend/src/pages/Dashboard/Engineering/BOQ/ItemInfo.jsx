@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ItemInfo = () => {
+const BOQItemInfo = () => {
   return (
     <div>ItemInfo</div>
   )
 }
 
-export default ItemInfo
+export default BOQItemInfo
