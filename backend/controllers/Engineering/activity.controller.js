@@ -69,4 +69,20 @@ const getActivity = asyncHandler(async (req, res) => {
     res.status(200).send({ message: "Fetched Activities", success: true, activities });
 });
   
-export { addActivity , getActivity};
+const deleteActivity = asyncHandler(async (req, res) => {
+  const { id } = req.body;
+  
+  if (!id) {
+    return res.status(500).send({ message: "Activity not found", success: false });
+  }
+
+  const activity = await Activity.findByIdAndDelete(id);
+
+  if (!activity) {
+    return res.status(404).send({ message: "Activity not found", success: false });
+  }
+
+  res.status(200).send({ message: "Activity Deleted", success: true, activity });
+});
+
+export { addActivity , getActivity, deleteActivity};

@@ -29,9 +29,9 @@ import {
 import { IoIosAddCircle } from "react-icons/io";
 import { formatDate } from "@/utils/formatdate.js";
 
-const ActivityMainInfo = ({ id }) => {
-  const [mainInfos, setMainInfos] = useState([]);
-  const [isAddMainInfoDialogVisible, setIsAddMainInfoDialogVisible] =
+const Activity = ({ id }) => {
+  const [activities, setActivities] = useState([]);
+  const [isAddActivityDialogVisible, setIsAddActivityDialogVisible] =
     useState(false);
   const {
     register,
@@ -43,7 +43,7 @@ const ActivityMainInfo = ({ id }) => {
     const fetchData = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/materials/main-info/${id}`
+          `${import.meta.env.VITE_API_URL}/engineering/activity/${id}`
         );
 
         if (!apiVerify(res)) {
@@ -51,7 +51,7 @@ const ActivityMainInfo = ({ id }) => {
           return;
         }
 
-        setMainInfos(res.data.maininfo);
+        setActivities(res.data.activities);
       } catch (error) {
         const { response } = error;
         if (!response) {
@@ -69,11 +69,10 @@ const ActivityMainInfo = ({ id }) => {
     fetchData();
   }, [id]);
 
-  // Handle form submission
   const onSubmit = async (data) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/materials/main-info/${id}`,
+        `${import.meta.env.VITE_API_URL}/engineering/activity/${id}`,
         data
       );
 
@@ -82,9 +81,9 @@ const ActivityMainInfo = ({ id }) => {
         return;
       }
 
-      setMainInfos((prev) => [...prev, res.data.maininfo]);
-      toast.success("Main Info Added Successfully");
-      setIsAddMainInfoDialogVisible(false);
+      setActivities((prev) => [...prev, res.data.activity]);
+      toast.success("Activity Added Successfully");
+      setIsAddActivityDialogVisible(false);
     } catch (error) {
       console.error("Submission Error:", error);
       const { response } = error;
@@ -96,29 +95,33 @@ const ActivityMainInfo = ({ id }) => {
     }
   };
 
-  const deleteMainInfo = async (id) => {
-    console.log(id);
+  const deleteActivity = async (id) => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/materials/main-info`,
+        `${import.meta.env.VITE_API_URL}/engineering/activity`, 
         { id }
       );
+
       if (!apiVerify(res)) {
         toast.warning("API Error, Please contact admin");
         return;
       }
-      setMainInfos((prev) => prev.filter((mainInfo) => mainInfo._id !== id));
-      toast.success("Main Info Deleted");
+
+      setActivities((prev) => prev.filter((activity) => activity._id !== id)); 
+      toast.success("Activity Deleted");
     } catch (error) {
       const { response } = error;
+
       if (!response) {
         toast.error("Database connection error");
         return;
       }
+
       if (!apiVerify(response)) {
         toast.warning("API Error, Please contact admin");
         return;
       }
+
       toast.error(response.data.message);
     }
   };
@@ -138,21 +141,20 @@ const ActivityMainInfo = ({ id }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {mainInfos && mainInfos.length > 0 ? (
-            mainInfos.map((mainInfo) => (
-              <TableRow key={mainInfo._id}>
-                <TableCell>{mainInfo.code}</TableCell>
-                <TableCell>{mainInfo.description}</TableCell>
-                <TableCell>{mainInfo.long_desc}</TableCell>
-                <TableCell>{mainInfo.uom}</TableCell>
-                <TableCell>{mainInfo.belongs_to}</TableCell>
-                <TableCell>{mainInfo.equip_activity}</TableCell>
+          {activities && activities.length > 0 ? (
+            activities.map((activity) => (
+              <TableRow key={activity._id}>
+                <TableCell>{activity.code}</TableCell>
+                <TableCell>{activity.description}</TableCell>
+                <TableCell>{activity.long_desc}</TableCell>
+                <TableCell>{activity.uom}</TableCell>
+                <TableCell>{activity.belongs_to}</TableCell>
+                <TableCell>{activity.equip_activity}</TableCell>
                 <TableCell>
-                  {" "}
                   <Button
                     className="bg-red-500 hover:bg-red-700"
                     onClick={() => {
-                      deleteMainInfo(mainInfo._id);
+                      deleteActivity(activity._id);
                     }}
                   >
                     Delete
@@ -163,7 +165,7 @@ const ActivityMainInfo = ({ id }) => {
           ) : (
             <TableRow>
               <TableCell colSpan={7} className="text-center">
-                No main info available
+                No activities available
               </TableCell>
             </TableRow>
           )}
@@ -172,16 +174,16 @@ const ActivityMainInfo = ({ id }) => {
 
       <IoIosAddCircle
         className="text-7xl fixed bottom-10 right-10 hover:cursor-pointer hover:scale-110 hover:animate-pulse"
-        onClick={() => setIsAddMainInfoDialogVisible(true)}
+        onClick={() => setIsAddActivityDialogVisible(true)}
       />
 
       <Dialog
-        open={isAddMainInfoDialogVisible}
-        onOpenChange={setIsAddMainInfoDialogVisible}
+        open={isAddActivityDialogVisible}
+        onOpenChange={setIsAddActivityDialogVisible}
       >
         <DialogContent className="max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Add Main Info</DialogTitle>
+            <DialogTitle>Add Activity</DialogTitle>
           </DialogHeader>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -281,7 +283,7 @@ const ActivityMainInfo = ({ id }) => {
               <Button type="submit">Add</Button>
               <Button
                 variant="outline"
-                onClick={() => setIsAddMainInfoDialogVisible(false)}
+                onClick={() => setIsAddActivityDialogVisible(false)}
               >
                 Cancel
               </Button>
@@ -293,4 +295,4 @@ const ActivityMainInfo = ({ id }) => {
   );
 };
 
-export default ActivityMainInfo;
+export default Activity;
