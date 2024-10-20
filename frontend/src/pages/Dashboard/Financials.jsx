@@ -97,18 +97,18 @@ const Financials = () => {
   };
 
   return (
-    <div className="w-full h-screen pt-[85px] px-2 md:px-8  py-10">
+    <div className="w-full h-screen pt-[85px] px-2 md:px-8 py-10">
       <div className="flex md:flex-row  md:items-start w-full  h-fit my-1">
         <div className="flex  self-center">
         <Sidebar />
         </div>
 
-        <div className="w-full md:flex  flex-wrap  hidden ">
+        <div className="w-full md:flex justify-center flex-wrap  hidden ">
           {buttonOptions.map((option) => (
             <Button
               key={option.value}
               variant="ghost"
-              className={`text-black ${selection === option.value ? "bg-gray-200" : ""}`}
+              className={`text-black ${selection === option.value ? "bg-gray-400" : ""}`}
               onClick={() => {
                 setSelection(option.value);
                 setSubSection(option.value === "receipt" ? "main-info" : "");

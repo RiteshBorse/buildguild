@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Attachments = () => {
+const BOQAttachments = () => {
   return (
     <div>Attachments</div>
   )
 }
 
-export default Attachments
+export default BOQAttachments

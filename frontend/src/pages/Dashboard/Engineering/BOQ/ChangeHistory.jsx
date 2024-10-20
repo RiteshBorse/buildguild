@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ChangeHistory = () => {
+const BOQChangeHistory = () => {
   return (
     <div>ChangeHistory</div>
   )
 }
 
-export default ChangeHistory
+export default BOQChangeHistory
