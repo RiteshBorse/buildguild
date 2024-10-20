@@ -4,6 +4,10 @@ const engineeringSchema = new mongoose.Schema({
     activity : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'Activity'
+    }],
+    change_history : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'EChangeHistory'
     }]
 })
 
