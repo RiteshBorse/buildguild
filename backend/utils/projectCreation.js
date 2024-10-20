@@ -4,24 +4,14 @@ import { Address } from "../models/Administration/address.model.js";
 import { Contact } from "../models/Administration/contact.model.js";
 import { ProjectInsight } from "../models/Project/projectinsights.model.js";
 import { Project } from "../models/Project/project.model.js";
-
 import { Materials } from "../models/Materials/materials.model.js";
-import { MMainInfo } from "../models/Materials/info.model.js";
-import { MItemInfo } from "../models/Materials/iteminfo.model.js";
-import { MAttachment } from "../models/Materials/attachment.model.js";
-import { MApprovalHistory } from "../models/Materials/approvalhis.model.js";
 import { ExtraInfo } from "../models/Administration/extrainfo.model.js";
 import { Attachment } from "../models/Administration/attachment.model.js";
-import { FMainInfo } from "../models/Financial/info.model.js";
 import { Financial } from "../models/Financial/financial.model.js";
 import { Receipt } from "../models/Financial/receipt.model.js";
-import { DailyWages } from "../models/Financial/dailywages.model.js";
-import { FApprovalHistory } from "../models/Financial/approvalhistory.model.js";
-import { FAttachment } from "../models/Financial/attachment.model.js";
-
+import { Engineering } from "../models/Engineering/engineering.model.js";
 
 const projectCreationUtility = async (projectBody) => {
-
   //administration section  ------------------------------------------------------------------
   const administration_main_info = new AMainInfo();
   await administration_main_info.save();
@@ -46,16 +36,26 @@ const projectCreationUtility = async (projectBody) => {
   });
   await administration.save();
 
-   const materials = new Materials({
-   });
-   await materials.save();
-   const receipt = new Receipt();
-   await receipt.save();
-   const financial = new Financial({receipt : receipt._id});
-   await financial.save();
+  const materials = new Materials({});
+  await materials.save();
+  const receipt = new Receipt();
+  await receipt.save();
+
+  const financial = new Financial({ receipt: receipt._id });
+  await financial.save();
+
+  //engineering
+  const engineering = new Engineering({});
+  await engineering.save();
+  
 
   //others  ----------------------------------------------------------------------------------------
-  const insights = new ProjectInsight({ administration: administration._id, materials:materials._id , financials : financial._id});
+  const insights = new ProjectInsight({
+    administration: administration._id,
+    materials: materials._id,
+    financials: financial._id,
+    engineering : engineering._id
+  });
   await insights.save();
 
   const project = await Project.create(projectBody);
@@ -63,8 +63,6 @@ const projectCreationUtility = async (projectBody) => {
 
   project.insights = insights._id;
   await project.save();
-
-
 
   return project._id;
 };
