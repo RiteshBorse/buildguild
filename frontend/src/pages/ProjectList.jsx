@@ -152,20 +152,23 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
           </div>
         </div>
       ) : (
-        <div className="w-full h-full rounded-lg ">
-          <div className="w-full h-[60%] overflow-hidden rounded-t-lg">
+        <div className="relative w-full h-full rounded-lg overflow-hidden">
+          <div className="w-full h-[60%] rounded-t-lg"> {/* image division */}
             <img
               className="w-full h-full object-cover"
               src={displayImage || buildingImage}
               alt="Project site"
             />
           </div>
-          <div className="flex flex-col w-full h-[40%] px-4 py-2 justify-center bg-white rounded-b-lg">
-            <div className="flex m-1">
+          <div
+            className="absolute bottom-0 w-full h-[40%] px-4 rounded-b-lg overflow-x-auto overflow-y-hidden"
+            style={{ backdropFilter: "blur(5px)" }} // text division with transparency
+          >
+            <div className="flex m-1  whitespace-nowrap">
               <h3 className="font-bold text-lg">Name:</h3>
               <h4 className="text-lg">&nbsp;{name}</h4>
             </div>
-            <div className="flex m-1">
+            <div className="flex m-1 overflow-x-auto whitespace-nowrap">
               <h3 className="font-bold text-lg">Location:</h3>
               <h4 className="text-lg">&nbsp;{location}</h4>
             </div>
