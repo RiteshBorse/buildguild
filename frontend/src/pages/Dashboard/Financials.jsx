@@ -41,6 +41,7 @@ import{
   DialogDescription,
 } from  "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
+import useAuth from "@/context/authContext";
 
 const Financials = () => {
   const [selection, setSelection] = useState("daily-wages");
@@ -964,6 +965,7 @@ const Attachment = ({ id }) => {
 
 
 const ApprovalHistory = ({ id }) => {
+  const { user } = useAuth();
   const [approvals, setApprovals] = useState([]);
   const [approve, setApprove] = useState({});
 
@@ -1037,7 +1039,10 @@ const ApprovalHistory = ({ id }) => {
             <TableHead className="text-white">Created By</TableHead>
             <TableHead className="text-white">Approved By</TableHead>
             <TableHead className="text-white">Status</TableHead>
-            <TableHead className="text-white">Approve</TableHead>
+            {
+              user.position == "Contractor" && ( <TableHead className="text-white">Approve</TableHead>)
+            }
+           
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -1054,7 +1059,10 @@ const ApprovalHistory = ({ id }) => {
                 <TableCell>{approval.created_by}</TableCell>
                 <TableCell>{approval.approved_by}</TableCell>
                 <TableCell>{approval.status}</TableCell>
-                <TableCell>  {approval.status != "Approved" ? <Button onClick = {() => {approveItem(approval._id)} }> Approve</Button> : <Button disabled> Approved </Button> } </TableCell>
+                {
+                  user.position == "Contractor" && (<TableCell>  {approval.status != "Approved" ? <Button onClick = {() => {approveItem(approval._id)} }> Approve</Button> : <Button disabled> Approved </Button> } </TableCell>)
+                }
+                
               </TableRow>
             ))
           ) : (

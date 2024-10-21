@@ -9,7 +9,7 @@ export const signUp = z.object({
       .string()
       .trim()
       .min(3, "Username must be at least 3 characters"),
-    otp: z.string().trim().min(6, "OTP must be 6 characters"),
+    position: z.string().trim().min(2, "Position is required"),
     password: z
       .string()
       .trim()

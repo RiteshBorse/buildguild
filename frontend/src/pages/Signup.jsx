@@ -228,10 +228,10 @@ const SignUpForm = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <Input style="custom" placeholder="OTP" {...register("otp")} />
-            {errors.otp && (
+            <Input style="custom" placeholder="Position" {...register("position")} />
+            {errors.position && (
               <span className="text-red-600 text-sm self-center">
-                *{errors.otp}
+                *{errors.position}
               </span>
             )}
           </div>
