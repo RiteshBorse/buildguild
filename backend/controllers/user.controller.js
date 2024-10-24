@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { User } from "../models/User/user.model.js";
 import bcrypt from "bcrypt";
-import { mail, otpFormat } from "../utils/mail.js";
+import { loginSuccess, mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
 import { generateOTP } from "../utils/otpGenerate.js";
 import { authenticate } from "../middleware/authentication.middleware.js";
@@ -26,6 +26,14 @@ const login = asyncHandler(async (req, res) => {
   }
 
   const payload = { user };
+
+  const content = {
+    to: user.email,
+    subject: "Login Successful",
+    html: loginSuccess(user.username),
+  };
+
+  await mail(content);
 
   const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
   return res

@@ -26,7 +26,7 @@ export const mail = async (content) => {
   }
 };
 
-export const otpFormat = (username , otp) => {
+export const otpFormat = (username, otp) => {
   const mail = `
     <!DOCTYPE html>
         <html lang="en">
@@ -109,5 +109,67 @@ export const otpFormat = (username , otp) => {
         </body>
         </html>
     `;
-    return mail;
+  return mail;
+};
+
+export const loginSuccess = (username) => {
+  const mail = `
+  <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Login Successful</title>
+        </head>
+        <body
+          style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f7f7f7;"
+        >
+          <table
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            width="100%"
+            style="max-width: 600px; margin: 0 auto; background-color: #ffffff;"
+          >
+            <tr>
+              <td
+                align="center"
+                style="padding: 20px 0; background-color: black; color: #ffffff;"
+              >
+                <h1 style="margin: 0;">Login Successful</h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 20px;">
+                <p style="margin: 0; font-size: 16px; color: #333333;">
+                  Hi ${username},
+                </p>
+                <p style="margin: 10px 0; font-size: 16px; color: #333333;">
+                  You have successfully logged into your account on [Website Name].
+                </p>
+                <p style="margin: 10px 0; font-size: 16px; color: #333333;">
+                  If you did not initiate this login or you believe your account has
+                  been accessed without authorization, please contact our support
+                  team.
+                </p>
+                <p style="margin: 10px 0; font-size: 16px; color: #333333;">
+                  Thank you for using buildguild!
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td
+                align="center"
+                style="padding: 10px; background-color: #f7f7f7; color: #777777;"
+              >
+                <p style="margin: 0; font-size: 12px;">
+                  &copy; 2024 buildguild. All rights reserved.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </body>
+      </html>
+`;
+  return mail;
 };
