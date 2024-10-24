@@ -251,6 +251,10 @@ const Landing = () => {
       <Services />
       <Report />
       <About />
+      <div
+      src="https://www.chatbase.co/chatbot-iframe/OjUPNhz24gT-UgkNyqlj6"
+      className="abosolute right-0 bottom-0 size-[50px]"
+    ></div>
     </>
   );
 };
