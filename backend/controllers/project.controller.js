@@ -5,9 +5,8 @@ import { projectCreationUtility } from "../utils/projectCreation.js";
 import { Explore } from "../models/Explore/explore.model.js";
 
 const getMyProjects = asyncHandler(async (req, res) => {
-
-   // const userId = req.user._id;
-    const {user}= req;
+  // const userId = req.user._id;
+  const { user } = req;
   const projects = await Project.find({ creator: user._id });
   if (!projects.length) {
     return res.status(404).send({ message: "No Projects", success: false });
@@ -25,13 +24,13 @@ const createProject = asyncHandler(async (req, res) => {
       .status(400)
       .send({ message: "All fields are required", success: false });
   }
-  const newProject = ({
+  const newProject = {
     name,
     location,
-    displayImage : imageUrl,
+    displayImage: imageUrl,
     creator: req.user._id,
-  });
- 
+  };
+
   const projectId = await projectCreationUtility(newProject);
   const user = await User.findById(req.user._id);
   user.projects.push(projectId);
@@ -51,7 +50,9 @@ const deleteProject = asyncHandler(async (req, res) => {
   const project = await Project.findById(projectId); // Find the project
 
   if (!project) {
-    return res.status(404).json({ message: "Project not found", success: false });
+    return res
+      .status(404)
+      .json({ message: "Project not found", success: false });
   }
 
   if (project.creator.toString() !== userId.toString()) {
@@ -59,23 +60,31 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 
   await Project.findByIdAndDelete(projectId); // Delete the project
-  res.status(200).json({ message: "Project Deleted Successfully", success: true });
+  res
+    .status(200)
+    .json({ message: "Project Deleted Successfully", success: true });
 });
 
-const publishProject = asyncHandler(async(req , res)=> {
-    const { id } = req.params;
-    console.log(id)
-    const { user } = req;
-    const project = await Project.findById(id);
-    project.published = true;
-    await project.save();
-    const explore = await Explore.create({
-        project : id,
-        user : user._id
-    })
-    await explore.save();
-    return res.status(200).send({message : "Project Published" , success : true});
-})
+const publishProject = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const { user } = req;
+  const project = await Project.findById(id);
+  project.published = true;
+  await project.save();
+  const explore = await Explore.create({
+    project: id,
+    user: user._id,
+  });
+  await explore.save();
+  return res.status(200).send({ message: "Project Published", success: true });
+});
 
-export { getMyProjects, createProject, deleteProject , publishProject };
-
+const getProject = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const project = await Project.findById(id);
+  return res
+    .status(200)
+    .send({ message: "Project fetched", succes: true, project });
+});
+export { getMyProjects, createProject, deleteProject, publishProject,getProject};
