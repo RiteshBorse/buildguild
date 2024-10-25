@@ -14,7 +14,7 @@ export const uploadFile = asyncHandler(async (req, res,next) => {
   if (!req.file) {
     return res.status(400).send({message : "No file uploaded" , success : false});
   }
-  const url = await cloudinary.uploader.upload(req.file.path);
+  const url = await cloudinary.uploader.upload(req.file.path, { resource_type: "auto" });
   fs.unlink(req.file.path, (err) => {
     if (err) {
       return res.status({message : "Image Uploading Failed" , success : false})

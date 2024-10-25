@@ -8,18 +8,24 @@ import budget from "../images/budget.jpg";
 import schedule from "../images/schedule.avif";
 import document from "../images/budget.jpg";
 import communication from "../images/communication.jpg";
+import Ritesh from "../images/ritesh.png";
+import Kanaad from "../images/kannad.png";
+import divya from "../images/divya.png";
+import Ankur from "../images/ankur.png";
+import { BiLogoLinkedinSquare } from "react-icons/bi";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { GrMapLocation, GrPhone, GrMail } from "react-icons/gr";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import useAuth from "@/context/authContext";
-
+import { SiGithub } from "react-icons/si";
 const Intro = () => {
   const { isAuthenticated } = useAuth();
-  
+
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
       <div className="px-14">
@@ -52,7 +58,6 @@ const Intro = () => {
     </div>
   );
 };
-
 
 const Services = () => {
   return (
@@ -178,6 +183,77 @@ const Report = () => {
   );
 };
 
+const ContactUs = () => {
+  return (
+    <div className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black">
+      <div className="md:w-1/2 mb-8 md:mb-0">
+        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
+        <p className="mb-8 text-lg">
+        Contact us for expert assistance with all your construction management needs.
+        </p>
+
+        <div className="mb-6 flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrMapLocation className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">Nashik, Maharashtra, India</p>
+          </div>
+        </div>
+
+        <div className="mb-6 flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrPhone className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">(+91) 9031138044</p>
+          </div>
+        </div>
+
+        <div className="flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrMail className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">buildguild@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="md:w-1/2 bg-gradient-to-br from-black to-gray-800 text-white p-8 rounded-lg shadow-lg">
+        <h3 className="text-2xl font-semibold mb-6 text-center">
+          Get in Touch
+        </h3>
+        <form className="flex flex-col space-y-5">
+          <input
+            type="text"
+            placeholder="Name"
+            className="p-4 rounded-lg bg-gray-200 text-black focus:ring-2  transition duration-200 ease-in-out outline-none"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
+            required
+          />
+          <textarea
+            placeholder="Message"
+            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
+            required
+          />
+        <button
+  type="submit"
+  className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 "
+>
+  Send Message
+</button>
+
+        </form>
+      </div>
+    </div>
+  );
+};
 const About = () => {
   return (
     <div className="font-roboto-condensed">
@@ -187,56 +263,131 @@ const About = () => {
         </h1>
       </div>
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-x-6 px-20 py-2 text-white mb-10 sm:mb-60 h-full">
-        <div className="bg-black flex flex-1 rounded-lg p-6 w-full sm:w-auto">
-          <div>
-            <h2 className="text-xl sm:text-2xl">Divya</h2>
-            <p className="font-thin">
-              Crafting visually appealing and responsive user interfaces
+        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
+              Divya Bhavsar
+            </h2>
+
+            <p className="text-sm sm:text-base text-gray-300 font-light leading-relaxed max-w-xs sm:max-w-sm mx-auto">
+              Passionate about tech and driven to create impactful solutions
+              that make a difference.
             </p>
+
             <img
-              className="mt-6 rounded-lg"
-              src="https://via.placeholder.com/200x200.png/f0eaea/fbf9f9?Text=200x200"
+              className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
+              src={divya}
               alt="Divya"
             />
+
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <a
+                href="https://www.linkedin.com/in/divya-bhavsar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
+              </a>
+              <a
+                href="https://github.com/Divya-Bhavsar"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="bg-black flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2">
-          <div>
-            <h2 className="text-xl sm:text-2xl">Ritesh</h2>
-            <p className="font-thin">
-              Crafting visually appealing and responsive user interfaces
+
+        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4">
+              Ritesh Borse
+            </h2>
+
+            <p className="text-sm sm:text-base text-gray-300 font-light leading-relaxed max-w-xs sm:max-w-sm mx-auto">
+              A curious problem-solver, always focused on finding the next big
+              solution.
             </p>
+
             <img
-              className="mt-6 rounded-lg"
-              src="https://via.placeholder.com/200x200.png/f0eaea/fbf9f9?Text=200x200"
+              className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
+              src={Ritesh}
               alt="Ritesh"
             />
+
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <a
+                href="https://www.linkedin.com/in/ritesh-borse-293564223/"
+                target="_blank"
+              >
+                <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-700 transition-colors duration-200" />
+              </a>
+              <a href="https://github.com/riteshborse" target="_blank">
+                <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="bg-black flex flex-1 p-6 rounded-lg w-full sm:w-auto">
-          <div>
-            <h2 className="text-xl sm:text-2xl">Kanaad</h2>
-            <p className="font-thin">
-              Crafting visually appealing and responsive user interfaces
+
+        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
+              Kanaad Bhat
+            </h2>
+
+            <p className="text-sm sm:text-base text-gray-300 font-light leading-relaxed max-w-xs sm:max-w-sm mx-auto">
+              A tech enthusiast, always exploring new frontiers in
+              problem-solving and innovation.
             </p>
+
             <img
-              className="mt-6 rounded-lg"
-              src="https://via.placeholder.com/200x200.png/f0eaea/fbf9f9?Text=200x200"
+              className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
+              src={Kanaad}
               alt="Kanaad"
             />
+
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <a
+                href="https://www.linkedin.com/in/bhatkanaad314/"
+                target="_blank"
+              >
+                <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
+              </a>
+              <a href="https://github.com/kanaadbhat" target="_blank">
+                <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
+              </a>
+            </div>
           </div>
         </div>
-        <div className="bg-black flex flex-1 p-6 rounded-lg w-full sm:w-auto sm:translate-y-1/2">
-          <div>
-            <h2 className="text-xl sm:text-2xl">Ankur</h2>
-            <p className="font-thin">
-              Crafting visually appealing and responsive user interfaces
+
+        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div className="text-center">
+            <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
+              Ankur Kumar
+            </h2>
+
+            <p className="text-sm sm:text-base text-gray-300 font-light leading-relaxed max-w-xs sm:max-w-sm mx-auto">
+              Always learning and finding better ways to solve problems.
             </p>
+
             <img
-              className="mt-6 rounded-lg"
-              src="https://via.placeholder.com/200x200.png/f0eaea/fbf9f9?Text=200x200"
+              className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
+              src={Ankur}
               alt="Ankur"
             />
+
+            <div className="flex justify-center items-center mt-4 space-x-4">
+              <a
+                href="https://www.linkedin.com/in/ankur-kumar-5625a71b0/"
+                target="_blank"
+              >
+                <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
+              </a>
+              <a href="https://github.com/Ankur1404" target="_blank">
+                <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -250,7 +401,9 @@ const Landing = () => {
       <Intro />
       <Services />
       <Report />
+     
       <About />
+      <ContactUs></ContactUs>
       <div
       src="https://www.chatbase.co/chatbot-iframe/OjUPNhz24gT-UgkNyqlj6"
       className="abosolute right-0 bottom-0 size-[50px]"

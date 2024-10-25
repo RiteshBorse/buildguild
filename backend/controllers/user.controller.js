@@ -9,6 +9,33 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = Router();
 
+
+const sendDescription = asyncHandler(async (req, res) => {
+  const { description } = req.body;
+
+  // Validate that description is provided
+  if (!description) {
+    return res
+      .status(400)
+      .send({ message: "Description is required", success: false });
+  }
+
+  // Prepare the email content
+  const content = {
+    to: "your-email@example.com", // Replace with your email
+    subject: "User Description Submission",
+    text: `User sent the following description: ${description}`,
+    html: `<p><strong>Description:</strong> ${description}</p>`, // HTML format
+  };
+
+  // Send the email using the mail utility
+  await mail(content);
+
+  return res
+    .status(200)
+    .send({ message: "Description sent successfully", success: true });
+});
+
 const login = asyncHandler(async (req, res) => {
   const { body, user } = req;
   const { password } = body;
