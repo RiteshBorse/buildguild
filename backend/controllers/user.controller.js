@@ -60,7 +60,7 @@ const login = asyncHandler(async (req, res) => {
     html: loginSuccess(user.username),
   };
 
-  await mail(content);
+ // await mail(content);
 
   const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
   return res
