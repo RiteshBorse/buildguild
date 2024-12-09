@@ -22,7 +22,7 @@ import Financials from "./pages/Dashboard/Financials";
 
 axios.defaults.withCredentials = true;
 const App = () => {
-  useCookieMonitor();
+  //useCookieMonitor();
   //Check Network Status
   const [isOnline, setIsOnline] = useState(navigator.onLine); 
   const updateOnlineStatus = () => {
