@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 const corsOptions = {
-  origin: "https://buildguild-pro.onrender.com",
+  origin: ["https://buildguild-pro.onrender.com" , "http://localhost:5173"],
   credentials: true,
 };
 const PORT = process.env.PORT || 3000;

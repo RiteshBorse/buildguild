@@ -65,7 +65,11 @@ const login = asyncHandler(async (req, res) => {
   const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
   return res
     .status(200)
-    .cookie("token", token)
+    .cookie("token", token , {
+      httpOnly : true ,
+      secure : true , 
+      sameSite : 'Strict'
+    })
     .send({
       message: `Welcome Back ${user.firstName} `,
       user,
@@ -152,7 +156,11 @@ const verifyOtpforSignIn = asyncHandler(async (req, res) => {
   );
   const payload = user.username;
   const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
-  return res.status(201).cookie("token", token).send({
+  return res.status(201).cookie("token", token , {
+    httpOnly : true ,
+    secure : true , 
+    sameSite : 'Strict'
+  }).send({
     message: "Account Created Successfully",
     success: true,
   });
