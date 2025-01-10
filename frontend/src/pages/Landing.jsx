@@ -23,24 +23,39 @@ import {
 } from "@/components/ui/carousel";
 import useAuth from "@/context/authContext";
 import { SiGithub } from "react-icons/si";
+import { motion } from "framer-motion";
 const Intro = () => {
   const { isAuthenticated } = useAuth();
 
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
-      <div className="px-14">
-        <h1 className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl">
+      <div 
+      
+      className="px-14">
+        <motion.h1 
+        initial={{opacity : 0, y : 20}}
+        whileInView={{opacity : 1 , y : 0}}
+        transition={{duration : 0.5}}
+         className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl">
           Building Dreams, Managing Reality
-        </h1>
-        <div className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 ">
+        </motion.h1>
+        <motion.div 
+        initial={{opacity : 0, y : 40}}
+        whileInView={{opacity : 1 , y : 0}}
+        transition={{duration : 0.5}}
+        className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 ">
           <p>Next Generation Construction Management Tool</p>
           <p className="text-xl mt-5 text-gray-400 w-[300px] sm:w-[600px]">
             A construction management system integrates tools for efficient,
             accurate <br />
             project completion
           </p>
-        </div>
-        <div className="mt-6 flex gap-4">
+        </motion.div>
+        <motion.div 
+        initial={{opacity : 0, y : 40}}
+        whileInView={{opacity : 1 , y : 0}}
+        transition={{duration : 0.5}}
+        className="mt-6 flex gap-4">
           {isAuthenticated ? (
             <Link to="/projectlist">
               <Button>Go to Dashboard</Button>
@@ -53,7 +68,7 @@ const Intro = () => {
           <Link to="/explore">
             <Button variant="outline">Explore</Button>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
@@ -62,27 +77,45 @@ const Intro = () => {
 const Services = () => {
   return (
     <div className="flex mt-10 mx-14 gap-8 sm:flex flex-wrap font-roboto-condensed">
-      <div className="shadow-lg bg-clip-border rounded-xl w-80 p-4">
+      <motion.div 
+      initial={{opacity : 0 , y : 70}}
+      whileInView={{opacity : 1 , y : 0}}
+      transition={{duration : 0.5}}
+      className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
         <p className="text-3xl">
           <FaUserCheck />
         </p>
         <h2 className="text-xl font-semibold">User Friendly Interface</h2>
         <p>User-friendly customizable dashboard for quick customization</p>
-      </div>
-      <div className="shadow-lg bg-clip-border rounded-xl w-80 p-4">
+      </motion.div>
+
+
+      <motion.div 
+      initial={{opacity : 0 , y : 70}}
+      whileInView={{opacity : 1 , y : 0}}
+      transition={{duration : 0.5}}
+      className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
         <p className="text-3xl">
           <FaToolbox />
         </p>
         <h2 className="text-xl font-semibold">Comprehensive Feature Set</h2>
         <p>All-in-one solution with advanced collaboration tools</p>
-      </div>
-      <div className="shadow-lg bg-clip-border rounded-xl w-80 p-4">
+      </motion.div>
+
+
+      <motion.div 
+      initial={{opacity : 0 , y : 70}}
+      whileInView={{opacity : 1 , y : 0}}
+      transition={{duration : 0.5}}
+      className="shadow-lg bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
         <p className="text-3xl">
           <IoBarChart />
         </p>
         <h2 className="text-xl font-semibold">Scalability and Flexibility</h2>
         <p>Scalable for all projects with custom integrations</p>
-      </div>
+      </motion.div>
+
+
     </div>
   );
 };
@@ -185,7 +218,11 @@ const Report = () => {
 
 const ContactUs = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black">
+    <motion.div 
+    initial={{ scale : 0.9 , y : -200}}
+    whileInView={{ scale : 1 ,y : 0}}
+    transition={{duration : 0.5}}
+    className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black">
       <div className="md:w-1/2 mb-8 md:mb-0">
         <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
         <p className="mb-8 text-lg">
@@ -251,7 +288,7 @@ const ContactUs = () => {
 
         </form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 const About = () => {
@@ -263,7 +300,11 @@ const About = () => {
         </h1>
       </div>
       <div className="flex flex-col sm:flex-row space-y-4 sm:space-x-6 px-20 py-2 text-white mb-10 sm:mb-60 h-full">
-        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <motion.div
+        initial={{opacity : 0 }}
+        whileInView={{opacity : 1}}
+        transition={{duration : 1.5}}
+        className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Divya Bhavsar
@@ -274,7 +315,10 @@ const About = () => {
               that make a difference.
             </p>
 
-            <img
+            <motion.img
+            initial={{y : -30}}
+            whileInView={{y : 0}}
+            transition={{duration : 0.5}}
               className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
               src={divya}
               alt="Divya"
@@ -297,9 +341,13 @@ const About = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <motion.div
+        initial={{opacity : 0 }}
+        whileInView={{opacity : 1}}
+        transition={{duration : 1.5}}
+        className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4">
               Ritesh Borse
@@ -310,7 +358,10 @@ const About = () => {
               solution.
             </p>
 
-            <img
+            <motion.img
+            initial={{y : -30}}
+            whileInView={{y : 0}}
+            transition={{duration : 0.5}}
               className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
               src={Ritesh}
               alt="Ritesh"
@@ -328,9 +379,13 @@ const About = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <motion.div
+        initial={{opacity : 0 }}
+        whileInView={{opacity : 1}}
+        transition={{duration : 1.5}}
+        className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Kanaad Bhat
@@ -341,7 +396,10 @@ const About = () => {
               problem-solving and innovation.
             </p>
 
-            <img
+            <motion.img
+            initial={{y : -30}}
+            whileInView={{y : 0}}
+            transition={{duration : 0.5}}
               className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
               src={Kanaad}
               alt="Kanaad"
@@ -359,9 +417,13 @@ const About = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <motion.div
+        initial={{opacity : 0 }}
+        whileInView={{opacity : 1}}
+        transition={{duration : 1.5}}
+        className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Ankur Kumar
@@ -371,7 +433,10 @@ const About = () => {
               Always learning and finding better ways to solve problems.
             </p>
 
-            <img
+            <motion.img
+            initial={{y : -30}}
+            whileInView={{y : 0}}
+            transition={{duration : 0.5}}
               className="mt-6 rounded-full w-36 h-36 sm:w-40 sm:h-40 object-cover border-4 border-gray-700 shadow-lg mx-auto"
               src={Ankur}
               alt="Ankur"
@@ -389,7 +454,7 @@ const About = () => {
               </a>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
