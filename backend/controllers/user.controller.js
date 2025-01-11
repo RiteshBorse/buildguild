@@ -36,6 +36,49 @@ const sendDescription = asyncHandler(async (req, res) => {
     .send({ message: "Description sent successfully", success: true });
 });
 
+const clerkSignUp = asyncHandler(async(req , res)=> {
+  console.log("helloo")
+  const { username , firstName , email , id} = req.body;
+
+  let user = await User.findOne({username});
+  if(user){
+    const payload = { user };
+    const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+  
+    return res
+      .status(200)
+      .cookie("token", token , {
+        httpOnly : true ,
+        secure : true , 
+        sameSite : 'Strict'
+      })
+      .send({
+        message: `Welcome Back ${user.firstName} `,
+        user,
+        success: true,
+      });
+  
+  }
+    user = await User.create({
+      username , firstName , email , _id : id
+    })
+    const payload = { user };
+    const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+    return res
+    .status(200)
+    .cookie("token", token , {
+      httpOnly : true ,
+      secure : true , 
+      sameSite : 'Strict'
+    })
+    .send({
+      message: `Account created successfully`,
+      user,
+      success: true,
+    });
+  
+})
+
 const login = asyncHandler(async (req, res) => {
   const { body, user } = req;
   const { password } = body;
@@ -59,8 +102,6 @@ const login = asyncHandler(async (req, res) => {
     subject: "Login Successful",
     html: loginSuccess(user.username),
   };
-
- // await mail(content);
 
   const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
   return res
@@ -341,7 +382,8 @@ export {
   verifyOtpforForgotPassword,
   profile,
   deleteUser,
-  resendOtp
+  resendOtp,
+  clerkSignUp
 };
 
 export default router;
