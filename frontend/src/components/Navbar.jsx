@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
@@ -25,6 +25,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+import {useUser} from '@clerk/clerk-react'
 
 const Navbar = () => {
   const { useAuthlogin, useAuthlogout, user, isAuthenticated } = useAuth();
@@ -65,7 +67,10 @@ const Navbar = () => {
       toast.error(response.data.message);
     }
   };
-
+ 
+ 
+  
+  
   const toggleMenu = () => {
     setisOpen(!isOpen);
   };
@@ -101,13 +106,22 @@ const Navbar = () => {
         <Button className="text-lg font-light" variant="ghost">
           Contact Us
         </Button>
-        {!isAuthenticated ? (
+        {/* {!isAuthenticated ? (
           <Button onClick={toggleLogin} className="text-lg font-light">
             Login
           </Button>
         ) : (
           <LoggedUserDropdown user={user} />
-        )}
+        )} */}
+
+      <SignedOut>
+        <SignInButton mode="modal" fallbackRedirectUrl="/" />
+      </SignedOut>
+
+
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
       </div>
 
       {/* Mobile View */}

@@ -24,9 +24,12 @@ import {
 import useAuth from "@/context/authContext";
 import { SiGithub } from "react-icons/si";
 import { motion } from "framer-motion";
+import { useUser } from "@clerk/clerk-react";
+import axios from "axios";
+import { toast } from "sonner";
 const Intro = () => {
   const { isAuthenticated } = useAuth();
-
+  
   return (
     <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
       <div 
@@ -461,6 +464,34 @@ const About = () => {
 };
 
 const Landing = () => {
+  const clerkLogin = async () => {
+    console.log("fghsgf")
+    try {
+      const clerkUser = useUser();
+      const clearLoggedUserData = {
+        username : clerkUser?.user?.username,
+        email : clerkUser?.user?.primaryEmailAddress.emailAddress,
+        firstName : clerkUser?.user?.firstName,
+        id : clerkUser?.user?.id,
+      }
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/users/clerk-sign` , clearLoggedUserData)
+      console.log(res)
+      toast.success(res.data.message);
+      useAuthlogin(res.data.user);
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      console.log(error)
+      toast.error(response.data.message);
+    }
+  }
+  useEffect(()=>{
+    clerkLogin()
+  },[])
+  
   return (
     <>
       <Intro />
