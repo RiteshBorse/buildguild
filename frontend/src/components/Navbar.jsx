@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
@@ -25,8 +25,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import {useUser} from '@clerk/clerk-react'
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+} from "@clerk/clerk-react";
+import { useUser } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const { useAuthlogin, useAuthlogout, user, isAuthenticated } = useAuth();
@@ -53,7 +58,7 @@ const Navbar = () => {
       }
       toast.success(res.data.message);
       useAuthlogin(res.data.user);
-      setonClickLogin(false)
+      setonClickLogin(false);
     } catch (error) {
       const { response } = error;
       if (!response) {
@@ -67,10 +72,7 @@ const Navbar = () => {
       toast.error(response.data.message);
     }
   };
- 
- 
-  
-  
+
   const toggleMenu = () => {
     setisOpen(!isOpen);
   };
@@ -114,14 +116,13 @@ const Navbar = () => {
           <LoggedUserDropdown user={user} />
         )} */}
 
-      <SignedOut>
-        <SignInButton mode="modal" fallbackRedirectUrl="/" />
-      </SignedOut>
+        <SignedOut>
+          <SignInButton mode="modal" fallbackRedirectUrl="/" />
+        </SignedOut>
 
-
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
+        <SignedIn>
+          <UserButton afterSignOutUrl="/logout" />
+        </SignedIn>
       </div>
 
       {/* Mobile View */}
@@ -163,19 +164,13 @@ const Navbar = () => {
                     Contact Us
                   </Button>
 
-                  {!isAuthenticated ? (
-                    <Button
-                      onClick={() => {
-                        toggleLogin();
-                        toggleMenu();
-                      }}
-                      className="text-lg font-light"
-                    >
-                      Login
-                    </Button>
-                  ) : (
-                    <LoggedUserDropdown user={user} />
-                  )}
+                  <SignedOut>
+                    <SignInButton mode="modal" fallbackRedirectUrl="/" />
+                  </SignedOut>
+
+                  <SignedIn>
+                    <UserButton afterSignOutUrl="/logout" />
+                  </SignedIn>
                 </div>
               </SheetDescription>
             </SheetHeader>
@@ -220,13 +215,13 @@ const Navbar = () => {
 };
 
 const LoggedUserDropdown = ({ user }) => {
-  const {useAuthlogout} = useAuth();
+  const { useAuthlogout } = useAuth();
   const navigate = useNavigate();
   const logouttheUser = async () => {
     useAuthlogout();
     try {
       const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/users/logout`,
+        `${import.meta.env.VITE_API_URL}/users/logout`
       );
       if (!apiVerify(res)) {
         toast.warning("Api Error , Please contact admin");
@@ -246,20 +241,26 @@ const LoggedUserDropdown = ({ user }) => {
       toast.error(response.data.message);
     }
     navigate("/");
-  }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="flex items-center gap-2 border-[0.5px] outline-none border-gray-300 shadow-sm rounded-lg px-3 py-1">
           <Avatar>
-            <AvatarImage src={user.profileImage ||"https://github.com/shadcn.png"} />
+            <AvatarImage
+              src={user.profileImage || "https://github.com/shadcn.png"}
+            />
           </Avatar>
           <p className="text-sm font-medium">{user.firstName}</p>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="">
-        <Link to="/profile"><DropdownMenuItem>Profile</DropdownMenuItem></Link>
-        <Link to="/settings"><DropdownMenuItem>Settings</DropdownMenuItem></Link>
+        <Link to="/profile">
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+        </Link>
+        <Link to="/settings">
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem onClick={logouttheUser}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

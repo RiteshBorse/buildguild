@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosAddCircle } from "react-icons/io";
+import { FaCog } from "react-icons/fa";  // Imported FaCog
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,25 +15,20 @@ import {
   DialogTitle,
   DialogHeader,
 } from "@/components/ui/dialog";
-import buildingImage from "@/images/mansion.webp";
-import { FaEye, FaEyeSlash, FaCog } from "react-icons/fa";
 import useAuth from "@/context/authContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [actionType, setActionType] = useState("");
-  const [published, setPublished] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // For toggling password visibility
-
-  const { user } = useAuth();
+  const [published, setPublished] = useState(false); // Added initialization for `published`
   const navigate = useNavigate(); // Use navigate for routing
 
   const toggleEditing = (event) => {
-    event.stopPropagation(); // Prevent the card's click from triggering
     console.log("Toggling edit mode");
     setIsEditing((prev) => !prev);
   };
@@ -49,7 +45,6 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
 
     if (confirm) {
       if (actionType === "delete") {
-        console.log(`Attempting to delete project with ID: ${projectId}`);
         if (email === user?.email && password === user?.password) {
           try {
             const res = await axios.delete(
@@ -89,20 +84,16 @@ const ProjectCard = ({ _id: projectId, name, location, displayImage }) => {
     setPassword("");
   };
 
-  // Function to toggle password visibility
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev);
     console.log(`Password visibility: ${!isPasswordVisible}`);
   };
 
-  const handleCardClick = (e) => {
-    console.log(`Card clicked. isEditing: ${isEditing}`);
-    if (isEditing) {
-      e.stopPropagation(); // Prevent navigation if in editing mode
-      return;
+  const handleCardClick = () => {
+    if (!isEditing) {
+      console.log(`Navigating to project details for ID: ${projectId}`);
+      navigate(`/dashboard/${projectId}`);
     }
-    console.log(`Navigating to project details for ID: ${projectId}`);
-    navigate(`/dashboard/${projectId}`);
   };
 
   return (
@@ -286,7 +277,7 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
 };
 
 const ProjectList = () => {
-  const { isAuthenticated, user, useAuthLogin } = useAuth();
+  const { isAuthenticated } = useAuth();
   if (!isAuthenticated) {
     return (
       <div className="flex items-center w-full h-screen justify-center">
@@ -299,8 +290,6 @@ const ProjectList = () => {
     useState(false);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   // Fetch projects from the backend
   useEffect(() => {
@@ -348,10 +337,6 @@ const ProjectList = () => {
     return <div>Loading projects...</div>; // Show loading state
   }
 
-  if (error) {
-    return <div>{error}</div>; // Show error state
-  }
-
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap items-center w-full h-min mt-[80px] ">
       {projects.length > 0 ? (
@@ -363,7 +348,7 @@ const ProjectList = () => {
       ) : (
         <div className="flex items-center justify-center min-w-full min-h-96">
           No projects found.
-        </div> // no projects available
+        </div>
       )}
 
       <IoIosAddCircle

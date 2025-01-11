@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import { loginSuccess, mail, otpFormat } from "../utils/mail.js";
 import jwt from "jsonwebtoken";
 import { generateOTP } from "../utils/otpGenerate.js";
-import { authenticate } from "../middleware/authentication.middleware.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = Router();
@@ -37,9 +36,7 @@ const sendDescription = asyncHandler(async (req, res) => {
 });
 
 const clerkSignUp = asyncHandler(async(req , res)=> {
-  console.log("helloo")
   const { username , firstName , email , id} = req.body;
-
   let user = await User.findOne({username});
   if(user){
     const payload = { user };
@@ -60,10 +57,11 @@ const clerkSignUp = asyncHandler(async(req , res)=> {
   
   }
     user = await User.create({
-      username , firstName , email , _id : id
+      username , firstName , email 
     })
     const payload = { user };
     const token = jwt.sign(payload, process.env.SECRET_KEY_JWT);
+
     return res
     .status(200)
     .cookie("token", token , {

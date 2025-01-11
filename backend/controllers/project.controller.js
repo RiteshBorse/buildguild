@@ -28,7 +28,7 @@ const createProject = asyncHandler(async (req, res) => {
     name,
     location,
     displayImage: imageUrl,
-    creator: req.user._id,
+    creator: req.user._id.toString(),
   };
 
   const projectId = await projectCreationUtility(newProject);

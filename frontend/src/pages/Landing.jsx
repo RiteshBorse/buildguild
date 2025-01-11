@@ -24,7 +24,7 @@ import {
 import useAuth from "@/context/authContext";
 import { SiGithub } from "react-icons/si";
 import { motion } from "framer-motion";
-import { useUser } from "@clerk/clerk-react";
+import { SignInButton, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "sonner";
 const Intro = () => {
@@ -62,9 +62,7 @@ const Intro = () => {
               <Button>Go to Dashboard</Button>
             </Link>
           ) : (
-            <Link to="/signup">
-              <Button>Get Started</Button>
-            </Link>
+              <SignInButton><Button>Get Started</Button></SignInButton>
           )}
           <Link to="/explore">
             <Button variant="outline">Explore</Button>

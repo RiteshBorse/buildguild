@@ -18,6 +18,7 @@ import Engineering from "./pages/Dashboard/Engineering/Engineering";
 import Administration from "./pages/Dashboard/Administration";
 import Materials from "./pages/Dashboard/Materials";
 import Financials from "./pages/Dashboard/Financials";
+import Logout from "./pages/Logout";
 
 
 axios.defaults.withCredentials = true;
@@ -51,6 +52,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/signup" element={<Signup/>} />
+        <Route path="/logout" element={<Logout/>} />
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/explore" element={<Explore/>} />
         <Route path="/explore-info/:id" element={<ExploreInfo/>}/>

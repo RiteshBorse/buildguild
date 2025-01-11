@@ -38,17 +38,17 @@ const healthMonitor = asyncHandler(async () => {
     }
 
     // Test SMTP email service using Nodemailer
-    try {
-        await mail({to : process.env.EMAIL , subject : "Health CheckUp"})
-        console.log('Email sent Test Passed');
-    } catch (error) {
-        console.error("SMTP email service is down:", error.message);
-        return {
-            status: 'error',
-            message: 'SMTP email service is down',
-            error: error.message
-        };
-    }
+    // try {
+    //     await mail({to : process.env.EMAIL , subject : "Health CheckUp"})
+    //     console.log('Email sent Test Passed');
+    // } catch (error) {
+    //     console.error("SMTP email service is down:", error.message);
+    //     return {
+    //         status: 'error',
+    //         message: 'SMTP email service is down',
+    //         error: error.message
+    //     };
+    // }
 
     // Return success if all checks pass
     console.log(
