@@ -36,6 +36,7 @@ const sendDescription = asyncHandler(async (req, res) => {
 });
 
 const clerkSignUp = asyncHandler(async(req , res)=> {
+
   const { username , firstName , email , id} = req.body;
   let user = await User.findOne({username});
   if(user){
