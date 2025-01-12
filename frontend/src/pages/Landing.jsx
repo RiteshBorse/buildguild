@@ -67,6 +67,7 @@ const Intro = () => {
           <Link to="/explore">
             <Button variant="outline">Explore</Button>
           </Link>
+          <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing"><Button variant="link">Watch Tutorial</Button></a>
         </motion.div>
       </div>
     </div>
