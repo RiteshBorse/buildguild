@@ -48,7 +48,7 @@ const clerkSignUp = asyncHandler(async(req , res)=> {
       .cookie("token", token , {
         httpOnly : true ,
         secure : true , 
-        sameSite : 'Strict'
+        sameSite : 'none'
       })
       .send({
         message: `Welcome Back ${user.firstName} `,
@@ -68,7 +68,7 @@ const clerkSignUp = asyncHandler(async(req , res)=> {
     .cookie("token", token , {
       httpOnly : true ,
       secure : true , 
-      sameSite : 'Strict'
+      sameSite : 'none'
     })
     .send({
       message: `Account created successfully`,
