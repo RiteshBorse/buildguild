@@ -19,9 +19,6 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-
-
-
 const ProjectList = () => {
   const { isAuthenticated } = useAuth();
   const [isAddProjectDialogVisible, setIsAddProjectDialogVisible] = useState(false);
@@ -133,10 +130,6 @@ const ProjectList = () => {
   );
 };
 
-
-
-
-
 const ProjectCard = ({ 
   _id: projectId, 
   name, 
@@ -150,6 +143,7 @@ const ProjectCard = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [actionType, setActionType] = useState(null);
   const [email, setEmail] = useState("");
+  const [Otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -236,12 +230,12 @@ const ProjectCard = ({
 
   return (
     <div
-      className="relative w-[300px] h-[200px] m-5 rounded-lg shadow-2xl hover:scale-105 transition-transform cursor-pointer"
+      className="relative w-[300px] h-[200px] m-5 rounded-lg shadow-2xl hover:scale-105 transition-transform cursor-pointer "
       onClick={handleCardClick}
     >
-      <div className="absolute top-2 right-2 z-10">
+      <div className="absolute bg-white size-5 rounded-full top-2 right-2 z-10 flex items-center justify-center">
         <FaCog
-          className={`cursor-pointer text-white ${isEditing ? "text-primary" : ""}`}
+          className={`cursor-pointer text-black  ${isEditing ? "text-primary" : ""}`}
           onClick={toggleEditing}
         />
       </div>
@@ -295,14 +289,16 @@ const ProjectCard = ({
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="password" className="text-right">
-                  Password
+                <Label htmlFor="OTP" className="text-right">
+                  OTP
                 </Label>
                 <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  id="OTP"
+                  type="number"
+                  value={Otp}
+                  onChange={(event) => {
+                    setOtp(event.target.value);
+                  }}
                   className="col-span-3"
                 />
               </div>
@@ -319,8 +315,6 @@ const ProjectCard = ({
     </div>
   );
 };
-
-
 
 const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
@@ -433,10 +427,6 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
     </Dialog>
   );
 };
-
-
-
-
 
 export default ProjectList;
 

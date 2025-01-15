@@ -37,14 +37,16 @@ const Intro = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl">
+          className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl"
+        >
           Building Dreams, Managing Reality
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 ">
+          className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 "
+        >
           <p>Next Generation Construction Management Tool</p>
           <p className="text-xl mt-5 text-gray-400 w-[300px] sm:w-[600px]">
             A construction management system integrates tools for efficient,
@@ -56,18 +58,23 @@ const Intro = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mt-6 flex gap-4">
+          className="mt-6 flex gap-4"
+        >
           {isAuthenticated ? (
             <Link to="/projectlist">
               <Button>Go to Dashboard</Button>
             </Link>
           ) : (
-              <SignInButton><Button>Get Started</Button></SignInButton>
+            <SignInButton>
+              <Button>Get Started</Button>
+            </SignInButton>
           )}
           <Link to="/explore">
             <Button variant="outline">Explore</Button>
           </Link>
-          <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing"><Button variant="link">Watch Tutorial</Button></a>
+          <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing">
+            <Button variant="link">Watch Tutorial</Button>
+          </a>
         </motion.div>
       </div>
     </div>
@@ -81,7 +88,8 @@ const Services = () => {
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
+        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
         <p className="text-3xl">
           <FaUserCheck />
         </p>
@@ -93,7 +101,8 @@ const Services = () => {
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
+        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
         <p className="text-3xl">
           <FaToolbox />
         </p>
@@ -105,7 +114,8 @@ const Services = () => {
         initial={{ opacity: 0, y: 70 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="shadow-lg bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4">
+        className="shadow-lg bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
         <p className="text-3xl">
           <IoBarChart />
         </p>
@@ -182,7 +192,8 @@ const Report = () => {
     <Carousel className="w-full overflow-hidden mt-10">
       <CarouselContent
         className="flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
         {items.map((item, index) => (
           <CarouselItem key={index} className="flex-shrink-0 w-full">
             <div className="w-full">
@@ -217,7 +228,8 @@ const ContactUs = () => {
       initial={{ scale: 0.9, y: -200 }}
       whileInView={{ scale: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black">
+      className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black"
+    >
       <div className="md:w-1/2 mb-8 md:mb-0">
         <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
         <p className="mb-8 text-lg">
@@ -277,7 +289,8 @@ const ContactUs = () => {
           />
           <button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 ">
+            className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 "
+          >
             Send Message
           </button>
         </form>
@@ -298,7 +311,8 @@ const About = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Divya Bhavsar
@@ -322,13 +336,15 @@ const About = () => {
               <a
                 href="https://www.linkedin.com/in/divya-bhavsar"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
               </a>
               <a
                 href="https://github.com/Divya-Bhavsar"
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
               </a>
             </div>
@@ -339,7 +355,8 @@ const About = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4">
               Ritesh Borse
@@ -362,7 +379,8 @@ const About = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/ritesh-borse-293564223/"
-                target="_blank">
+                target="_blank"
+              >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-700 transition-colors duration-200" />
               </a>
               <a href="https://github.com/riteshborse" target="_blank">
@@ -376,7 +394,8 @@ const About = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300">
+          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full  shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Kanaad Bhat
@@ -399,7 +418,8 @@ const About = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/bhatkanaad314/"
-                target="_blank">
+                target="_blank"
+              >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
               </a>
               <a href="https://github.com/kanaadbhat" target="_blank">
@@ -413,7 +433,8 @@ const About = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+          className="bg-gradient-to-r from-black via-gray-800 to-blue-900 flex flex-1 rounded-lg p-6 w-full sm:w-auto sm:translate-y-1/2 shadow-lg hover:shadow-xl transition-shadow duration-300"
+        >
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl font-medium text-white mb-4 font-['Roboto Condensed']">
               Ankur Kumar
@@ -435,7 +456,8 @@ const About = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/ankur-kumar-5625a71b0/"
-                target="_blank">
+                target="_blank"
+              >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
               </a>
               <a href="https://github.com/Ankur1404" target="_blank">
@@ -445,7 +467,6 @@ const About = () => {
           </div>
         </motion.div>
       </div>
-     
     </div>
   );
 };
@@ -488,17 +509,19 @@ const Landing = () => {
   }, [clerkUser.user]);
 
   return (
-    <>
+    <div className = "relative min-h-screen">
       <Intro />
       <Services />
       <Report />
 
       <About />
-      <ContactUs></ContactUs>
-      <div
+      <ContactUs />
+      <iframe
         src="https://www.chatbase.co/chatbot-iframe/OjUPNhz24gT-UgkNyqlj6"
-        className="abosolute right-0 bottom-0 size-[50px]"></div>
-    </>
+        className="absolute left-0 bottom-0 w-[50px] h-[50px] border-none"
+        title="Chatbot"
+      ></iframe>
+    </div>
   );
 };
 

@@ -57,22 +57,36 @@ const Explore = () => {
         Build your dream house with Us.
       </h1>
 
-      <div className="flex flex-col sm:flex-row gap-4 w-full sm:gap-8 sm:px-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-5 pl-20">
         {explore.map((explore) => (
           <div
             key={explore._id}
-            className="flex flex-row sm:flex-col items-center w-[90%] sm:w-[400px] h-[150px] sm:h-fit self-center gap-4 shadow-md px-4 py-4 border-[0.5px] border-gray-300 rounded-sm"
+            className="bg-gray-100 flex flex-col items-center w-[400px] h-[270px] gap-2 shadow-md px-4 py-3 border-[0.5px] border-gray-300 rounded-md transition-shadow hover:shadow-lg"
           >
-            <img
-              src={explore.project.displayImage}
-              className="w-[50%] sm:w-full rounded-sm"
-            />
-            <div className="flex flex-col sm:flex-row gap-2 justify-around w-full items-start sm:items-center">
-              <div className="flex flex-col gap-2">
-                <p className="text-xl sm:text-4xl font-bold">{explore.project.name}</p>
-                <p>{explore.project.location}</p>
+            {/* Imaage */}
+            <div className="w-full h-[200px]">
+              <img
+                src={explore.project.displayImage}
+                alt={explore.project.name}
+                className="w-full h-full object-cover rounded-t-md"
+              />
+            </div>
+
+            {/* Text */}
+            <div className="flex items-center justify-between w-full min-h-[40px] pl-5 px-3 py-1 rounded-b-md">
+              <div className="flex flex-col gap-1">
+                <p className="text-sm font-medium text-black truncate">
+                  {explore.project.name}
+                </p>
+                <p className="text-xs text-gray-700 truncate">
+                  {explore.project.location}
+                </p>
               </div>
-              <Link to={`/explore-info/${explore._id}`}><Button className="bg-red-500">More Info</Button></Link>
+              <Link to={`/explore-info/${explore._id}`}>
+                <Button className="bg-red-500 text-black text-xs px-3 py-1 rounded hover:bg-red-600">
+                  More Info
+                </Button>
+              </Link>
             </div>
           </div>
         ))}

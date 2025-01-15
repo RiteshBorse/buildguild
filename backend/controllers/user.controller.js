@@ -256,9 +256,7 @@ const verifyOtpforForgotPassword = asyncHandler(async (req, res) => {
     .status(201)
     .send({ message: "Password Updated Successfully", success: true });
 });
-
-
-
+ 
 const profile = asyncHandler(async (req, res) => {
   const { user, body , imageUrl } = req;
   if (!user) {
