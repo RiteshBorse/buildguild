@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 
 const Explore = () => {
   const [explore, setexplore] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -35,6 +36,13 @@ const Explore = () => {
     fetchProject();
   }, []);
 
+  const filteredExplore = searchQuery
+    ? explore.filter((explore) =>
+        explore.project.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+      )
+    : explore;
+
+
   return (
     <div className="flex flex-col">
       <div className="mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
@@ -47,8 +55,10 @@ const Explore = () => {
         <div className="flex justify-between bg-white w-2/3 absolute bottom-[-25px] rounded-xl drop-shadow py-2 px-4">
           <input
             type="text"
-            placeholder="Destination"
+            placeholder="Search by Project Name"
             className="outline-none w-full"
+            value={searchQuery}
+            onChange={(e)=>setSearchQuery(e.target.value)}
           />
           <Button>Search</Button>
         </div>
@@ -58,7 +68,7 @@ const Explore = () => {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-5 pl-20">
-        {explore.map((explore) => (
+        {filteredExplore.map((explore) => (
           <div
             key={explore._id}
             className="bg-gray-100 flex flex-col items-center w-[400px] h-[270px] gap-2 shadow-md px-4 py-3 border-[0.5px] border-gray-300 rounded-md transition-shadow hover:shadow-lg"
