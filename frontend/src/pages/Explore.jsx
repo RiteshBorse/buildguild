@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 const Explore = () => {
   const [explore, setexplore] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterBy, setFilterBy] = useState("name");
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -38,31 +39,82 @@ const Explore = () => {
 
   const filteredExplore = searchQuery
     ? explore.filter((explore) =>
-        explore.project.name.toLowerCase().startsWith(searchQuery.toLowerCase())
+        filterBy === "name"
+          ? explore.project.name
+              .toLowerCase()
+              .startsWith(searchQuery.toLowerCase())
+          : explore.project.location
+              .toLowerCase()
+              .startsWith(searchQuery.toLowerCase())
       )
     : explore;
 
-
   return (
     <div className="flex flex-col">
-      <div className="mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
+
+
+      <div className=" mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
         <img
-          className="object-cover w-full h-[200px] bg-red-200"
+          className="object-cover w-full h-[200px]"
           src={buildingImage}
           alt="Building"
         />
 
+        <div className="flex flex-row absolute bottom-[30px] justify-center gap-4 w-fit px-4 z-10 bg-white opacity-85 rounded-t-lg">
+          <div>
+            <input
+              type="radio"
+              id="filterByName"
+              name="filter"
+              value="name"
+              checked={filterBy === "name"}
+              onChange={() => setFilterBy("name")}
+            />
+            <label htmlFor="filterByName" className="ml-2 text-sm">
+              Name
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="filterByLocation"
+              name="filter"
+              value="location"
+              checked={filterBy === "location"}
+              onChange={() => setFilterBy("location")}
+            />
+            <label htmlFor="filterByLocation" className="ml-2 text-sm">
+              Location
+            </label>
+          </div>
+        </div>
+
         <div className="flex justify-between bg-white w-2/3 absolute bottom-[-25px] rounded-xl drop-shadow py-2 px-4">
           <input
             type="text"
-            placeholder="Search by Project Name"
+            placeholder={
+              filterBy === "name"
+                ? "Search by Project Name"
+                : "Search by Project Location"
+            }
             className="outline-none w-full"
             value={searchQuery}
-            onChange={(e)=>setSearchQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Button>Search</Button>
         </div>
+
       </div>
+
+
+
+
+
+
+
+
+
+
       <h1 className="self-center text-3xl lg:text-5xl font-bold p-4 mt-10">
         Build your dream house with Us.
       </h1>
