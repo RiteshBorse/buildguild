@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { addProject } from "@/schema/addProjectSchema";;
+import { addProject } from "@/schema/addProjectSchema";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +21,8 @@ import {
 
 const ProjectList = () => {
   const { isAuthenticated } = useAuth();
-  const [isAddProjectDialogVisible, setIsAddProjectDialogVisible] = useState(false);
+  const [isAddProjectDialogVisible, setIsAddProjectDialogVisible] =
+    useState(false);
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -93,7 +94,11 @@ const ProjectList = () => {
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center w-full h-screen">Loading projects...</div>;
+    return (
+      <div className="flex items-center justify-center w-full h-screen">
+        Loading projects...
+      </div>
+    );
   }
 
   return (
@@ -130,14 +135,14 @@ const ProjectList = () => {
   );
 };
 
-const ProjectCard = ({ 
-  _id: projectId, 
-  name, 
-  location, 
-  displayImage, 
+const ProjectCard = ({
+  _id: projectId,
+  name,
+  location,
+  displayImage,
   published,
   onProjectUpdate,
-  onProjectDelete
+  onProjectDelete,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -235,7 +240,9 @@ const ProjectCard = ({
     >
       <div className="absolute bg-white size-5 rounded-full top-2 right-2 z-10 flex items-center justify-center">
         <FaCog
-          className={`cursor-pointer text-black  ${isEditing ? "text-primary" : ""}`}
+          className={`cursor-pointer text-black  ${
+            isEditing ? "text-primary" : ""
+          }`}
           onClick={toggleEditing}
         />
       </div>
@@ -272,7 +279,11 @@ const ProjectCard = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {actionType === "delete" ? "Confirm Delete" : actionType === "publish" ? "Publish Project" : "Unpublish Project"}
+              {actionType === "delete"
+                ? "Confirm Delete"
+                : actionType === "publish"
+                ? "Publish Project"
+                : "Unpublish Project"}
             </DialogTitle>
           </DialogHeader>
           {actionType === "delete" && (
@@ -288,17 +299,23 @@ const ProjectCard = ({
                   className="col-span-3"
                 />
               </div>
+
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="OTP" className="text-right">
                   OTP
                 </Label>
                 <Input
                   id="OTP"
-                  type="number"
+                  type="text"
                   value={Otp}
                   onChange={(event) => {
-                    setOtp(event.target.value);
+                    const value = event.target.value;
+                    if (/^\d{0,6}$/.test(value)) {
+                      setOtp(value);
+                    }
                   }}
+                  placeholder="Enter 6-digit OTP"
+                  maxLength={6}
                   className="col-span-3"
                 />
               </div>
@@ -317,9 +334,12 @@ const ProjectCard = ({
 };
 
 const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({
-   
-  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
@@ -385,7 +405,9 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
                 {...register("name")}
               />
               {errors.name && (
-                <p className="text-red-500 col-start-2 col-span-3">{errors.name.message}</p>
+                <p className="text-red-500 col-start-2 col-span-3">
+                  {errors.name.message}
+                </p>
               )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -399,7 +421,9 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
                 {...register("location")}
               />
               {errors.location && (
-                <p className="text-red-500 col-start-2 col-span-3">{errors.location.message}</p>
+                <p className="text-red-500 col-start-2 col-span-3">
+                  {errors.location.message}
+                </p>
               )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -413,7 +437,9 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
                 {...register("uploadfile")}
               />
               {errors.uploadfile && (
-                <p className="text-red-500 col-start-2 col-span-3">{errors.uploadfile.message}</p>
+                <p className="text-red-500 col-start-2 col-span-3">
+                  {errors.uploadfile.message}
+                </p>
               )}
             </div>
           </div>
@@ -429,4 +455,3 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
 };
 
 export default ProjectList;
-
