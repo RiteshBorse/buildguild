@@ -19,6 +19,7 @@ const Explore = () => {
           toast.warning("API Error, Please contact admin");
           return;
         }
+        console.log(res.data.explore);
         setexplore(res.data.explore);
         toast.success(res.data.message);
       } catch (error) {
@@ -107,14 +108,6 @@ const Explore = () => {
       </div>
 
 
-
-
-
-
-
-
-
-
       <h1 className="self-center text-3xl lg:text-5xl font-bold p-4 mt-10">
         Build your dream house with Us.
       </h1>
@@ -125,10 +118,10 @@ const Explore = () => {
             key={explore._id}
             className="bg-gray-100 flex flex-col items-center w-[400px] h-[270px] gap-2 shadow-md px-4 py-3 border-[0.5px] border-gray-300 rounded-md transition-shadow hover:shadow-lg"
           >
-            {/* Imaage */}
+            {/* Image */}
             <div className="w-full h-[200px]">
               <img
-                src={explore.project.displayImage}
+                src={explore?.project?.displayImage}
                 alt={explore.project.name}
                 className="w-full h-full object-cover rounded-t-md"
               />
@@ -145,7 +138,7 @@ const Explore = () => {
                 </p>
               </div>
               <Link to={`/explore-info/${explore._id}`}>
-                <Button className="bg-red-500 text-black text-xs px-3 py-1 rounded hover:bg-red-600">
+                <Button >
                   More Info
                 </Button>
               </Link>

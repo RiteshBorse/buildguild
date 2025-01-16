@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaUserCheck } from "react-icons/fa";
 import { FaToolbox } from "react-icons/fa6";
 import { IoBarChart } from "react-icons/io5";
@@ -27,107 +27,42 @@ import { motion } from "framer-motion";
 import { SignInButton, useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { toast } from "sonner";
-const Intro = () => {
+import Navbar from "../components/Navbar";
+
+const Landing = () => {
+  const clerkUser = useUser();
+  const { useAuthlogin } = useAuth();
+
+  const clerkLogin = async () => {
+    try {
+      const clearLoggedUserData = {
+        username: clerkUser?.user?.username,
+        email: clerkUser?.user?.primaryEmailAddress.emailAddress,
+        firstName: clerkUser?.user?.firstName,
+        id: clerkUser?.user?.id,
+      };
+      console.log(clearLoggedUserData);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/users/clerk-sign`,
+        clearLoggedUserData
+      );
+      console.log(res);
+      toast.success(res.data.message);
+      useAuthlogin(res.data.user);
+    } catch (error) {
+      const { response } = error;
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      console.log(error);
+      toast.error(response.data.message);
+    }
+  };
+
+  const [currentIndex, setCurrentIndex] = useState(0);
   const { isAuthenticated } = useAuth();
 
-  return (
-    <div className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
-      <div className="px-14">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl"
-        >
-          Building Dreams, Managing Reality
-        </motion.h1>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 "
-        >
-          <p>Next Generation Construction Management Tool</p>
-          <p className="text-xl mt-5 text-gray-400 w-[300px] sm:w-[600px]">
-            A construction management system integrates tools for efficient,
-            accurate <br />
-            project completion
-          </p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mt-6 flex gap-4"
-        >
-          {isAuthenticated ? (
-            <Link to="/projectlist">
-              <Button>Go to Dashboard</Button>
-            </Link>
-          ) : (
-            <SignInButton>
-              <Button>Get Started</Button>
-            </SignInButton>
-          )}
-          <Link to="/explore">
-            <Button variant="outline">Explore</Button>
-          </Link>
-          <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing">
-            <Button variant="link">Watch Tutorial</Button>
-          </a>
-        </motion.div>
-      </div>
-    </div>
-  );
-};
-
-const Services = () => {
-  return (
-    <div className="flex mt-10 mx-14 gap-8 sm:flex flex-wrap font-roboto-condensed">
-      <motion.div
-        initial={{ opacity: 0, y: 70 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
-      >
-        <p className="text-3xl">
-          <FaUserCheck />
-        </p>
-        <h2 className="text-xl font-semibold">User Friendly Interface</h2>
-        <p>User-friendly customizable dashboard for quick customization</p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 70 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
-      >
-        <p className="text-3xl">
-          <FaToolbox />
-        </p>
-        <h2 className="text-xl font-semibold">Comprehensive Feature Set</h2>
-        <p>All-in-one solution with advanced collaboration tools</p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 70 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="shadow-lg bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
-      >
-        <p className="text-3xl">
-          <IoBarChart />
-        </p>
-        <h2 className="text-xl font-semibold">Scalability and Flexibility</h2>
-        <p>Scalable for all projects with custom integrations</p>
-      </motion.div>
-    </div>
-  );
-};
-
-const Report = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const items = [
     {
       title: "Field Reporting",
@@ -182,14 +117,136 @@ const Report = () => {
   };
 
   useEffect(() => {
+    if (clerkUser.user) {
+      clerkLogin();
+    }
+  }, [clerkUser.user]);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     }, 3000);
     return () => clearInterval(interval);
   }, [items.length]);
 
+  const homeRef = useRef(null);
+  const featuresRef = useRef(null)
+  const aboutRef = useRef(null)
+  const contactRef = useRef(null)
+
+  const scrollTo = (id) => {
+    let ref
+    switch (id) {
+      case 'home':
+        ref = homeRef
+        break
+      case 'features':
+        ref = featuresRef
+        break
+      case 'about':
+        ref = aboutRef
+        break
+      case 'contact':
+        ref = contactRef
+        break
+      default:
+        return
+    }
+    ref.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
-    <Carousel className="w-full overflow-hidden mt-10">
+    <div className = "relative min-h-screen">
+      <Navbar scrollTo={scrollTo} />
+      <section  ref={homeRef} className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
+      <div className="px-14">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="font-bold bg-clip-text text-transparent bg-gradient-to-b from-black to-gray-500 mt-10 py-1 text-5xl md:text-7xl"
+        >
+          Building Dreams, Managing Reality
+        </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-gray-500 mt-5 text-2xl w-40 sm:w-80 "
+        >
+          <p>Next Generation Construction Management Tool</p>
+          <p className="text-xl mt-5 text-gray-400 w-[300px] sm:w-[600px]">
+            A construction management system integrates tools for efficient,
+            accurate <br />
+            project completion
+          </p>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mt-6 flex gap-4"
+        >
+          {isAuthenticated ? (
+            <Link to="/projectlist">
+              <Button>Go to Dashboard</Button>
+            </Link>
+          ) : (
+            <SignInButton>
+              <Button>Get Started</Button>
+            </SignInButton>
+          )}
+          <Link to="/explore">
+            <Button variant="outline">Explore</Button>
+          </Link>
+          <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing">
+            <Button variant="link">Watch Tutorial</Button>
+          </a>
+        </motion.div>
+      </div>
+    </section>
+    <section   className="flex mt-10 mx-14 gap-8 sm:flex flex-wrap font-roboto-condensed">
+      <motion.div
+        initial={{ opacity: 0, y: 70 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
+        <p className="text-3xl">
+          <FaUserCheck />
+        </p>
+        <h2 className="text-xl font-semibold">User Friendly Interface</h2>
+        <p>User-friendly customizable dashboard for quick customization</p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 70 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="shadow-md bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
+        <p className="text-3xl">
+          <FaToolbox />
+        </p>
+        <h2 className="text-xl font-semibold">Comprehensive Feature Set</h2>
+        <p>All-in-one solution with advanced collaboration tools</p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 70 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="shadow-lg bg-clip-border border-[0.5px] border-gray-200 rounded-xl w-80 p-4"
+      >
+        <p className="text-3xl">
+          <IoBarChart />
+        </p>
+        <h2 className="text-xl font-semibold">Scalability and Flexibility</h2>
+        <p>Scalable for all projects with custom integrations</p>
+      </motion.div>
+    </section>
+    <section ref={featuresRef}>
+<Carousel className="w-full overflow-hidden mt-10">
       <CarouselContent
         className="flex transition-transform duration-700 ease-in-out"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -219,88 +276,9 @@ const Report = () => {
         ))}
       </CarouselContent>
     </Carousel>
-  );
-};
+    </section>
 
-const ContactUs = () => {
-  return (
-    <motion.div
-      initial={{ scale: 0.9, y: -200 }}
-      whileInView={{ scale: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black"
-    >
-      <div className="md:w-1/2 mb-8 md:mb-0">
-        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
-        <p className="mb-8 text-lg">
-          Contact us for expert assistance with all your construction management
-          needs.
-        </p>
-
-        <div className="mb-6 flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrMapLocation className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">Nashik, Maharashtra, India</p>
-          </div>
-        </div>
-
-        <div className="mb-6 flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrPhone className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">(+91) 9031138044</p>
-          </div>
-        </div>
-
-        <div className="flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrMail className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">buildguild@gmail.com</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="md:w-1/2 bg-gradient-to-br from-black to-gray-800 text-white p-8 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-6 text-center">
-          Get in Touch
-        </h3>
-        <form className="flex flex-col space-y-5">
-          <input
-            type="text"
-            placeholder="Name"
-            className="p-4 rounded-lg bg-gray-200 text-black focus:ring-2  transition duration-200 ease-in-out outline-none"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
-            required
-          />
-          <textarea
-            placeholder="Message"
-            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 "
-          >
-            Send Message
-          </button>
-        </form>
-      </div>
-    </motion.div>
-  );
-};
-const About = () => {
-  return (
-    <div className="font-roboto-condensed">
+      <section ref={aboutRef} className="font-roboto-condensed">
       <div>
         <h1 className="font-bold text-center sm:text-left text-4xl p-6 sm:p-10">
           About Us
@@ -467,60 +445,80 @@ const About = () => {
           </div>
         </motion.div>
       </div>
-    </div>
-  );
-};
+    </section>
+      <motion.section ref={contactRef} 
+      initial={{ scale: 0.9, y: -200 }}
+      whileInView={{ scale: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black"
+    >
+      <div className="md:w-1/2 mb-8 md:mb-0">
+        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
+        <p className="mb-8 text-lg">
+          Contact us for expert assistance with all your construction management
+          needs.
+        </p>
 
-const Landing = () => {
-  const clerkUser = useUser();
-  const { useAuthlogin } = useAuth();
+        <div className="mb-6 flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrMapLocation className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">Nashik, Maharashtra, India</p>
+          </div>
+        </div>
 
-  const clerkLogin = async () => {
-    try {
-      const clearLoggedUserData = {
-        username: clerkUser?.user?.username,
-        email: clerkUser?.user?.primaryEmailAddress.emailAddress,
-        firstName: clerkUser?.user?.firstName,
-        id: clerkUser?.user?.id,
-      };
-      console.log(clearLoggedUserData);
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/users/clerk-sign`,
-        clearLoggedUserData
-      );
-      console.log(res);
-      toast.success(res.data.message);
-      useAuthlogin(res.data.user);
-    } catch (error) {
-      const { response } = error;
-      if (!response) {
-        toast.error("Database connection error");
-        return;
-      }
-      console.log(error);
-      toast.error(response.data.message);
-    }
-  };
+        <div className="mb-6 flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrPhone className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">(+91) 9031138044</p>
+          </div>
+        </div>
 
-  useEffect(() => {
-    if (clerkUser.user) {
-      clerkLogin();
-    }
-  }, [clerkUser.user]);
+        <div className="flex items-center">
+          <div className="bg-black p-3 rounded-full mr-4">
+            <GrMail className="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p className="text-lg">buildguild@gmail.com</p>
+          </div>
+        </div>
+      </div>
 
-  return (
-    <div className = "relative min-h-screen">
-      <Intro />
-      <Services />
-      <Report />
+      <div className="md:w-1/2 bg-gradient-to-br from-black to-gray-800 text-white p-8 rounded-lg shadow-lg">
+        <h3 className="text-2xl font-semibold mb-6 text-center">
+          Get in Touch
+        </h3>
+        <form className="flex flex-col space-y-5">
+          <input
+            type="text"
+            placeholder="Name"
+            className="p-4 rounded-lg bg-gray-200 text-black focus:ring-2  transition duration-200 ease-in-out outline-none"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
+            required
+          />
+          <textarea
+            placeholder="Message"
+            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
+            required
+          />
+          <button
+            type="submit"
+            className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 "
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </motion.section>
 
-      <About />
-      <ContactUs />
-      <iframe
-        src="https://www.chatbase.co/chatbot-iframe/OjUPNhz24gT-UgkNyqlj6"
-        className="absolute left-0 bottom-0 w-[50px] h-[50px] border-none"
-        title="Chatbot"
-      ></iframe>
     </div>
   );
 };
