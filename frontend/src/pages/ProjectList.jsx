@@ -150,6 +150,7 @@ const ProjectCard = ({
   const [email, setEmail] = useState("");
   const [Otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const toggleEditing = (e) => {
@@ -202,9 +203,11 @@ const ProjectCard = ({
 
   const handlePublishToggle = async () => {
     try {
-      const res = await axios.get(
-        `${import.meta.env.VITE_API_URL}/projects/publish/${projectId}`
-      );
+      const endpoint = published
+        ? `${import.meta.env.VITE_API_URL}/projects/unPublish/${projectId}`
+        : `${import.meta.env.VITE_API_URL}/projects/publish/${projectId}`;
+
+      const res = await axios.get(endpoint);
       if (!apiVerify(res)) {
         toast.warning("API Error, Please contact admin");
         return;
