@@ -129,7 +129,7 @@ const Explore = () => {
 
             {/* Text */}
             <div className="flex items-center justify-between w-full min-h-[40px] pl-5 px-3 py-1 rounded-b-md">
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 overflow-hidden pr-3">
                 <p className="text-sm font-medium text-black truncate">
                   {explore.project.name}
                 </p>
@@ -143,6 +143,8 @@ const Explore = () => {
                 </Button>
               </Link>
             </div>
+
+
           </div>
         ))}
       </div>

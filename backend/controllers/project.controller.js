@@ -67,9 +67,11 @@ const deleteProject = asyncHandler(async (req, res) => {
 
 const publishProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const { user } = req;
   const project = await Project.findById(id);
+  if(!project.description || !project.contact){
+    return res.status(400).send({ message: "Project not ready for publishing yet ", success: false });
+  }
   project.published = true;
   await project.save();
   const explore = await Explore.create({

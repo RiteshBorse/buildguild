@@ -372,6 +372,7 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
       addProjectToList(res.data.project);
       reset();
       onClose();
+      window.location.reload();
     } catch (error) {
       const { response } = error;
 
