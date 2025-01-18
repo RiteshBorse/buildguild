@@ -67,9 +67,11 @@ const deleteProject = asyncHandler(async (req, res) => {
 
 const publishProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const { user } = req;
   const project = await Project.findById(id);
+  if(!project.description || !project.contact){
+    return res.status(400).send({ message: "Project not ready for publishing yet ", success: false });
+  }
   project.published = true;
   await project.save();
   const explore = await Explore.create({
@@ -80,6 +82,17 @@ const publishProject = asyncHandler(async (req, res) => {
   return res.status(200).send({ message: "Project Published", success: true });
 });
 
+const unPublishProject = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const { user } = req;
+  const project = await Project.findById(id);
+  project.published = false;
+  await project.save();
+  await Explore.findOneAndDelete({project:id, user:user._id});
+  return res.status(200).send({ message: "Project UnPublished", success: true });
+});
+
 const getProject = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const project = await Project.findById(id);
@@ -87,4 +100,4 @@ const getProject = asyncHandler(async (req, res) => {
     .status(200)
     .send({ message: "Project fetched", succes: true, project });
 });
-export { getMyProjects, createProject, deleteProject, publishProject,getProject};
+export { getMyProjects, createProject, deleteProject, publishProject,unPublishProject,getProject};

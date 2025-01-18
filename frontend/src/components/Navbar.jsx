@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
@@ -33,7 +33,7 @@ import {
 } from "@clerk/clerk-react";
 import { useUser } from "@clerk/clerk-react";
 
-const Navbar = () => {
+const Navbar = ({ scrollTo }) => {
   const { useAuthlogin, useAuthlogout, user, isAuthenticated } = useAuth();
   const [isOpen, setisOpen] = useState(false);
   const [onClickLogin, setonClickLogin] = useState(false);
@@ -94,7 +94,7 @@ const Navbar = () => {
 
       {/* Desktop View */}
       <div className="hidden md:flex text-xl items-center gap-6">
-        <Link to="/">
+        {/* <Link to="/">
           <Button className="text-lg font-light" variant="ghost">
             Home
           </Button>
@@ -107,7 +107,7 @@ const Navbar = () => {
         </Button>
         <Button className="text-lg font-light" variant="ghost">
           Contact Us
-        </Button>
+        </Button> */}
         {/* {!isAuthenticated ? (
           <Button onClick={toggleLogin} className="text-lg font-light">
             Login
@@ -116,6 +116,18 @@ const Navbar = () => {
           <LoggedUserDropdown user={user} />
         )} */}
 
+        <Button variant="ghost" onClick={() => scrollTo("home")}>
+          Home
+        </Button>
+        <Button variant="ghost" onClick={() => scrollTo("features")}>
+          Features
+        </Button>
+        <Button variant="ghost" onClick={() => scrollTo("about")}>
+          About
+        </Button>
+        <Button variant="ghost" onClick={() => scrollTo("contact")}>
+          Contact
+        </Button>
         <SignedOut>
           <SignInButton mode="modal" fallbackRedirectUrl="/" />
         </SignedOut>

@@ -52,14 +52,15 @@ const ExploreInfo = () => {
           />
         </div>
         <div className="invisible sm:visible border-[1px] border-grey h-[70%] self-center"></div>
-        <div className="w-full sm:w-1/2 flex flex-col gap-12 sm:justify-center sm:items-center p-5 px-10">
+        <div className="w-full  sm:w-1/2 flex flex-col gap-12 sm:justify-center sm:items-center p-5 px-10">
           <h1 className="self-start font-bold text-4xl">{explore?.project?.name || "Title"}</h1>
-          <p>
-            {explore?.project?.description ||
-              "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, cumque perferendis beatae modi nihil obcaecati nesciunt voluptate magnam vitae! Unde, libero non! Quos natus a exercitationem, veritatis reiciendis qui accusantium!"}
+          <p className="w-full">
+            {explore?.project?.description 
+            ||
+              "No Project Description Added yet !"}
             <br />
             <br />
-            <span className="text-xl">Contact Us : +91 8888046902</span>
+            <span className="text-xl">Contact Us : +91 {explore?.project?.contact || "Not Available"}</span>
           </p>
           <div className="flex gap-2 self-start">
             <Button>Pre Apply</Button>

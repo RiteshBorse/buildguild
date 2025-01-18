@@ -5,6 +5,7 @@ import { Address } from "../models/Administration/address.model.js";
 import { Contact } from "../models/Administration/contact.model.js";
 import { ExtraInfo } from "../models/Administration/extrainfo.model.js";
 import { Attachment } from "../models/Administration/attachment.model.js";
+import { Project } from "../models/Project/project.model.js";
 
 const addMainInfo = asyncHandler(async (req, res) => {
   const {
@@ -15,7 +16,7 @@ const addMainInfo = asyncHandler(async (req, res) => {
     description,
     belongs_to,
     zone,
-    start_date,
+    start_date
   } = req.body;
   const {body} = req;
 
@@ -35,6 +36,7 @@ const addMainInfo = asyncHandler(async (req, res) => {
   let main_info_id = user.projects[0].insights.administration.main_info._id;
   main_info_id = main_info_id.toString();
   const main_info = await AMainInfo.findByIdAndUpdate(main_info_id ,{...body} , {new : true});
+  const project = await Project.findByIdAndUpdate(req.params.id.toString(), {description:description}, {new : true});
   res.status(200).send({message : "Main Info Saved" , success : true});
 });
 
@@ -129,11 +131,8 @@ const addContact = asyncHandler(async (req, res) => {
   });
   let contact_id = user.projects[0].insights.administration.contact._id;
   contact_id = contact_id.toString();
-  const contact = await Contact.findByIdAndUpdate(
-    contact_id,
-    { ...body },
-    { new: true }
-  );
+  const contact = await Contact.findByIdAndUpdate(contact_id ,{...body} , {new : true});
+  const project = await Project.findByIdAndUpdate(req.params.id.toString(), {contact:contact_number}, {new : true});
   res.status(200).send({ message: "Contact Saved", success: true });
 });
 
@@ -217,9 +216,6 @@ const getExtraInfo = asyncHandler(async (req, res) => {
     .status(200)
     .send({ message: "Fetched Extra Info", success: true, extra_info });
 });
-
-
-
 
 const addAttachment = asyncHandler(async (req, res) => {
   const imageUrl = req.imageUrl; 
