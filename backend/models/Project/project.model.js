@@ -30,6 +30,12 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    description:{
+        type: String,
+    },
+    contact:{
+        type:String,
     }
 });
 

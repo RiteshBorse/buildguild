@@ -7,7 +7,6 @@ import { uploadFile } from "../middleware/cloudinary.middleware.js";
 
 const router = Router();
 
-
 router.route("/clerk-sign").post(clerkSignUp)
 router.route("/signin").post(checkExisting , signIn)
 router.route("/login").post(checkExisting , login)

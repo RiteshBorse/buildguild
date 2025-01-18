@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 
 const Explore = () => {
   const [explore, setexplore] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterBy, setFilterBy] = useState("name");
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -17,6 +19,7 @@ const Explore = () => {
           toast.warning("API Error, Please contact admin");
           return;
         }
+        console.log(res.data.explore);
         setexplore(res.data.explore);
         toast.success(res.data.message);
       } catch (error) {
@@ -35,45 +38,113 @@ const Explore = () => {
     fetchProject();
   }, []);
 
+  const filteredExplore = searchQuery
+    ? explore.filter((explore) =>
+        filterBy === "name"
+          ? explore.project.name
+              .toLowerCase()
+              .startsWith(searchQuery.toLowerCase())
+          : explore.project.location
+              .toLowerCase()
+              .startsWith(searchQuery.toLowerCase())
+      )
+    : explore;
+
   return (
     <div className="flex flex-col">
-      <div className="mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
+
+
+      <div className=" mt-[70px] h-1/2 sm:h-1/3 flex flex-col items-center relative">
         <img
-          className="object-cover w-full h-[200px] bg-red-200"
+          className="object-cover w-full h-[200px]"
           src={buildingImage}
           alt="Building"
         />
 
+        <div className="flex flex-row absolute bottom-[30px] justify-center gap-4 w-fit px-4 z-10 bg-white opacity-85 rounded-t-lg">
+          <div>
+            <input
+              type="radio"
+              id="filterByName"
+              name="filter"
+              value="name"
+              checked={filterBy === "name"}
+              onChange={() => setFilterBy("name")}
+            />
+            <label htmlFor="filterByName" className="ml-2 text-sm">
+              Name
+            </label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="filterByLocation"
+              name="filter"
+              value="location"
+              checked={filterBy === "location"}
+              onChange={() => setFilterBy("location")}
+            />
+            <label htmlFor="filterByLocation" className="ml-2 text-sm">
+              Location
+            </label>
+          </div>
+        </div>
+
         <div className="flex justify-between bg-white w-2/3 absolute bottom-[-25px] rounded-xl drop-shadow py-2 px-4">
           <input
             type="text"
-            placeholder="Destination"
+            placeholder={
+              filterBy === "name"
+                ? "Search by Project Name"
+                : "Search by Project Location"
+            }
             className="outline-none w-full"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Button>Search</Button>
         </div>
+
       </div>
+
+
       <h1 className="self-center text-3xl lg:text-5xl font-bold p-4 mt-10">
         Build your dream house with Us.
       </h1>
 
-      <div className="flex flex-col sm:flex-row gap-4 w-full sm:gap-8 sm:px-5">
-        {explore.map((explore) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-5 pl-20">
+        {filteredExplore.map((explore) => (
           <div
             key={explore._id}
-            className="flex flex-row sm:flex-col items-center w-[90%] sm:w-[400px] h-[150px] sm:h-fit self-center gap-4 shadow-md px-4 py-4 border-[0.5px] border-gray-300 rounded-sm"
+            className="bg-gray-100 flex flex-col items-center w-[400px] h-[270px] gap-2 shadow-md px-4 py-3 border-[0.5px] border-gray-300 rounded-md transition-shadow hover:shadow-lg"
           >
-            <img
-              src={explore.project.displayImage}
-              className="w-[50%] sm:w-full rounded-sm"
-            />
-            <div className="flex flex-col sm:flex-row gap-2 justify-around w-full items-start sm:items-center">
-              <div className="flex flex-col gap-2">
-                <p className="text-xl sm:text-4xl font-bold">{explore.project.name}</p>
-                <p>{explore.project.location}</p>
-              </div>
-              <Link to={`/explore-info/${explore._id}`}><Button className="bg-red-500">More Info</Button></Link>
+            {/* Image */}
+            <div className="w-full h-[200px]">
+              <img
+                src={explore?.project?.displayImage}
+                alt={explore.project.name}
+                className="w-full h-full object-cover rounded-t-md"
+              />
             </div>
+
+            {/* Text */}
+            <div className="flex items-center justify-between w-full min-h-[40px] pl-5 px-3 py-1 rounded-b-md">
+              <div className="flex flex-col gap-1 overflow-hidden pr-3">
+                <p className="text-sm font-medium text-black truncate">
+                  {explore.project.name}
+                </p>
+                <p className="text-xs text-gray-700 truncate">
+                  {explore.project.location}
+                </p>
+              </div>
+              <Link to={`/explore-info/${explore._id}`}>
+                <Button >
+                  More Info
+                </Button>
+              </Link>
+            </div>
+
+
           </div>
         ))}
       </div>
