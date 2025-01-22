@@ -1,37 +1,36 @@
-import { useState, useEffect, useRef } from "react";
-import { FaUserCheck } from "react-icons/fa";
-import { FaToolbox } from "react-icons/fa6";
-import { IoBarChart } from "react-icons/io5";
-import report from "../images/report.png";
-import chatbot from "../images/chatbot.png";
-import budget from "../images/budget.jpg";
-import schedule from "../images/schedule.avif";
-import document from "../images/budget.jpg";
-import communication from "../images/communication.jpg";
-import Ritesh from "../images/ritesh.png";
-import Kanaad from "../images/kannad.png";
-import divya from "../images/divya.png";
-import Ankur from "../images/ankur.png";
-import { BiLogoLinkedinSquare } from "react-icons/bi";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { GrMapLocation, GrPhone, GrMail } from "react-icons/gr";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import useAuth from "@/context/authContext";
-import { SiGithub } from "react-icons/si";
-import { motion } from "framer-motion";
-import { SignInButton, useUser } from "@clerk/clerk-react";
-import axios from "axios";
-import { toast } from "sonner";
-import Navbar from "../components/Navbar";
+import { useState, useEffect, useRef } from "react"
+import { FaUserCheck } from "react-icons/fa"
+import { FaToolbox } from "react-icons/fa6"
+import { IoBarChart } from "react-icons/io5"
+import report from "../images/report.png"
+import chatbot from "../images/chatbot.png"
+import budget from "../images/budget.jpg"
+import schedule from "../images/schedule.avif"
+import document from "../images/budget.jpg"
+import communication from "../images/communication.jpg"
+import Ritesh from "../images/ritesh.png"
+import Kanaad from "../images/kannad.png"
+import divya from "../images/divya.png"
+import Ankur from "../images/ankur.png"
+import { BiLogoLinkedinSquare } from "react-icons/bi"
+import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
+import { GrMapLocation, GrPhone, GrMail } from "react-icons/gr"
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
+import useAuth from "@/context/authContext"
+import { SiGithub } from "react-icons/si"
+import { motion } from "framer-motion"
+import { SignInButton, useUser } from "@clerk/clerk-react"
+import axios from "axios"
+import { toast } from "sonner"
+import Navbar from "../components/Navbar"
+import { Check, CheckIcon , CrossIcon, Plus } from "lucide-react"
+import app from '@/assets/app.png'
+import android from '@/assets/android.png'
 
 const Landing = () => {
-  const clerkUser = useUser();
-  const { useAuthlogin } = useAuth();
+  const clerkUser = useUser()
+  const { useAuthlogin } = useAuth()
 
   const clerkLogin = async () => {
     try {
@@ -40,28 +39,25 @@ const Landing = () => {
         email: clerkUser?.user?.primaryEmailAddress.emailAddress,
         firstName: clerkUser?.user?.firstName,
         id: clerkUser?.user?.id,
-      };
-      console.log(clearLoggedUserData);
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/users/clerk-sign`,
-        clearLoggedUserData
-      );
-      console.log(res);
-      toast.success(res.data.message);
-      useAuthlogin(res.data.user);
-    } catch (error) {
-      const { response } = error;
-      if (!response) {
-        toast.error("Database connection error");
-        return;
       }
-      console.log(error);
-      toast.error(response.data.message);
+      console.log(clearLoggedUserData)
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/users/clerk-sign`, clearLoggedUserData)
+      console.log(res)
+      toast.success(res.data.message)
+      useAuthlogin(res.data.user)
+    } catch (error) {
+      const { response } = error
+      if (!response) {
+        toast.error("Database connection error")
+        return
+      }
+      console.log(error)
+      toast.error(response.data.message)
     }
-  };
+  }
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const { isAuthenticated } = useAuth();
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const { isAuthenticated } = useAuth()
 
   const items = [
     {
@@ -100,36 +96,31 @@ const Landing = () => {
         "Leverage an intuitive chatbot feature to facilitate instant communication, provide quick answers to queries, and enhance user engagement, ensuring a seamless and efficient interaction experience for all stakeholders.",
       image: chatbot,
     },
-  ];
+  ]
 
   const imageStyles = {
-    "Field Reporting":
-      "w-full sm:w-[80%] md:w-[90%] h-[260px] sm:h-[240px] object-cover shadow-lg  rounded-2xl",
-    "Budget Management":
-      "w-full sm:w-[80%] h-[260px] sm:h-[240px] object-cover shadow-lg rounded-2xl",
-    "Schedule Management":
-      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-    "Document Management":
-      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-    "Communication Tools":
-      "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Field Reporting": "w-full sm:w-[80%] md:w-[90%] h-[260px] sm:h-[240px] object-cover shadow-lg  rounded-2xl",
+    "Budget Management": "w-full sm:w-[80%] h-[260px] sm:h-[240px] object-cover shadow-lg rounded-2xl",
+    "Schedule Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Document Management": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
+    "Communication Tools": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
     Chatbot: "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
-  };
+  }
 
   useEffect(() => {
     if (clerkUser.user) {
-      clerkLogin();
+      clerkLogin()
     }
-  }, [clerkUser.user]);
+  }, [clerkUser.user])
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [items.length]);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [items.length])
 
-  const homeRef = useRef(null);
+  const homeRef = useRef(null)
   const featuresRef = useRef(null)
   const aboutRef = useRef(null)
   const contactRef = useRef(null)
@@ -137,29 +128,31 @@ const Landing = () => {
   const scrollTo = (id) => {
     let ref
     switch (id) {
-      case 'home':
+      case "home":
         ref = homeRef
         break
-      case 'features':
+      case "features":
         ref = featuresRef
         break
-      case 'about':
+      case "about":
         ref = aboutRef
         break
-      case 'contact':
+      case "contact":
         ref = contactRef
         break
       default:
         return
     }
-    ref.current?.scrollIntoView({ behavior: 'smooth' })
+    ref.current?.scrollIntoView({ behavior: "smooth" })
   }
 
   return (
     <div className = "relative min-h-screen">
       <Navbar scrollTo={scrollTo} />
       <section  ref={homeRef} className="grid grid-cols-1 font-roboto-condensed pt-14 sm:pt-20">
-      <div className="px-14">
+     
+      <div className="px-14 flex justify-between w-full">
+        <div>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -202,7 +195,18 @@ const Landing = () => {
           <a href="https://drive.google.com/file/d/1zkIRAcWNzBAFg05EBBKo8f2RT-XZD-0p/view?usp=sharing">
             <Button variant="link">Watch Tutorial</Button>
           </a>
+           
+          <a href='/buildguild.apk' className="flex items-center gap-2">
+          <img src={android} alt="" className="size-8" />
+            <Button className="p-0" variant="link">Download App</Button>
+          </a>
+          
         </motion.div>
+        </div>
+        <div>
+          <img src={app} alt="" className="absolute top-24 scale-[1.35] rotate-6 -right-12 w-[500px]"/>
+        </div>
+        
       </div>
     </section>
     <section   className="flex mt-10 mx-14 gap-8 sm:flex flex-wrap font-roboto-condensed">
@@ -265,7 +269,7 @@ const Landing = () => {
                 </div>
                 <div className="flex justify-center sm:order-2 p-4 md:p-6">
                   <img
-                    src={item.image}
+                    src={item.image || "/placeholder.svg"}
                     alt={item.title}
                     className={imageStyles[item.title]}
                   />
@@ -277,6 +281,158 @@ const Landing = () => {
       </CarouselContent>
     </Carousel>
     </section>
+
+    <section className="py-16 px-4 sm:px-6 lg:px-8 font-roboto-condensed">
+  <div className="max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
+      {/* Individual Plan */}
+      <div className="relative bg-gradient-to-b from-red-50 to-white rounded-2xl p-8 shadow-lg">
+        <h3 className="text-2xl font-medium">Free</h3>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Starts at</p>
+          <div className="flex items-baseline mt-2">
+            <span className="text-5xl font-bold tracking-tight">₹0</span>
+            <span className="ml-2 text-gray-600">per month/user</span>
+          </div>
+        </div>
+        <p className="mt-6 text-gray-600">
+          Good for individuals who are just starting out and simply want the essentials.
+        </p>
+        <Button className="mt-8 w-full" variant="outline">
+          Get started
+        </Button>
+        <div className="mt-8">
+          <h4 className="text-lg font-medium">Free, forever</h4>
+          <ul className="mt-6 space-y-4">
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">1 Project</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Unlimited Data</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Unlimited event types</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Workflows</span>
+            </li>
+            <li className="flex items-start">
+              <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+              <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
+            </li>
+            <li className="flex items-start"> 
+              <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+              <span className="ml-3 text-gray-600">Advanced Analysis</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Teams Plan */}
+      <div className="relative bg-gradient-to-b from-blue-50 to-white rounded-2xl p-8 shadow-lg">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+          <span className="bg-black text-white px-4 py-1 rounded-full text-sm">
+            30 days free trial
+          </span>
+        </div>
+        <h3 className="text-2xl font-medium">Premium</h3>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Starts at</p>
+          <div className="flex items-baseline mt-2">
+            <span className="text-5xl font-bold tracking-tight">₹899</span>
+            <span className="ml-2 text-gray-600">per month/user</span>
+          </div>
+        </div>
+        <p className="mt-6 text-gray-600">
+          Highly recommended for small teams who seek to upgrade their time & perform.
+        </p>
+        <Button className="mt-8 w-full">
+          Get started
+        </Button>
+        <div className="mt-8">
+          <h4 className="text-lg font-medium">Free plan features, plus:</h4>
+          <ul className="mt-6 space-y-4">
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">1 team</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Schedule meetings as a team</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Round-Robin, Fixed Round-Robin</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Collective Events</span>
+            </li>
+            <li className="flex items-start">
+            <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+            <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
+            </li>
+            <li className="flex items-start">
+            <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+            <span className="ml-3 text-gray-600">Advanced Analysis</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Enterprise Plan */}
+      <div className="relative bg-gradient-to-b from-cyan-50 to-white rounded-2xl p-8 shadow-lg">
+        <h3 className="text-2xl font-medium">Express</h3>
+        <div className="mt-4">
+          <p className="text-sm text-gray-600">Starts at</p>
+          <div className="flex items-baseline mt-2">
+            <span className="text-5xl font-bold tracking-tight">₹1799</span>
+            <span className="ml-2 text-gray-600">per year</span>
+          </div>
+        </div>
+        <p className="mt-6 text-gray-600">
+          Robust scheduling for larger teams looking to have more control, privacy & security.
+        </p>
+        <Button className="mt-8 w-full" variant="outline">
+          Contact us
+        </Button>
+        <div className="mt-8">
+          <h4 className="text-lg font-medium">Organization plan features, plus:</h4>
+          <ul className="mt-6 space-y-4">
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">1 parent team and unlimited sub-teams</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Organization workflows</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Insights - analyze your booking data</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">Active directory sync</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+              <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
+            </li>
+            <li className="flex items-start">
+              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0 " />
+              <span className="ml-3 text-gray-600">Advanced Analysis</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       <section ref={aboutRef} className="font-roboto-condensed">
       <div>
@@ -357,11 +513,11 @@ const Landing = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/ritesh-borse-293564223/"
-                target="_blank"
+                target="_blank" rel="noreferrer"
               >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-700 transition-colors duration-200" />
               </a>
-              <a href="https://github.com/riteshborse" target="_blank">
+              <a href="https://github.com/riteshborse" target="_blank" rel="noreferrer">
                 <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
               </a>
             </div>
@@ -396,11 +552,11 @@ const Landing = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/bhatkanaad314/"
-                target="_blank"
+                target="_blank" rel="noreferrer"
               >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
               </a>
-              <a href="https://github.com/kanaadbhat" target="_blank">
+              <a href="https://github.com/kanaadbhat" target="_blank" rel="noreferrer">
                 <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
               </a>
             </div>
@@ -434,11 +590,11 @@ const Landing = () => {
             <div className="flex justify-center items-center mt-4 space-x-4">
               <a
                 href="https://www.linkedin.com/in/ankur-kumar-5625a71b0/"
-                target="_blank"
+                target="_blank" rel="noreferrer"
               >
                 <BiLogoLinkedinSquare className="w-8 h-8 text-blue-400 hover:text-blue-400 transition-colors duration-200" />
               </a>
-              <a href="https://github.com/Ankur1404" target="_blank">
+              <a href="https://github.com/Ankur1404" target="_blank" rel="noreferrer">
                 <SiGithub className="w-8 h-8 text-blue-300 hover:text-gray-100 transition-colors duration-200" />
               </a>
             </div>
@@ -518,9 +674,9 @@ const Landing = () => {
         </form>
       </div>
     </motion.section>
-
     </div>
-  );
-};
+  )
+}
 
-export default Landing;
+export default Landing
+
