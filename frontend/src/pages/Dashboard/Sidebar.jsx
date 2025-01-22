@@ -1,72 +1,82 @@
 import {
-    Menu,
-    Package,
-    User2,
-    Workflow,
-  } from "lucide-react";
-  import React, { useState } from "react";
-  import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-  } from "@/components/ui/sheet";
-  import { FaMoneyBill } from "react-icons/fa";
-  import { useNavigate } from "react-router-dom";
+  Menu,
+  Package,
+  User2,
+  Workflow,
+  BarChart3
+} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { FaMoneyBill } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Sidebar = ({id}) => {
-    const Navigate = useNavigate();
-    const [menuOpen, setmenuOpen] = useState(false);
-    const [menuValue, setmenuValue] = useState("");
-    const handleMenu = () => {
-      setmenuOpen(!menuOpen);
-    };
-    const onClickMenuItems = (value) => {
-      setmenuValue(value)
-      handleMenu();
-      Navigate(`/${value}/${id}`)
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const { id } = useParams(); 
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuValue, setMenuValue] = useState("");
+
+  const handleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
+  const menuItems = [
+    { value: 'administration', icon: User2, label: 'Administration' },
+    { value: 'engineering', icon: Workflow, label: 'Engineering' },
+    { value: 'materials', icon: Package, label: 'Materials' },
+    { value: 'financials', icon: FaMoneyBill, label: 'Financials' },
+    { value: 'analysis', icon: BarChart3, label: 'Analysis' }
+  ];
+
+  const onClickMenuItems = (value) => {
+    setMenuValue(value);
+    handleMenu();
+    if (id) {
+      navigate(`/${value}/${id}`);
+    } else {
+      console.warn('No ID available in URL parameters');
     }
-    
-    return (
-      <div>
-        <Menu onClick={handleMenu} />
-        <Sheet open={menuOpen} onOpenChange={setmenuOpen}>
-          <SheetContent side="left">
-            <SheetHeader className="flex flex-col mx-auto items-center justify-center w-full my-10 gap-5">
-              <SheetTitle className="text-3xl">Dashboard</SheetTitle>
-              <SheetDescription className="w-2/3 flex flex-col gap-4">
-                <div className="flex items-center justify-start px-3 gap-2 shadow-sm py-2 border hover:bg-gray-300 hover:text-black  border-gray-200 rounded-sm" onClick={()=>{onClickMenuItems('administration')}}>
-                  <User2 className="w-5 h-5 flex-shrink-0" />
-                  <p>Administration</p>
+  };
+  useEffect(() => {
+    const path = window.location.pathname;
+    const currentSection = menuItems.find(item => path.includes(item.value));
+    if (currentSection) {
+      setMenuValue(currentSection.value);
+    }
+  }, []);
+
+  return (
+    <div>
+      <Menu onClick={handleMenu} />
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent side="left">
+          <SheetHeader className="flex flex-col mx-auto items-center justify-center w-full my-10 gap-5">
+            <SheetTitle className="text-3xl">Dashboard</SheetTitle>
+            <SheetDescription className="w-2/3 flex flex-col gap-4">
+              {menuItems.map(({ value, icon: Icon, label }) => (
+                <div
+                  key={value}
+                  className={`flex items-center justify-start px-3 gap-2 shadow-sm py-2 border 
+                    hover:bg-gray-300 hover:text-black rounded-sm cursor-pointer
+                    ${menuValue === value ? 'bg-gray-200' : ''}`}
+                  onClick={() => onClickMenuItems(value)}
+                >
+                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <p>{label}</p>
                 </div>
-  
-                <div className="flex items-center justify-start px-3 gap-2 shadow-sm py-2 border border-gray-200 hover:bg-gray-300 hover:text-black rounded-sm" onClick={()=>{onClickMenuItems('engineering')}}>
-                  <Workflow className="w-5 h-5 flex-shrink-0" />
-                  <p>Engineering</p>
-                </div>
-  
-                <div className="flex items-center justify-start px-3 gap-2 shadow-sm py-2 border border-gray-200 hover:bg-gray-300 hover:text-black rounded-sm" onClick={()=>{onClickMenuItems('materials')}}>
-                  <Package className="w-5 h-5 flex-shrink-0" />
-                  <p>Materials</p>
-                </div>
-  
-                <div className="flex items-center justify-start px-3 gap-2 shadow-sm py-2 border border-gray-200 hover:bg-gray-300 hover:text-black rounded-sm" onClick={()=>{onClickMenuItems('financials')}}>
-                  <FaMoneyBill className="w-5 h-5 flex-shrink-0" />
-                  <p>Financials</p>
-                </div>
-                <div className="flex items-center justify-start px-3 gap-2 shadow-sm py-2 border border-gray-200 hover:bg-gray-300 hover:text-black rounded-sm" onClick={()=>{onClickMenuItems('analysis')}}>
-                  <FaMoneyBill className="w-5 h-5 flex-shrink-0" />
-                  <p>Analysis</p>
-                </div>
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>      
+              ))}
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
     </div>
-    );
-}
+  );
+};
 
-
-
-export default Sidebar
+export default Sidebar;
