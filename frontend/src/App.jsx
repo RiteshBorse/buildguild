@@ -19,6 +19,7 @@ import Administration from "./pages/Dashboard/Administration";
 import Materials from "./pages/Dashboard/Materials";
 import Financials from "./pages/Dashboard/Financials";
 import Logout from "./pages/Logout";
+import Analysis from "./pages/Dashboard/Analysis";
 
 
 axios.defaults.withCredentials = true;
@@ -65,6 +66,7 @@ const App = () => {
         <Route path="/engineering/:id" element={<Engineering/>}/>
         <Route path="/materials/:id" element={<Materials/>}/>
         <Route path="/financials/:id" element={<Financials/>}/>
+        <Route path="/analysis/:id" element={<Analysis/>}/>
         
        
       </Routes>
