@@ -9,6 +9,7 @@ from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error, accuracy_score, classification_report
 from flask import Flask, request, jsonify
 import joblib
+from flask_cors import CORS
 
 # Generate Synthetic Construction Project Data
 def generate_project_data(num_samples=10):
@@ -97,6 +98,14 @@ def worker_productivity_clustering(data):
 
 # Flask API Setup
 app = Flask(__name__)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173"],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"],
+        "supports_credentials": True
+    }
+})
 
 @app.route('/predict/cost', methods=['POST'])
 def predict_cost():

@@ -5,34 +5,65 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-const historicalData = [
+import axios from "axios"
+import { useState } from "react"
+
+const initialHistoricalData = [
   { month: "Jan", actual: 100000, predicted: 98000 },
   { month: "Feb", actual: 120000, predicted: 115000 },
   { month: "Mar", actual: 95000, predicted: 97000 },
   { month: "Apr", actual: 140000, predicted: 135000 },
   { month: "May", actual: 160000, predicted: 155000 },
-  { month: "Jun", actual: 180000, predicted: 175000 },
 ]
 
 export default function CostEstimation() {
+  const [chartData, setChartData] = useState(initialHistoricalData)
+  const [estimatedCost, setEstimatedCost] = useState(null)
+
   const form = useForm({
     defaultValues: {
       project_size: "",
-      material_cost: "",
-      labor_hours: "",
-      site_location: "",
+      complexity: "",
+      team_experience: "",
     },
   })
 
   async function onSubmit(values) {
-    // Convert string values to numbers
-    const processedValues = {
-      ...values,
-      project_size: Number(values.project_size),
-      material_cost: Number(values.material_cost),
-      labor_hours: Number(values.labor_hours),
+    try {
+      const processedValues = {
+        project_size: Number(values.project_size),
+        complexity: Number(values.complexity),
+        team_experience: Number(values.team_experience),
+      }
+
+      const response = await axios.post('http://127.0.0.1:5000/predict/cost', 
+        processedValues,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true
+        }
+      )
+      const newPrediction = response.data.estimated_cost
+
+      setEstimatedCost(newPrediction)
+
+      const currentDate = new Date()
+      const month = currentDate.toLocaleString('default', { month: 'short' })
+      
+      setChartData(prevData => {
+        const newData = prevData.length >= 6 ? prevData.slice(1) : prevData
+        return [...newData, {
+          month,
+          actual: null,
+          predicted: newPrediction
+        }]
+      })
+      
+    } catch (error) {
+      console.error('Error predicting cost:', error)
     }
-    console.log(processedValues)
   }
 
   return (
@@ -76,19 +107,19 @@ export default function CostEstimation() {
                 />
                 <FormField
                   control={form.control}
-                  name="material_cost"
+                  name="complexity"
                   rules={{ 
-                    required: "Material cost is required",
-                    min: { value: 0, message: "Cost cannot be negative" },
-                    pattern: { value: /^\d*\.?\d*$/, message: "Must be a valid number" }
+                    required: "Complexity is required",
+                    min: { value: 1, message: "Minimum complexity is 1" },
+                    max: { value: 10, message: "Maximum complexity is 10" }
                   }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Material Cost ($)</FormLabel>
+                      <FormLabel>Project Complexity (1-10)</FormLabel>
                       <FormControl>
                         <Input 
                           type="number" 
-                          placeholder="50000" 
+                          placeholder="5" 
                           {...field}
                           onChange={(e) => field.onChange(e.target.value)}
                         />
@@ -99,36 +130,22 @@ export default function CostEstimation() {
                 />
                 <FormField
                   control={form.control}
-                  name="labor_hours"
+                  name="team_experience"
                   rules={{ 
-                    required: "Labor hours are required",
-                    min: { value: 0, message: "Hours cannot be negative" },
-                    pattern: { value: /^\d*\.?\d*$/, message: "Must be a valid number" }
+                    required: "Team experience is required",
+                    min: { value: 1, message: "Minimum experience is 1 year" },
+                    max: { value: 20, message: "Maximum experience is 20 years" }
                   }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Labor Hours</FormLabel>
+                      <FormLabel>Team Experience (years)</FormLabel>
                       <FormControl>
                         <Input 
                           type="number" 
-                          placeholder="2000" 
+                          placeholder="5" 
                           {...field}
                           onChange={(e) => field.onChange(e.target.value)}
                         />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="site_location"
-                  rules={{ required: "Site location is required" }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Site Location</FormLabel>
-                      <FormControl>
-                        <Input placeholder="New York" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -145,7 +162,14 @@ export default function CostEstimation() {
         <Card>
           <CardHeader>
             <CardTitle>Cost Prediction Analysis</CardTitle>
-            <CardDescription>Historical vs Predicted Costs</CardDescription>
+            <CardDescription>
+              Historical vs Predicted Costs
+              {estimatedCost && (
+                <div className="mt-2 font-semibold text-primary">
+                  Latest Estimate: ${estimatedCost.toLocaleString()}
+                </div>
+              )}
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer
@@ -161,14 +185,45 @@ export default function CostEstimation() {
               }}
               className="h-64"
             >
-              <LineChart data={historicalData}>
+              <LineChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
-                <YAxis />
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <YAxis 
+                  tickFormatter={(value) => `$${(value / 1000)}k`}
+                />
+                <ChartTooltip 
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-background border rounded p-2 shadow-sm">
+                          {payload.map((entry, index) => (
+                            <div key={index} className="text-sm">
+                              <span className="font-semibold">{entry.name}: </span>
+                              ${entry.value.toLocaleString()}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    }
+                    return null
+                  }}
+                />
                 <Legend />
-                <Line type="monotone" dataKey="actual" stroke="var(--color-actual)" />
-                <Line type="monotone" dataKey="predicted" stroke="var(--color-predicted)" strokeDasharray="5 5" />
+                <Line 
+                  type="monotone" 
+                  dataKey="actual" 
+                  stroke="hsl(var(--chart-1))" 
+                  strokeWidth={2}
+                  dot={{ strokeWidth: 2 }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="predicted" 
+                  stroke="hsl(var(--chart-2))" 
+                  strokeWidth={2}
+                  strokeDasharray="5 5"
+                  dot={{ strokeWidth: 2 }}
+                />
               </LineChart>
             </ChartContainer>
           </CardContent>
