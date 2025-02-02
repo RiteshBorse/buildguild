@@ -8,7 +8,6 @@ import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import axios from "axios"
 import { useState } from "react"
 
-// Initial chart data 
 const initialDelayData = [
   { factor: "Project Size", impact: 0, threshold: 50000 },
   { factor: "Complexity", impact: 0, threshold: 5 },
@@ -49,10 +48,10 @@ export default function DelayPrediction() {
 
       const riskPrediction = response.data.delay_risk
 
-      // Update delay risk state
+      
       setDelayRisk(riskPrediction)
 
-      // Calculate risk factors and their relative impact
+      
       const riskFactors = {
         project_size: processedValues.project_size > 50000 ? "High" : "Low",
         complexity: processedValues.complexity > 5 ? "High" : "Low",
@@ -61,7 +60,7 @@ export default function DelayPrediction() {
 
       setRiskDetails(riskFactors)
 
-      // Update chart data with normalized impact scores
+      
       setDelayData([
         { 
           factor: "Project Size", 
@@ -75,7 +74,7 @@ export default function DelayPrediction() {
         },
         { 
           factor: "Team Experience", 
-          impact: (20 - processedValues.team_experience) * 5, // Inverse relationship
+          impact: (20 - processedValues.team_experience) * 5, 
           threshold: 50
         },
       ])

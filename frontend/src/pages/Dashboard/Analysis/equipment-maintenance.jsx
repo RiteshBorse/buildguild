@@ -49,10 +49,10 @@ export default function EquipmentMaintenance() {
 
       const maintenancePrediction = response.data.predicted_maintenance_cost
 
-      // Update predicted cost
+
       setPredictedCost(maintenancePrediction)
 
-      // Calculate maintenance status
+
       const status = {
         project_size: (processedValues.project_size / 100000) * 100,
         complexity: (processedValues.complexity / 10) * 100,
