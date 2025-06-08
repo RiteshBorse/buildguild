@@ -344,6 +344,41 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
     formState: { errors },
   } = useForm({});
   const [loading, setLoading] = useState(false);
+  const[prompt, setPrompt] = useState("");
+
+  const generateImage = async ()=> {
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/projects/generateImage `,
+        {prompt:prompt}
+      );
+
+      if (!apiVerify(res)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.success(res.data.message);
+
+      reset();
+      onClose();
+      window.location.reload();
+    } catch (error) {
+      const { response } = error;
+
+      if (!response) {
+        toast.error("Database connection error");
+        return;
+      }
+      if (!apiVerify(response)) {
+        toast.warning("API Error, Please contact admin");
+        return;
+      }
+      toast.error(response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  } 
 
   const onSubmit = async (data) => {
     const projectData = new FormData();
@@ -446,8 +481,22 @@ const AddProjectDialog = ({ isOpen, onClose, addProjectToList }) => {
                 </p>
               )}
             </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="generateImage" className="text-right">
+              Generate Image with DALL-E
+              </Label>
+              <Input
+                id="generateImage"
+                placeholder="Enter details to generate project display image"
+                className="col-span-3"
+                onChange={(e)=>{setPrompt(e.target.value)}}
+              />
+            </div>
           </div>
           <DialogFooter>
+          <Button onClick={() => generateImage()} disabled={loading}>
+              {loading ? "Generating..." : "Generate Image"}
+            </Button>
             <Button type="submit" disabled={loading}>
               {loading ? "Creating..." : "Create Project"}
             </Button>

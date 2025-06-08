@@ -40,9 +40,7 @@ const Landing = () => {
         firstName: clerkUser?.user?.firstName,
         id: clerkUser?.user?.id,
       }
-      console.log(clearLoggedUserData)
       const res = await axios.post(`${import.meta.env.VITE_API_URL}/users/clerk-sign`, clearLoggedUserData)
-      console.log(res)
       toast.success(res.data.message)
       useAuthlogin(res.data.user)
     } catch (error) {

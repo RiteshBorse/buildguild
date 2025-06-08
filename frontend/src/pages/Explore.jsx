@@ -19,7 +19,6 @@ const Explore = () => {
           toast.warning("API Error, Please contact admin");
           return;
         }
-        console.log(res.data.explore);
         setexplore(res.data.explore);
         toast.success(res.data.message);
       } catch (error) {
@@ -39,16 +38,26 @@ const Explore = () => {
   }, []);
 
   const filteredExplore = searchQuery
-    ? explore.filter((explore) =>
+  ? explore
+      .filter(
+        (exploreItem) =>
+          exploreItem.project?.name &&
+          exploreItem.project?.displayImage // omit projects without name or image
+      )
+      .filter((exploreItem) =>
         filterBy === "name"
-          ? explore.project.name
+          ? exploreItem.project.name
               .toLowerCase()
               .startsWith(searchQuery.toLowerCase())
-          : explore.project.location
-              .toLowerCase()
+          : exploreItem.project.location
+              ?.toLowerCase()
               .startsWith(searchQuery.toLowerCase())
       )
-    : explore;
+  : explore.filter(
+      (exploreItem) =>
+        exploreItem.project?.name && exploreItem.project?.displayImage
+    );
+
 
   return (
     <div className="flex flex-col">
@@ -113,16 +122,16 @@ const Explore = () => {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full p-5 pl-20">
-        {filteredExplore.map((explore) => (
+        {filteredExplore.map((exploreItem) => (
           <div
-            key={explore._id}
+            key={exploreItem._id}
             className="bg-gray-100 flex flex-col items-center w-[400px] h-[270px] gap-2 shadow-md px-4 py-3 border-[0.5px] border-gray-300 rounded-md transition-shadow hover:shadow-lg"
           >
             {/* Image */}
             <div className="w-full h-[200px]">
               <img
-                src={explore?.project?.displayImage}
-                alt={explore.project.name}
+                src={exploreItem.project?.displayImage || "../images/mansion.webp"} 
+                alt={exploreItem.project?.name || "No Project Name"}
                 className="w-full h-full object-cover rounded-t-md"
               />
             </div>
@@ -131,13 +140,13 @@ const Explore = () => {
             <div className="flex items-center justify-between w-full min-h-[40px] pl-5 px-3 py-1 rounded-b-md">
               <div className="flex flex-col gap-1 overflow-hidden pr-3">
                 <p className="text-sm font-medium text-black truncate">
-                  {explore.project.name}
+                  {exploreItem.project?.name || "No Project Name"}
                 </p>
                 <p className="text-xs text-gray-700 truncate">
-                  {explore.project.location}
+                  {exploreItem.project?.location || "No Location"}
                 </p>
               </div>
-              <Link to={`/explore-info/${explore._id}`}>
+              <Link to={`/explore-info/${exploreItem._id}`}>
                 <Button >
                   More Info
                 </Button>

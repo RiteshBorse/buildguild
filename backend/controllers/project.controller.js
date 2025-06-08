@@ -3,6 +3,7 @@ import { Project } from "../models/Project/project.model.js";
 import { User } from "../models/User/user.model.js";
 import { projectCreationUtility } from "../utils/projectCreation.js";
 import { Explore } from "../models/Explore/explore.model.js";
+import OpenAI from "openai";
 
 const getMyProjects = asyncHandler(async (req, res) => {
   // const userId = req.user._id;
@@ -42,6 +43,22 @@ const createProject = asyncHandler(async (req, res) => {
     project: newProject,
   });
 });
+
+const generateImage = asyncHandler(async (req,res)=>{
+  const {prompt} = req.body;
+  const openai = new OpenAI({apiKey: process.env.OPENAI_API});
+
+  const response = await openai.images.generate({
+    model: "dall-e-3",
+    prompt: prompt,
+    n: 1,
+    size: "1024x1792",
+  });
+  const imageUrl =response.data[0].url;
+  return res.status(200).send({message: "Ok", success:true, imageUrl});
+  
+});
+
 
 const deleteProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params; // Extract projectId from request parameters
@@ -100,4 +117,4 @@ const getProject = asyncHandler(async (req, res) => {
     .status(200)
     .send({ message: "Project fetched", succes: true, project });
 });
-export { getMyProjects, createProject, deleteProject, publishProject,unPublishProject,getProject};
+export { getMyProjects, createProject, deleteProject, publishProject,unPublishProject,getProject, generateImage };
