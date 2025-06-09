@@ -29,32 +29,47 @@ import app from '@/assets/app.png'
 import android from '@/assets/android.png'
 
 const Landing = () => {
-  const clerkUser = useUser()
-  const { useAuthlogin } = useAuth()
+  const { user: clerkUser, isSignedIn } = useUser();
+  const { useAuthlogin } = useAuth();
 
-  const clerkLogin = async () => {
-    try {
-      const clearLoggedUserData = {
-        username: clerkUser?.user?.username,
-        email: clerkUser?.user?.primaryEmailAddress.emailAddress,
-        firstName: clerkUser?.user?.firstName,
-        id: clerkUser?.user?.id,
+  useEffect(() => {
+    const handleClerkAuth = async () => {
+      if (isSignedIn && clerkUser) {
+        try {
+          const clearLoggedUserData = {
+            username: clerkUser.username,
+            email: clerkUser.primaryEmailAddress?.emailAddress,
+            firstName: clerkUser.firstName,
+            lastName: clerkUser.lastName,
+            id: clerkUser.id,
+            profileImage: clerkUser.imageUrl,
+            verified: true
+          };
+          
+          const res = await axios.post(
+            `${import.meta.env.VITE_API_URL}/users/clerk-sign`,
+            clearLoggedUserData
+          );
+          
+          if (res.data.success) {
+            useAuthlogin(res.data.user, 'clerk');
+            toast.success(res.data.message);
+          } else {
+            toast.error(res.data.message);
+          }
+        } catch (error) {
+          const { response } = error;
+          if (!response) {
+            toast.error("Database connection error");
+            return;
+          }
+          toast.error(response.data.message);
+        }
       }
-      console.log(clearLoggedUserData)
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/users/clerk-sign`, clearLoggedUserData)
-      console.log(res)
-      toast.success(res.data.message)
-      useAuthlogin(res.data.user)
-    } catch (error) {
-      const { response } = error
-      if (!response) {
-        toast.error("Database connection error")
-        return
-      }
-      console.log(error)
-      toast.error(response.data.message)
-    }
-  }
+    };
+
+    handleClerkAuth();
+  }, [clerkUser, isSignedIn, useAuthlogin]);
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const { isAuthenticated } = useAuth()
@@ -106,12 +121,6 @@ const Landing = () => {
     "Communication Tools": "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
     Chatbot: "w-full sm:w-[80%] h-[240px] object-cover shadow-lg rounded-2xl",
   }
-
-  useEffect(() => {
-    if (clerkUser.user) {
-      clerkLogin()
-    }
-  }, [clerkUser.user])
 
   useEffect(() => {
     const interval = setInterval(() => {
