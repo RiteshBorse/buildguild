@@ -292,156 +292,178 @@ const Landing = () => {
     </section>
 
     <section className="py-16 px-4 sm:px-6 lg:px-8 font-roboto-condensed">
-  <div className="max-w-7xl mx-auto">
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-      {/* Individual Plan */}
-      <div className="relative bg-gradient-to-b from-red-50 to-white rounded-2xl p-8 shadow-lg">
-        <h3 className="text-2xl font-medium">Free</h3>
-        <div className="mt-4">
-          <p className="text-sm text-gray-600">Starts at</p>
-          <div className="flex items-baseline mt-2">
-            <span className="text-5xl font-bold tracking-tight">₹0</span>
-            <span className="ml-2 text-gray-600">per month/user</span>
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Simple, Transparent Pricing</h2>
+          <p className="text-xl text-gray-600">Choose the perfect plan for your construction needs</p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
+          {/* Free Plan */}
+          <div className="relative bg-gradient-to-b from-red-50 to-white rounded-2xl p-8 shadow-lg">
+            <h3 className="text-2xl font-medium">Free</h3>
+            <div className="mt-4">
+              <p className="text-sm text-gray-600">Perfect for</p>
+              <div className="flex items-baseline mt-2">
+                <span className="text-5xl font-bold tracking-tight">₹0</span>
+                <span className="ml-2 text-gray-600">/month</span>
+              </div>
+              <p className="text-sm text-gray-600 mt-1">For individual contractors and small projects</p>
+            </div>
+            <Button className="mt-8 w-full" variant="outline">
+              Get Started
+            </Button>
+            <div className="mt-8">
+              <h4 className="text-lg font-medium">Core Features</h4>
+              <ul className="mt-6 space-y-4">
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Single Project Management</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Basic Field Reporting</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Simple Budget Tracking</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Basic Document Management</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Mobile App Access</span>
+                </li>
+                <li className="flex items-start">
+                  <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+                  <span className="ml-3 text-gray-600">Advanced Analytics</span>
+                </li>
+                <li className="flex items-start">
+                  <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+                  <span className="ml-3 text-gray-600">Team Collaboration</span>
+                </li>
+                <li className="flex items-start">
+                  <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+                  <span className="ml-3 text-gray-600">Priority Support</span>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <p className="mt-6 text-gray-600">
-          Good for individuals who are just starting out and simply want the essentials.
-        </p>
-        <Button className="mt-8 w-full" variant="outline">
-          Get started
-        </Button>
-        <div className="mt-8">
-          <h4 className="text-lg font-medium">Free, forever</h4>
-          <ul className="mt-6 space-y-4">
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">1 Project</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Unlimited Data</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Unlimited event types</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Workflows</span>
-            </li>
-            <li className="flex items-start">
-              <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
-              <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
-            </li>
-            <li className="flex items-start"> 
-              <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
-              <span className="ml-3 text-gray-600">Advanced Analysis</span>
-            </li>
-          </ul>
-        </div>
-      </div>
 
-      {/* Teams Plan */}
-      <div className="relative bg-gradient-to-b from-blue-50 to-white rounded-2xl p-8 shadow-lg">
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-          <span className="bg-black text-white px-4 py-1 rounded-full text-sm">
-            30 days free trial
-          </span>
-        </div>
-        <h3 className="text-2xl font-medium">Premium</h3>
-        <div className="mt-4">
-          <p className="text-sm text-gray-600">Starts at</p>
-          <div className="flex items-baseline mt-2">
-            <span className="text-5xl font-bold tracking-tight">₹899</span>
-            <span className="ml-2 text-gray-600">per month/user</span>
+          {/* Premium Plan */}
+          <div className="relative bg-gradient-to-b from-blue-50 to-white rounded-2xl p-8 shadow-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <span className="bg-black text-white px-4 py-1 rounded-full text-sm">
+                Most Popular
+              </span>
+            </div>
+            <h3 className="text-2xl font-medium">Premium</h3>
+            <div className="mt-4">
+              <p className="text-sm text-gray-600">Best for</p>
+              <div className="flex items-baseline mt-2">
+                <span className="text-5xl font-bold tracking-tight">₹899</span>
+                <span className="ml-2 text-gray-600">/month</span>
+              </div>
+              <p className="text-sm text-gray-600 mt-1">For growing construction companies</p>
+            </div>
+            <Button className="mt-8 w-full">
+              Start Free Trial
+            </Button>
+            <div className="mt-8">
+              <h4 className="text-lg font-medium">Everything in Free, plus:</h4>
+              <ul className="mt-6 space-y-4">
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Up to 5 Projects</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Advanced Field Reporting</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Detailed Budget Analysis</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Team Collaboration Tools</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Advanced Document Management</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Basic Analytics & Reports</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Email & Chat Support</span>
+                </li>
+                <li className="flex items-start">
+                  <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
+                  <span className="ml-3 text-gray-600">Custom Integrations</span>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <p className="mt-6 text-gray-600">
-          Highly recommended for small teams who seek to upgrade their time & perform.
-        </p>
-        <Button className="mt-8 w-full">
-          Get started
-        </Button>
-        <div className="mt-8">
-          <h4 className="text-lg font-medium">Free plan features, plus:</h4>
-          <ul className="mt-6 space-y-4">
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">1 team</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Schedule meetings as a team</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Round-Robin, Fixed Round-Robin</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Collective Events</span>
-            </li>
-            <li className="flex items-start">
-            <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-            <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
-            </li>
-            <li className="flex items-start">
-            <Plus className="h-6 w-6 text-red-500 flex-shrink-0 rotate-45" />
-            <span className="ml-3 text-gray-600">Advanced Analysis</span>
-            </li>
-          </ul>
-        </div>
-      </div>
 
-      {/* Enterprise Plan */}
-      <div className="relative bg-gradient-to-b from-cyan-50 to-white rounded-2xl p-8 shadow-lg">
-        <h3 className="text-2xl font-medium">Express</h3>
-        <div className="mt-4">
-          <p className="text-sm text-gray-600">Starts at</p>
-          <div className="flex items-baseline mt-2">
-            <span className="text-5xl font-bold tracking-tight">₹1799</span>
-            <span className="ml-2 text-gray-600">per year</span>
+          {/* Enterprise Plan */}
+          <div className="relative bg-gradient-to-b from-cyan-50 to-white rounded-2xl p-8 shadow-lg">
+            <h3 className="text-2xl font-medium">Enterprise</h3>
+            <div className="mt-4">
+              <p className="text-sm text-gray-600">For</p>
+              <div className="flex items-baseline mt-2">
+                <span className="text-5xl font-bold tracking-tight">₹1799</span>
+                <span className="ml-2 text-gray-600">/month</span>
+              </div>
+              <p className="text-sm text-gray-600 mt-1">For large construction firms</p>
+            </div>
+            <Button className="mt-8 w-full" variant="outline">
+              Contact Sales
+            </Button>
+            <div className="mt-8">
+              <h4 className="text-lg font-medium">Everything in Premium, plus:</h4>
+              <ul className="mt-6 space-y-4">
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Unlimited Projects</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Custom Field Reports</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Advanced Financial Analytics</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Custom Workflows</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Advanced Team Management</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Custom Integrations</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">24/7 Priority Support</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="ml-3 text-gray-600">Dedicated Account Manager</span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <p className="mt-6 text-gray-600">
-          Robust scheduling for larger teams looking to have more control, privacy & security.
-        </p>
-        <Button className="mt-8 w-full" variant="outline">
-          Contact us
-        </Button>
-        <div className="mt-8">
-          <h4 className="text-lg font-medium">Organization plan features, plus:</h4>
-          <ul className="mt-6 space-y-4">
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">1 parent team and unlimited sub-teams</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Organization workflows</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Insights - analyze your booking data</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">Active directory sync</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0" />
-              <span className="ml-3 text-gray-600">24/7 Email, Chat and Phone support</span>
-            </li>
-            <li className="flex items-start">
-              <CheckIcon className="h-6 w-6 text-green-500 flex-shrink-0 " />
-              <span className="ml-3 text-gray-600">Advanced Analysis</span>
-            </li>
-          </ul>
-        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
       <section ref={aboutRef} className="font-roboto-condensed">
       <div>
