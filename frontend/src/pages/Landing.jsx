@@ -15,7 +15,7 @@ import Ankur from "../images/ankur.png"
 import { BiLogoLinkedinSquare } from "react-icons/bi"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
-import { GrMapLocation, GrPhone, GrMail } from "react-icons/gr"
+import { GrMapLocation, GrPhone, GrMail, GrTwitter } from "react-icons/gr"
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel"
 import useAuth from "@/context/authContext"
 import { SiGithub } from "react-icons/si"
@@ -611,78 +611,209 @@ const Landing = () => {
         </motion.div>
       </div>
     </section>
-      <motion.section ref={contactRef} 
-      initial={{ scale: 0.9, y: -200 }}
-      whileInView={{ scale: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="flex flex-col md:flex-row justify-between p-8 bg-gray-100 text-black"
-    >
-      <div className="md:w-1/2 mb-8 md:mb-0">
-        <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
-        <p className="mb-8 text-lg">
-          Contact us for expert assistance with all your construction management
-          needs.
-        </p>
-
-        <div className="mb-6 flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrMapLocation className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">Nashik, Maharashtra, India</p>
-          </div>
-        </div>
-
-        <div className="mb-6 flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrPhone className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">(+91) 9031138044</p>
-          </div>
-        </div>
-
-        <div className="flex items-center">
-          <div className="bg-black p-3 rounded-full mr-4">
-            <GrMail className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <p className="text-lg">buildguild@gmail.com</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="md:w-1/2 bg-gradient-to-br from-black to-gray-800 text-white p-8 rounded-lg shadow-lg">
-        <h3 className="text-2xl font-semibold mb-6 text-center">
-          Get in Touch
-        </h3>
-        <form className="flex flex-col space-y-5">
-          <input
-            type="text"
-            placeholder="Name"
-            className="p-4 rounded-lg bg-gray-200 text-black focus:ring-2  transition duration-200 ease-in-out outline-none"
-            required
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
-            required
-          />
-          <textarea
-            placeholder="Message"
-            className="p-4 rounded-lg bg-gray-200 text-black outline-none"
-            required
-          />
-          <button
-            type="submit"
-            className="w-full py-3 bg-gradient-to-r from-gray-900 to-black text-white text-lg font-semibold rounded-lg shadow-md hover:from-gray-800 hover:to-gray-700 "
+      <motion.section 
+        ref={contactRef} 
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 to-white"
+      >
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-16"
           >
-            Send Message
-          </button>
-        </form>
-      </div>
-    </motion.section>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Have questions or need assistance? We're here to help. Reach out to us through any of the channels below.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="space-y-8"
+            >
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-6">Contact Information</h3>
+                <div className="space-y-6">
+                  <motion.a
+                    href="https://maps.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.02 }}
+                    className="flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300"
+                  >
+                    <div className="bg-blue-50 p-3 rounded-lg">
+                      <GrMapLocation className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Our Location</h4>
+                      <p className="text-gray-600 mt-1">Nashik, Maharashtra, India</p>
+                    </div>
+                  </motion.a>
+
+                  <motion.a
+                    href="tel:+919031138044"
+                    whileHover={{ scale: 1.02 }}
+                    className="flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300"
+                  >
+                    <div className="bg-green-50 p-3 rounded-lg">
+                      <GrPhone className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Phone Number</h4>
+                      <p className="text-gray-600 mt-1">(+91) 9031138044</p>
+                    </div>
+                  </motion.a>
+
+                  <motion.a
+                    href="mailto:buildguild@gmail.com"
+                    whileHover={{ scale: 1.02 }}
+                    className="flex items-start space-x-4 p-4 rounded-xl hover:bg-gray-50 transition-all duration-300"
+                  >
+                    <div className="bg-purple-50 p-3 rounded-lg">
+                      <GrMail className="w-6 h-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-gray-900">Email Address</h4>
+                      <p className="text-gray-600 mt-1">buildguild@gmail.com</p>
+                    </div>
+                  </motion.a>
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-gray-100">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Follow Us</h4>
+                  <div className="flex space-x-4">
+                    <motion.a
+                      href="https://linkedin.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    >
+                      <BiLogoLinkedinSquare className="w-6 h-6" />
+                    </motion.a>
+                    <motion.a
+                      href="https://twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-400 transition-colors"
+                    >
+                      <GrTwitter className="w-6 h-6" />
+                    </motion.a>
+                    <motion.a
+                      href="https://github.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.1, y: -2 }}
+                      className="p-3 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-800 hover:text-white transition-colors"
+                    >
+                      <SiGithub className="w-6 h-6" />
+                    </motion.a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Office Hours</h3>
+                <div className="space-y-3 text-gray-600">
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-medium">Monday - Friday</span>
+                    <span>9:00 AM - 6:00 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                    <span className="font-medium">Saturday</span>
+                    <span>10:00 AM - 4:00 PM</span>
+                  </div>
+                  <div className="flex justify-between items-center py-2">
+                    <span className="font-medium">Sunday</span>
+                    <span className="text-red-500">Closed</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-gradient-to-br from-gray-900 to-black rounded-2xl shadow-xl p-8 text-white"
+            >
+              <h3 className="text-2xl font-semibold mb-6">Send us a Message</h3>
+              <form className="space-y-6">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-200">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-200">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="john@example.com"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-200">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    placeholder="How can we help?"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-200">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows="4"
+                    placeholder="Your message here..."
+                    className="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                    required
+                  ></textarea>
+                </div>
+
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200"
+                >
+                  Send Message
+                </motion.button>
+              </form>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
     </div>
   )
 }
