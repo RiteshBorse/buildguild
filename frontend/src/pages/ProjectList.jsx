@@ -144,7 +144,7 @@ const ProjectList = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
-      <div className="container mx-auto mt-14 px-4 py-8">
+      <div className="container mx-auto mt-14 px-8 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">My Projects</h1>
@@ -230,9 +230,7 @@ const ProjectCard = ({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [actionType, setActionType] = useState(null);
   const [email, setEmail] = useState("");
-  const [Otp, setOtp] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
   const toggleEditing = (e) => {
@@ -263,14 +261,14 @@ const ProjectCard = ({
 
     setIsEditing(false);
     setEmail("");
-    setPassword("");
+    setOtp("");
   };
 
   const handleDelete = async () => {
     try {
       const res = await axios.delete(
         `${import.meta.env.VITE_API_URL}/projects/deleteProject/${projectId}`,
-        { data: { email, password } }
+        { data: { email, otp } }
       );
       if (!apiVerify(res)) {
         toast.warning("API Error, Please contact admin");
@@ -319,82 +317,156 @@ const ProjectCard = ({
   };
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
-      <div className="absolute top-3 right-3 z-10">
-        <Button
-          variant="ghost"
-          size="icon"
-          className={`rounded-full bg-background/80 backdrop-blur-sm transition-colors ${
-            isEditing ? "text-primary" : "text-muted-foreground hover:text-foreground"
-          }`}
-          onClick={toggleEditing}
-        >
-          <FaCog className="h-4 w-4" />
-        </Button>
-      </div>
-
-      <AnimatePresence>
-        {isEditing && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-background/95 backdrop-blur-sm z-20 flex items-center justify-center"
+    <>
+      <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-lg">
+        <div className="absolute top-3 right-3 z-10">
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`rounded-full bg-background/80 backdrop-blur-sm transition-colors ${
+              isEditing ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            }`}
+            onClick={toggleEditing}
           >
-            <div className="flex flex-col gap-3 p-4">
-              <Button
-                variant={published ? "destructive" : "default"}
-                onClick={() => openDialog(published ? "unpublish" : "publish")}
-                className="gap-2"
-              >
-                {published ? (
-                  <>
-                    <FaRegEdit className="h-4 w-4" />
-                    Unpublish
-                  </>
-                ) : (
-                  <>
-                    <FaRegEdit className="h-4 w-4" />
-                    Publish
-                  </>
-                )}
-              </Button>
-              <Button
-                variant="destructive"
-                onClick={() => openDialog("delete")}
-                className="gap-2"
-              >
-                <FaRegTrashAlt className="h-4 w-4" />
-                Delete
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <FaCog className="h-4 w-4" />
+          </Button>
+        </div>
 
-      <div
-        className="relative aspect-[4/3] cursor-pointer overflow-hidden"
-        onClick={handleCardClick}
-      >
-        <img
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          src={displayImage || "/placeholder.jpg"}
-          alt={name}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-semibold text-white text-lg truncate">{name}</h3>
-              <p className="text-white/80 text-sm truncate">{location}</p>
+        <AnimatePresence>
+          {isEditing && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-background/95 backdrop-blur-sm z-20 flex items-center justify-center"
+            >
+              <div className="flex flex-col gap-3 p-4">
+                <Button
+                  variant={published ? "destructive" : "default"}
+                  onClick={() => openDialog(published ? "unpublish" : "publish")}
+                  className="gap-2"
+                >
+                  {published ? (
+                    <>
+                      <FaRegEdit className="h-4 w-4" />
+                      Unpublish
+                    </>
+                  ) : (
+                    <>
+                      <FaRegEdit className="h-4 w-4" />
+                      Publish
+                    </>
+                  )}
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={() => openDialog("delete")}
+                  className="gap-2"
+                >
+                  <FaRegTrashAlt className="h-4 w-4" />
+                  Delete
+                </Button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <div
+          className="relative aspect-[4/3] cursor-pointer overflow-hidden"
+          onClick={handleCardClick}
+        >
+          <img
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+            src={displayImage || "/placeholder.jpg"}
+            alt={name}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-white text-lg truncate">{name}</h3>
+                <p className="text-white/80 text-sm truncate">{location}</p>
+              </div>
+              <Badge variant={published ? "default" : "secondary"}>
+                {published ? "Published" : "Draft"}
+              </Badge>
             </div>
-            <Badge variant={published ? "default" : "secondary"}>
-              {published ? "Published" : "Draft"}
-            </Badge>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {actionType === "delete"
+                ? "Confirm Delete"
+                : actionType === "publish"
+                ? "Publish Project"
+                : "Unpublish Project"}
+            </DialogTitle>
+          </DialogHeader>
+          {actionType === "delete" ? (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="email" className="text-right">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="col-span-3"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="otp" className="text-right">
+                  OTP
+                </Label>
+                <Input
+                  id="otp"
+                  type="text"
+                  value={otp}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d{0,6}$/.test(value)) {
+                      setOtp(value);
+                    }
+                  }}
+                  placeholder="Enter 6-digit OTP"
+                  maxLength={6}
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+          ) : (
+            <p className="text-muted-foreground">
+              Are you sure you want to {actionType === "publish" ? "publish" : "unpublish"} this project?
+              {actionType === "publish" 
+                ? " This will make the project visible to all users."
+                : " This will hide the project from public view."}
+            </p>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => handleDialogAction(false)}>
+              Cancel
+            </Button>
+            <Button 
+              variant={actionType === "delete" ? "destructive" : "default"}
+              onClick={() => handleDialogAction(true)}
+            >
+              {actionType === "delete" 
+                ? "Delete Project"
+                : actionType === "publish"
+                ? "Publish"
+                : "Unpublish"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
