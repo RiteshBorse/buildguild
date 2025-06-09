@@ -54,7 +54,6 @@ const App = () => {
             <Route path="/analysis/:id" element={<Analysis/>}/>
           </Routes>
         </main>
-        <Footer />
       </div>
     </BrowserRouter>
   );

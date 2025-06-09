@@ -27,6 +27,7 @@ import Navbar from "../components/Navbar"
 import { Check, CheckIcon , CrossIcon, Plus } from "lucide-react"
 import app from '@/assets/app.png'
 import android from '@/assets/android.png'
+import Footer from "../components/Footer"
 
 const Landing = () => {
   const { user: clerkUser, isSignedIn } = useUser();
@@ -205,14 +206,14 @@ const Landing = () => {
             <Button variant="link">Watch Tutorial</Button>
           </a>
            
-          <a href='/buildguild.apk' className="flex items-center gap-2">
-          <img src={android} alt="" className="size-8" />
+          <a href='/buildguild.apk' className="items-center gap-2 hidden md:flex">
+          <img src={android} alt="" className="size-8 " />
             <Button className="p-0" variant="link">Download App</Button>
           </a>
           
         </motion.div>
         </div>
-        <div>
+        <div className="hidden md:block">
           <img src={app} alt="" className="absolute top-24 scale-[1.35] rotate-6 -right-12 w-[500px]"/>
         </div>
         
@@ -836,6 +837,9 @@ const Landing = () => {
           </div>
         </div>
       </motion.section>
+
+      {/* Add Footer at the bottom */}
+      <Footer />
     </div>
   )
 }
